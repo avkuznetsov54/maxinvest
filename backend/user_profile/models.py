@@ -76,8 +76,18 @@ class Profile(models.Model):
                                               '<b style="color:red;font-size:10px;">ТОЛЬКО ЦИФРЫ !!!</b><br>'
                                               'Пример: 9131112233')
 
+    GENDER_CHOICES = (
+        ('female', 'Женский'),
+        ('male', 'Мужской'),
+    )
+    gender = models.CharField(choices=GENDER_CHOICES,
+                              max_length=25,
+                              blank=True,
+                              verbose_name='Пол')
+
     # location = models.CharField(max_length=30, blank=True)
-    birth_date = models.DateField(null=True, blank=True, verbose_name='День рождения')
+    birth_date = models.DateField(null=True, blank=True, verbose_name='День рождения',
+                                  help_text='Формат: YYYY-MM-DD')
 
     image = models.FileField(upload_to=generate_url_for_user_image,
                              null=True,
@@ -96,19 +106,21 @@ class Profile(models.Model):
     get_image.allow_tags = True
 
 
-# если раскоментировать то будет ошибка при заполнении полей класса Profile при создании юзера из админки.
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
-#         # instance.profile.save()
+# TODO: эта хреновина ведёт себя странно !!!
+# (не актуально после удаления миграций и подключения новой postgres:
+# если раскоментировать то будет ошибка при заполнении полей класса Profile при создании юзера из админки.)
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+        # instance.profile.save()
 
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
-# TODO: дествия с useer model
+# TODO: дествия с user model
 # @receiver(post_save, sender=User)
 # def create_user_post(sender, instance, created, **kwargs):
 #     """Отправка email о смене пароля пользователя"""

@@ -319,7 +319,10 @@ class ImagesResidentialComplex(models.Model):
                              null=True,
                              blank=True,
                              verbose_name="Изображение")
-    residential_complex = models.ForeignKey(ResidentialComplex, verbose_name="Жилой Комплекс", on_delete=models.CASCADE)
+    residential_complex = models.ForeignKey(ResidentialComplex,
+                                            verbose_name="Жилой Комплекс",
+                                            related_name='imgrescomplex_rescomplex',
+                                            on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.id}'
@@ -337,7 +340,9 @@ class FloorPlansResidentialPremise(models.Model):
                              blank=True,
                              verbose_name="Планировка Жилого помещения")
 
-    residential_premises = models.ForeignKey(ResidentialPremise, verbose_name="Жилое помещение",
+    residential_premises = models.ForeignKey(ResidentialPremise,
+                                             verbose_name="Жилое помещение",
+                                             related_name='floorrespremise_respremise',
                                              on_delete=models.CASCADE)
 
     def __str__(self):

@@ -50,6 +50,7 @@ class ProfileInline(admin.StackedInline):
         (None, {
             'fields': (
                 'full_name',
+                'gender',
                 'phone_number',
                 'birth_date',
             ),
