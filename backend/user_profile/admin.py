@@ -5,27 +5,29 @@ from django.utils.safestring import mark_safe
 # from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from .models import Profile
+from .models import Profile, Specialization
 
 
-class CommercialFilter(admin.SimpleListFilter):
-    # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
-    title = 'Коммерция'
-    parameter_name = 'is_commercial'
-
-    def lookups(self, request, model_admin):
-
-        return (
-            ('True', _('Да')),
-            ('False', _('Нет')),
-        )
-
-    def queryset(self, request, queryset):
-
-        if self.value():
-            return queryset.filter(profile__is_commercial=self.value())
-        else:
-            return queryset
+# Кастомный list_filter
+# Чтобы применить list_filter = (CommercialFilter,)
+# class CommercialFilter(admin.SimpleListFilter):
+#     # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
+#     title = 'Коммерция'
+#     parameter_name = 'is_commercial'
+#
+#     def lookups(self, request, model_admin):
+#
+#         return (
+#             ('True', _('Да')),
+#             ('False', _('Нет')),
+#         )
+#
+#     def queryset(self, request, queryset):
+#
+#         if self.value():
+#             return queryset.filter(profile__is_commercial=self.value())
+#         else:
+#             return queryset
 
 
 class ProfileInline(admin.StackedInline):
@@ -37,7 +39,8 @@ class ProfileInline(admin.StackedInline):
     fieldsets = (
         (None, {
             'fields': (
-                ('is_commercial', 'is_residential'),
+                # ('is_commercial', 'is_residential'),
+                'specialization',
             ),
         }),
         (None, {
@@ -63,19 +66,21 @@ class UserAdmin(BaseUserAdmin):
         'get_full_name',
         'get_phone_number',
         'email',
-        'get_is_commercial',
-        'get_is_residential',
+        # 'get_is_commercial',
+        # 'get_is_residential',
+        'get_specialization',
         # 'last_name',
         'is_staff',
         # 'is_superuser',
         'is_active',
     )
 
-    # TODO: [РЕШЕНО] решить как использовать поля модели Profile в list_filter и search_fields модели User
+    # TODO: [РЕШЕНО] решить как использовать поля модели Profile в list_filter модели User
     # https://tproger.ru/translations/extending-django-user-model/#var2
-    list_filter = ('is_active', CommercialFilter,)
+    list_filter = ('is_active', 'profile__specialization')
 
-    search_fields = ('username', 'email', 'profile__full_name', 'profile__phone_number', )
+    # TODO: решить как использовать search_fields с регистронезависимым поиском (startswith)
+    search_fields = ('username', 'email', 'profile__full_name', 'profile__phone_number',)
     # Стандартные поля в модели User
     # date_joined, email, first_name, groups, id,
     # is_active, is_staff, is_superuser, last_login, last_name,
@@ -127,20 +132,39 @@ class UserAdmin(BaseUserAdmin):
     get_phone_number.short_description = 'Телефон'
     get_phone_number.admin_order_field = 'profile__phone_number'
 
-    def get_is_commercial(self, obj):
-        return obj.profile.is_commercial
+    def get_specialization(self, obj):
+        s = obj.profile.specialization
+        return "\n".join([p.name for p in s.all()])
 
-    get_is_commercial.short_description = 'Коммерция'
-    get_is_commercial.admin_order_field = 'profile__is_commercial'
-    get_is_commercial.boolean = True
+    get_specialization.short_description = 'Специализация'
 
-    def get_is_residential(self, obj):
-        return obj.profile.is_residential
-
-    get_is_residential.short_description = 'Жилая'
-    get_is_residential.admin_order_field = 'profile__is_residential'
-    get_is_residential.boolean = True
+    # def get_is_commercial(self, obj):
+    #     return obj.profile.is_commercial
+    #
+    # get_is_commercial.short_description = 'Коммерция'
+    # get_is_commercial.admin_order_field = 'profile__is_commercial'
+    # get_is_commercial.boolean = True
+    #
+    # def get_is_residential(self, obj):
+    #     return obj.profile.is_residential
+    #
+    # get_is_residential.short_description = 'Жилая'
+    # get_is_residential.admin_order_field = 'profile__is_residential'
+    # get_is_residential.boolean = True
 
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+
+# TODO: решить что делать с этой моделью (Profile)
+# @admin.register(Profile)
+# class ProfileAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'user', 'full_name', 'get_specialization', 'phone_number', )
+#     list_display_links = ('id',)
+#     list_filter = ('specialization', )
+#
+#     def get_specialization(self, obj):
+#         return "\n".join([p.name for p in obj.specialization.all()])
+
+
+admin.site.register(Specialization)

@@ -16,11 +16,30 @@ def generate_url_for_user_image(self, filename):
     return url
 
 
+class Specialization(models.Model):
+    name = models.CharField(max_length=150, unique=True, verbose_name='Название')
+    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Специализация'
+        verbose_name_plural = 'Специализации'
+        ordering = ['name']
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='user', related_name='profile')
 
     is_commercial = models.BooleanField(default=False, verbose_name='Коммерческая')
     is_residential = models.BooleanField(default=False, verbose_name='Жилая')
+
+    specialization = models.ManyToManyField(Specialization,
+                                            verbose_name='Специализация',
+                                            related_name='profile_specialization',
+                                            default=None,
+                                            blank=True)
 
     full_name = models.CharField(max_length=255, db_index=True, blank=True, verbose_name='ФИО')
 
@@ -30,7 +49,7 @@ class Profile(models.Model):
                                               'Пример: 9131112233')
 
     # location = models.CharField(max_length=30, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True, verbose_name='День рождения')
 
     image = models.FileField(upload_to=generate_url_for_user_image,
                              null=True,
@@ -60,7 +79,6 @@ class Profile(models.Model):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
-
 
 # TODO: дествия с useer model
 # @receiver(post_save, sender=User)
