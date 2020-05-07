@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'user_profile',
     'geo_location',
+    'residential_properties',
 ]
 
 MIDDLEWARE = [

@@ -35,6 +35,8 @@ class SocialNetwork(models.Model):
     user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
 
     SOCNET_CHOICES = (
+        ('whatsapp', 'Whatsapp'),
+        ('telegram', 'Telegram'),
         ('instagram', 'Instagram'),
         ('facebook', 'Facebook'),
         ('vk', 'VK'),
