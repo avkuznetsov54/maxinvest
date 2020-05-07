@@ -40,13 +40,16 @@ class SocialNetwork(models.Model):
         ('vk', 'VK'),
         ('twitter', 'Twitter'),
     )
-    name = models.CharField(choices=SOCNET_CHOICES, max_length=25, db_index=True, blank=True,
+    name = models.CharField(choices=SOCNET_CHOICES, max_length=25, blank=True,
                             verbose_name='Социальная сеть')
     link_on_socnet = models.URLField(max_length=2000,
                                      verbose_name='Ссылка',
                                      default=None,
                                      null=True,
                                      blank=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = 'Социальная сеть'
