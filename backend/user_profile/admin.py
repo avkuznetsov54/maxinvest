@@ -71,11 +71,15 @@ class UserAdmin(BaseUserAdmin):
         'is_active',
     )
 
-    # TODO: решить как использовать поля модели Profile в list_filter и search_fields модели User
+    # TODO: [РЕШЕНО] решить как использовать поля модели Profile в list_filter и search_fields модели User
     # https://tproger.ru/translations/extending-django-user-model/#var2
-    # list_filter = ('is_active',)
     list_filter = ('is_active', CommercialFilter,)
-    # search_fields = ('get_full_name',)
+
+    search_fields = ('username', 'email', 'profile__full_name', 'profile__phone_number', )
+    # Стандартные поля в модели User
+    # date_joined, email, first_name, groups, id,
+    # is_active, is_staff, is_superuser, last_login, last_name,
+    # logentry, password, profile, user_permissions, username
 
     # fieldsets = (
     #     (None, {'fields': ('username', 'password', 'email')}),
