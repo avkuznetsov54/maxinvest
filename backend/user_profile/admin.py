@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 # from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from .models import Profile, Specialization
+from .models import Profile, Specialization, SocialNetwork
 
 
 # Кастомный list_filter
@@ -30,6 +30,11 @@ from .models import Profile, Specialization
 #             return queryset
 
 
+class SocialNetworkInline(admin.TabularInline):
+    model = SocialNetwork
+    extra = 1
+
+
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
@@ -39,7 +44,6 @@ class ProfileInline(admin.StackedInline):
     fieldsets = (
         (None, {
             'fields': (
-                # ('is_commercial', 'is_residential'),
                 'specialization',
             ),
         }),
@@ -66,8 +70,6 @@ class UserAdmin(BaseUserAdmin):
         'get_full_name',
         'get_phone_number',
         'email',
-        # 'get_is_commercial',
-        # 'get_is_residential',
         'get_specialization',
         # 'last_name',
         'is_staff',
@@ -102,7 +104,7 @@ class UserAdmin(BaseUserAdmin):
     # )
 
     list_editable = ['is_active']
-    inlines = (ProfileInline,)
+    inlines = (ProfileInline, SocialNetworkInline, )
     save_on_top = True
     save_as = True
 
@@ -138,20 +140,6 @@ class UserAdmin(BaseUserAdmin):
 
     get_specialization.short_description = 'Специализация'
 
-    # def get_is_commercial(self, obj):
-    #     return obj.profile.is_commercial
-    #
-    # get_is_commercial.short_description = 'Коммерция'
-    # get_is_commercial.admin_order_field = 'profile__is_commercial'
-    # get_is_commercial.boolean = True
-    #
-    # def get_is_residential(self, obj):
-    #     return obj.profile.is_residential
-    #
-    # get_is_residential.short_description = 'Жилая'
-    # get_is_residential.admin_order_field = 'profile__is_residential'
-    # get_is_residential.boolean = True
-
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
@@ -168,3 +156,7 @@ admin.site.register(User, UserAdmin)
 
 
 admin.site.register(Specialization)
+admin.site.register(SocialNetwork)
+
+admin.site.site_title = "BROKERNSK.PRO"
+admin.site.site_header = "BROKERNSK.PRO"

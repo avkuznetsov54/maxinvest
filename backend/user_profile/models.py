@@ -17,6 +17,7 @@ def generate_url_for_user_image(self, filename):
 
 
 class Specialization(models.Model):
+    """Модель Специализация"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
     description = models.TextField(null=True, blank=True, verbose_name='Описание')
 
@@ -29,11 +30,33 @@ class Specialization(models.Model):
         ordering = ['name']
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='user', related_name='profile')
+class SocialNetwork(models.Model):
+    """Модель Социальная сеть"""
+    user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
 
-    is_commercial = models.BooleanField(default=False, verbose_name='Коммерческая')
-    is_residential = models.BooleanField(default=False, verbose_name='Жилая')
+    SOCNET_CHOICES = (
+        ('instagram', 'Instagram'),
+        ('facebook', 'Facebook'),
+        ('vk', 'VK'),
+        ('twitter', 'Twitter'),
+    )
+    name = models.CharField(choices=SOCNET_CHOICES, max_length=25, db_index=True, blank=True,
+                            verbose_name='Социальная сеть')
+    link_on_socnet = models.URLField(max_length=2000,
+                                     verbose_name='Ссылка',
+                                     default=None,
+                                     null=True,
+                                     blank=True)
+
+    class Meta:
+        verbose_name = 'Социальная сеть'
+        verbose_name_plural = 'Социальные сети'
+        ordering = ['name']
+
+
+class Profile(models.Model):
+    """Модель Профиль юзера"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='user', related_name='profile')
 
     specialization = models.ManyToManyField(Specialization,
                                             verbose_name='Специализация',
