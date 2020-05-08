@@ -139,7 +139,7 @@ class UserAdmin(BaseUserAdmin):
 
     def get_specialization(self, obj):
         s = obj.profile.specialization
-        return "\n".join([p.name for p in s.all()])
+        return "\n".join([p.short_name for p in s.all()])
 
     get_specialization.short_description = 'Специализация'
 
@@ -158,7 +158,12 @@ admin.site.register(User, UserAdmin)
 #         return "\n".join([p.name for p in obj.specialization.all()])
 
 
-admin.site.register(Specialization)
+@admin.register(Specialization)
+class SpecializationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'short_name')
+    list_display_links = ('id', 'name',)
+
+
 admin.site.register(SocialNetwork)
 
 admin.site.site_title = "BROKERNSK.PRO"

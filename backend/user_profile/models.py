@@ -19,6 +19,7 @@ def generate_url_for_user_image(self, filename):
 class Specialization(models.Model):
     """Модель Специализация"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
+    short_name = models.CharField(max_length=10, unique=True, default=None, verbose_name='Короткое название')
     description = models.TextField(null=True, blank=True, verbose_name='Описание')
 
     def __str__(self):
@@ -110,20 +111,6 @@ class Profile(models.Model):
     get_image.short_description = "Изображение"
     get_image.allow_tags = True
 
-
-# TODO: эта хреновина ведёт себя странно !!!
-# если раскоментировать то будет ошибка при заполнении полей класса Profile при создании юзера из админки.
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         print(kwargs)
-#         Profile.objects.create(user=instance)
-#         # instance.profile.save()
-#
-#
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
 
 # TODO: дествия с user model
 # @receiver(post_save, sender=User)

@@ -7,7 +7,7 @@ from .models import Profile
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
 
-    # TODO: магическое строчка кода,
+    # TODO: [РЕШЕНО] магическое строчка кода !!!
     #  которая решает проблему "User has no profile" при создании юзера с related model Profile,
     #  с помощью OneToOneField
     User.profile = property(lambda u: Profile.objects.get_or_create(user=u)[0])
