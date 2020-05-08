@@ -213,7 +213,9 @@ class ResidentialComplex(models.Model):
                                null=True, blank=True)
     one_or_many_buildings = models.BooleanField(default=False, verbose_name='В ЖК несколько строений')
 
-    number_of_storeys = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Этажность')
+    number_of_storeys = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Этажность',
+                                            help_text='ОСТАВИТЬ ПУСТЫМ! Если в ЖК несколько строений')
+    
     min_storeys = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Этажность min')
     max_storeys = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Этажность max')
 
