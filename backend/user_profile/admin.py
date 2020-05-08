@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
-# from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from .models import Profile, Specialization, SocialNetwork
@@ -67,6 +66,7 @@ class ProfileInline(admin.StackedInline):
 class UserAdmin(BaseUserAdmin):
     model = User
     list_display = (
+        'id',
         'username',
         'get_full_name',
         'get_phone_number',
@@ -77,6 +77,8 @@ class UserAdmin(BaseUserAdmin):
         # 'is_superuser',
         'is_active',
     )
+    list_display_links = ('id', 'username')
+    ordering = ['id']
 
     # TODO: [РЕШЕНО] решить как использовать поля модели Profile в list_filter модели User
     # https://tproger.ru/translations/extending-django-user-model/#var2

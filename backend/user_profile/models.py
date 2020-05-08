@@ -99,6 +99,11 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user}'
 
+    class Meta:
+        verbose_name = 'Профиль пользователя'
+        verbose_name_plural = 'Профили пользователя'
+        ordering = ['id']
+
     def get_image(self):
         return mark_safe(f'<img src={self.image.url} height="150"')
 
@@ -107,18 +112,18 @@ class Profile(models.Model):
 
 
 # TODO: эта хреновина ведёт себя странно !!!
-# (не актуально после удаления миграций и подключения новой postgres:
-# если раскоментировать то будет ошибка при заполнении полей класса Profile при создании юзера из админки.)
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-        # instance.profile.save()
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+# если раскоментировать то будет ошибка при заполнении полей класса Profile при создании юзера из админки.
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         print(kwargs)
+#         Profile.objects.create(user=instance)
+#         # instance.profile.save()
+#
+#
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
 
 # TODO: дествия с user model
 # @receiver(post_save, sender=User)
