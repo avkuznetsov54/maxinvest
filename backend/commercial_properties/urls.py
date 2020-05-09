@@ -4,6 +4,6 @@ from .views import CommercialPremisesListView, CommercialPremisesDetailView
 
 
 urlpatterns = [
-    path('premises/', CommercialPremisesListView.as_view()),
+    path('premises/all/', CommercialPremisesListView.as_view()),
     path('premises/<int:pk>/', CommercialPremisesDetailView.as_view()),
 ]

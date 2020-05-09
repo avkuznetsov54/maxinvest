@@ -323,7 +323,7 @@ class ImagesResidentialComplex(models.Model):
                              verbose_name="Изображение")
     residential_complex = models.ForeignKey(ResidentialComplex,
                                             verbose_name="Жилой Комплекс",
-                                            related_name='imgrescomplex_rescomplex',
+                                            related_name='images_residential_complex',
                                             on_delete=models.CASCADE)
 
     def __str__(self):
@@ -344,7 +344,7 @@ class FloorPlansResidentialPremise(models.Model):
 
     residential_premises = models.ForeignKey(ResidentialPremise,
                                              verbose_name="Жилое помещение",
-                                             related_name='floorrespremise_respremise',
+                                             related_name='floor_residential_premises',
                                              on_delete=models.CASCADE)
 
     def __str__(self):
@@ -362,7 +362,10 @@ class VideoResidentialComplex(models.Model):
                                     default=None,
                                     null=True,
                                     blank=True)
-    residential_complex = models.ForeignKey(ResidentialComplex, verbose_name="Жилой Комплекс", on_delete=models.CASCADE)
+    residential_complex = models.ForeignKey(ResidentialComplex,
+                                            verbose_name="Жилой Комплекс",
+                                            related_name='video_residential_complex',
+                                            on_delete=models.CASCADE)
     add_text = models.CharField(max_length=300, null=True, blank=True, verbose_name='Доплнительный текст')
 
     class Meta:
