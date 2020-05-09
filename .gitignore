@@ -131,3 +131,5 @@ backend/venv/
 backend/.idea
 
 .DS_Store
+
+frontend/package-lock.json
