@@ -2,13 +2,24 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from .models import (Deadline, Developer, ClassOfHousing, FloorInBuilding,  ResidentialComplex,
-                     ImagesResidentialComplex,
+                     ImagesResidentialComplex, FloorPlansResidentialPremise,
                      NamesOfMetroStations, MaterialWallsOfHouse, ApartmentDecoration, Infrastructure,
-                     NumberOfRooms, ResidentialPremise, FloorPlansResidentialPremise, VideoResidentialComplex)
+                     NumberOfRooms, ResidentialPremise, VideoResidentialComplex)
 
 
 class ImagesResidentialComplexInline(admin.TabularInline):
     model = ImagesResidentialComplex
+    extra = 1
+    readonly_fields = ("get_image",)
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.image.url} height="70"')
+
+    get_image.short_description = "Изображение"
+
+
+class FloorPlansResidentialPremiseInline(admin.TabularInline):
+    model = FloorPlansResidentialPremise
     extra = 1
     readonly_fields = ("get_image",)
 
@@ -104,7 +115,8 @@ class ResidentialComplexAdmin(admin.ModelAdmin):
 @admin.register(ResidentialPremise)
 class ResidentialPremiseAdmin(admin.ModelAdmin):
     list_display = ('id', 'number_rooms', 'area', 'price', 'res_complex', 'is_active')
-    list_display_links = ('id',)
+    list_display_links = ('id', 'number_rooms', )
+    inlines = [FloorPlansResidentialPremiseInline]
 
 
 @admin.register(VideoResidentialComplex)

@@ -156,7 +156,7 @@ class NumberOfRooms(models.Model):
     class Meta:
         verbose_name = 'Количество комнат'
         verbose_name_plural = 'Количество комнат'
-        ordering = ['name']
+        ordering = ['id']
 
 
 class ResidentialComplex(models.Model):
@@ -215,7 +215,7 @@ class ResidentialComplex(models.Model):
 
     number_of_storeys = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Этажность',
                                             help_text='ОСТАВИТЬ ПУСТЫМ! Если в ЖК несколько строений')
-    
+
     min_storeys = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Этажность min')
     max_storeys = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Этажность max')
 
@@ -305,8 +305,8 @@ class ResidentialPremise(models.Model):
                                    default=None,
                                    blank=True)
 
-    # def __str__(self):
-    #     return self.number_rooms
+    def __str__(self):
+        return f'{self.number_rooms}'
 
     class Meta:
         verbose_name = 'Жилое помещение'

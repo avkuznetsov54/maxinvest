@@ -20,6 +20,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/v1/commerc/', include('commercial_properties.urls')),
 ]
 
 if settings.DEBUG:
@@ -31,3 +34,5 @@ if settings.DEBUG:
         settings.STATIC_URL,
         document_root=settings.STATIC_ROOT
     )
+
+urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]  # TODO: delet on propd

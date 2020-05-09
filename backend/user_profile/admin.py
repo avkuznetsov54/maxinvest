@@ -84,7 +84,7 @@ class UserAdmin(BaseUserAdmin):
     # https://tproger.ru/translations/extending-django-user-model/#var2
     list_filter = ('is_active', 'profile__specialization')
 
-    # TODO: решить как использовать search_fields с регистронезависимым поиском (startswith)
+    # TODO: решить как использовать search_fields с регистронезависимым поиском (icontains)
     search_fields = ('username', 'email', 'profile__full_name', 'profile__phone_number',)
     # Стандартные поля в модели User
     # date_joined, email, first_name, groups, id,
@@ -164,7 +164,11 @@ class SpecializationAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'name',)
 
 
-admin.site.register(SocialNetwork)
+@admin.register(SocialNetwork)
+class SocialNetworkAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'user', 'link_on_socnet')
+    list_display_links = ('id', 'name',)
+
 
 admin.site.site_title = "BROKERNSK.PRO"
 admin.site.site_header = "BROKERNSK.PRO"

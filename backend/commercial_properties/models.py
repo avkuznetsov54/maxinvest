@@ -140,7 +140,6 @@ class CommercialPremises(models.Model):
                              default=None,
                              null=True,
                              blank=True)
-    address = models.CharField(max_length=150, default=None, verbose_name='Адрес')
     district = models.ForeignKey(District,
                                  on_delete=models.SET_NULL,
                                  verbose_name='Район',
@@ -148,6 +147,7 @@ class CommercialPremises(models.Model):
                                  default=None,
                                  null=True,
                                  blank=True)
+    address = models.CharField(max_length=150, default=None, verbose_name='Адрес')
     relative_location = models.ManyToManyField(RelativeLocation,
                                                verbose_name='Расположение',
                                                related_name='compremises_relativelocation',
@@ -181,7 +181,10 @@ class CommercialPremises(models.Model):
                                                default=None,
                                                blank=True)
     rent_price = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Стоимость аренды, руб/мес.')
-    cost_of_sale = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Стоймость на продажу')
+
+    min_cost_of_sale = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Стоймость на продажу, от')
+    max_cost_of_sale = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Стоймость на продажу, до')
+
     min_payback = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Окупаемость от, мес')
     max_payback = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Окупаемость до, мес')
     min_average_rental_rate = models.IntegerField(db_index=True, null=True, blank=True,
@@ -237,7 +240,9 @@ class ImagesCommercialPremises(models.Model):
                              null=True,
                              blank=True,
                              verbose_name="Изображение")
-    commercial_premises = models.ForeignKey(CommercialPremises, verbose_name="Коммерческое помещение",
+    commercial_premises = models.ForeignKey(CommercialPremises,
+                                            verbose_name="Коммерческое помещение",
+                                            related_name='images_commercial_premises',
                                             on_delete=models.CASCADE)
 
     def __str__(self):
@@ -255,7 +260,9 @@ class FloorPlansCommercialPremises(models.Model):
                              null=True,
                              blank=True,
                              verbose_name="Планировка Коммерческого помещения")
-    commercial_premises = models.ForeignKey(CommercialPremises, verbose_name="Коммерческое помещение",
+    commercial_premises = models.ForeignKey(CommercialPremises,
+                                            verbose_name="Коммерческое помещение",
+                                            related_name='floorplans_commercial_premises',
                                             on_delete=models.CASCADE)
 
     def __str__(self):
@@ -275,6 +282,7 @@ class VideoCommercialPremises(models.Model):
                                     blank=True)
     commercial_premises = models.ForeignKey(CommercialPremises,
                                             verbose_name="Коммерческое помещение",
+                                            related_name='video_commercial_premises',
                                             on_delete=models.CASCADE)
     add_text = models.CharField(max_length=300, null=True, blank=True, verbose_name='Доплнительный текст')
 

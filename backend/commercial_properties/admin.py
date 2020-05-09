@@ -101,6 +101,7 @@ class CommercialPremisesAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('use_contacts_fixed_agent',
                        'fixed_agent',
+                       # 'get_fixed_agent',
                        ),
         }),
         (None, {
@@ -111,8 +112,8 @@ class CommercialPremisesAdmin(admin.ModelAdmin):
                        'floor',
                        'region',
                        'city',
-                       'address',
                        'district',
+                       'address',
                        'relative_location',
                        'residential_complex',
                        'ready_commercial_premise',
@@ -122,7 +123,8 @@ class CommercialPremisesAdmin(admin.ModelAdmin):
         }),
         (None, {
             'fields': ('rent_price',
-                       'cost_of_sale',
+                       'min_cost_of_sale',
+                       'max_cost_of_sale',
                        'min_payback',
                        'max_payback',
                        'min_average_rental_rate',
@@ -159,6 +161,9 @@ class CommercialPremisesAdmin(admin.ModelAdmin):
         return mark_safe(f'<img src={obj.main_image.url} height="70"')
 
     get_image.short_description = ''
+
+    # def get_fixed_agent(self, obj):
+    #     return obj
 
 
 @admin.register(VideoCommercialPremises)
