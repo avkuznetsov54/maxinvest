@@ -40,7 +40,8 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    'bootstrap-vue/nuxt'
   ],
   /*
    ** Axios module configuration
@@ -50,6 +51,12 @@ export default {
   /*
    ** Build configuration
    */
+  bootstrapVue: {
+    icons: true,
+    // https://bootstrap-vue.org/docs#tree-shaking-with-nuxtjs
+    components: ['BContainer', 'BRow', 'BCol', 'BIconArrowUp'],
+    componentPlugins: ['IconsPlugin']
+  },
   build: {
     transpile: [/^element-ui/],
     /*

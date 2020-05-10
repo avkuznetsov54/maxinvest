@@ -1,23 +1,28 @@
 <template>
-  <el-row :gutter="20" type="flex" justify="center">
-    <el-col :xs="24" :sm="18" :md="12" :lg="6"
+  <b-row>
+    <b-col cols="12" sm="6" md="4" lg="3"
       ><div class="grid-content bg-purple"></div
-    ></el-col>
-    <el-col :xs="24" :sm="18" :md="12" :lg="6"
+    ></b-col>
+    <b-col cols="12" sm="6" md="4" lg="3"
       ><div class="grid-content bg-purple"></div
-    ></el-col>
-    <el-col :xs="24" :sm="18" :md="12" :lg="6"
+    ></b-col>
+    <b-col cols="12" sm="6" md="4" lg="3"
       ><div class="grid-content bg-purple"></div
-    ></el-col>
-    <el-col :xs="24" :sm="18" :md="12" :lg="6"
+    ></b-col>
+    <b-col cols="12" sm="6" md="4" lg="3"
       ><div class="grid-content bg-purple"></div
-    ></el-col>
-  </el-row>
+    ></b-col>
+  </b-row>
 </template>
 
 <script>
 export default {
-  components: {}
+  components: {},
+  head() {
+    return {
+      title: 'Главная'
+    }
+  }
 }
 </script>
 

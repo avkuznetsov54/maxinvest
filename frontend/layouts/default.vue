@@ -1,16 +1,19 @@
 <template>
-  <el-container class="page-container">
-    <el-header>
-      <AppNavigation />
-    </el-header>
-    <el-main>
-      <nuxt />
-    </el-main>
-    <el-footer>Footer</el-footer>
-  </el-container>
+  <b-container>
+    <el-container class="page-container">
+      <el-header>
+        <AppNavigation />
+      </el-header>
+      <el-main>
+        <nuxt />
+      </el-main>
+      <el-footer>Footer</el-footer>
+    </el-container>
+  </b-container>
 </template>
 
 <script>
+// import { BContainer } from 'bootstrap-vue'
 import AppNavigation from '@/components/main/header/AppNavigation'
 export default {
   components: {
