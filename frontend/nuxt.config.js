@@ -76,6 +76,7 @@ export default {
      */
     extend(config, ctx) {},
     // Begin extractCSS
+    // https://nuxtjs.org/api/configuration-build#extractcss
     extractCSS: true,
     optimization: {
       splitChunks: {
