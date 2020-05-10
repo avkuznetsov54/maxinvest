@@ -41,8 +41,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/proxy'
-    // 'bootstrap-vue/nuxt'
+    '@nuxtjs/proxy',
+    'bootstrap-vue/nuxt'
   ],
   /*
    ** Axios module configuration
@@ -74,6 +74,21 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {},
+    // Begin extractCSS
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /\.(css|vue)$/,
+            chunks: 'all',
+            enforce: true
+          }
+        }
+      }
+    }
+    // END extractCSS
   }
 }
