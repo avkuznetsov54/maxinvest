@@ -41,6 +41,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     'bootstrap-vue/nuxt'
   ],
   /*
@@ -51,15 +52,23 @@ export default {
     // baseURL: process.env.BASE_URL || 'http://localhost:8000'
     baseURL: 'http://localhost:8000'
   },
-  /*
-   ** Build configuration
-   */
+  proxy: {
+    '/media': {
+      target: 'http://localhost:8000',
+      pathRewrite: {
+        '^/media': '/media'
+      }
+    }
+  },
   bootstrapVue: {
     icons: true,
     // https://bootstrap-vue.org/docs#tree-shaking-with-nuxtjs
     components: ['BContainer', 'BRow', 'BCol', 'BIconArrowUp'],
     componentPlugins: ['IconsPlugin']
   },
+  /*
+   ** Build configuration
+   */
   build: {
     transpile: [/^element-ui/],
     /*
