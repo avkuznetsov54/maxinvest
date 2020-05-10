@@ -14,7 +14,7 @@
 
 <script>
 // import { BContainer } from 'bootstrap-vue'
-import AppNavigation from '@/components/main/header/AppNavigation'
+import AppNavigation from '@/components/front/header/AppNavigation'
 export default {
   components: {
     AppNavigation
