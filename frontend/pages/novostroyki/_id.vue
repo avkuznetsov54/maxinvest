@@ -41,16 +41,39 @@
         At deleniti hic id nihil, nulla quam quia quos tenetur!
       </p>
     </main>
-    <footer></footer>
+    <footer>
+      <!--      <app-comment-form-->
+      <!--        v-if="canAddComment"-->
+      <!--        @created="createCommentHandler"-->
+      <!--        :postId="post._id"-->
+      <!--      />-->
+      <!--      <div class="comments" v-if="post.comments.length">-->
+      <!--        <app-comment-->
+      <!--          v-for="comment in post.comments"-->
+      <!--          :key="comment._id"-->
+      <!--          :comment="comment"-->
+      <!--        />-->
+      <!--      </div>-->
+      <!--      <div class="text-center" v-else>Квартир нет</div>-->
+      <b-row>
+        <b-col v-for="obj in 6" :key="obj" cols="12" sm="6" md="4" lg="3">
+          <app-card-residential-premise />
+        </b-col>
+      </b-row>
+    </footer>
   </article>
 </template>
 
 <script>
+import AppCardResidentialPremise from '@/components/front/main/CardResidentialPremise'
 export default {
   // validate принимает аргумени ctx,
   // который содержит объект params - параметры адресной строки
   validate({ params }) {
     return Boolean(params.id) // если params.id === undefined, то будет false
+  },
+  components: {
+    AppCardResidentialPremise
   }
 }
 </script>
@@ -70,8 +93,8 @@ export default {
 
 .object-image
   img
-    width: 100%
-    height: auto
+    width: auto
+    height: 400px
 
 .object-header
   margin-bottom: 1.5rem

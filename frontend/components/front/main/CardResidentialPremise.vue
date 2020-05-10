@@ -6,7 +6,7 @@
     @click.native="openCard"
   >
     <img
-      src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+      src="https://cnet4.cbsistatic.com/img/oHmp-E6nkkEO7rCGZUqA6f5vbAk=/1092x0/2019/05/15/6b4688f3-f779-4b21-9b9e-1e27a04d637c/omaha-steaks.jpg"
       alt="hamburger"
       class="image"
     />
@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: 'CardObj',
+  name: 'CardResidentialPremise',
   data() {
     return {
       currentDate: new Date()
@@ -32,8 +32,8 @@ export default {
   },
   methods: {
     openCard() {
-      const id = 'test-id'
-      this.$router.push(`/novostroyki/${id}`)
+      // const id = 'test-id'
+      // this.$router.push(`/novostroyki/${id}`)
     }
   }
 }

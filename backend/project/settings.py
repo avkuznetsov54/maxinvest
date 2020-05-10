@@ -69,7 +69,7 @@ MIDDLEWARE = [
 
 # **Dont forget to add your client's address to the CORS whitelist. This will make sure the server accepts request from
 # the specified source only
-CORS_ORIGIN_WHITELIST = ('http://localhost',)
+CORS_ORIGIN_WHITELIST = ('http://localhost', 'http://localhost:3000')
 
 # allow all requests containing any of the default headers(as in django docs) or content-type header
 CORS_ALLOW_HEADERS = default_headers + (
