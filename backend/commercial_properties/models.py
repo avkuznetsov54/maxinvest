@@ -182,8 +182,10 @@ class CommercialPremises(models.Model):
                                                blank=True)
     rent_price = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Стоимость аренды, руб/мес.')
 
-    min_cost_of_sale = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Стоймость на продажу, от')
-    max_cost_of_sale = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Стоймость на продажу, до')
+    min_cost_of_sale = models.IntegerField(db_index=True, null=True, blank=True,
+                                           verbose_name='Стоймость на продажу, от')
+    max_cost_of_sale = models.IntegerField(db_index=True, null=True, blank=True,
+                                           verbose_name='Стоймость на продажу, до')
 
     min_payback = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Окупаемость от, мес')
     max_payback = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Окупаемость до, мес')
@@ -202,13 +204,11 @@ class CommercialPremises(models.Model):
                                                    related_name='compremises_comsystems',
                                                    default=None,
                                                    blank=True)
-    cooker_hood = models.ForeignKey(CookerHood,
-                                    on_delete=models.SET_NULL,
-                                    verbose_name='Вытяжка',
-                                    related_name='compremises_cookerhood',
-                                    default=None,
-                                    null=True,
-                                    blank=True)
+    cooker_hood = models.ManyToManyField(CookerHood,
+                                         verbose_name='Вытяжка',
+                                         related_name='compremises_cookerhood',
+                                         default=None,
+                                         blank=True)
     type_entrance = models.ManyToManyField(TypeEntranceToCommercialPremises,
                                            verbose_name='Тип входа',
                                            related_name='compremises_typeentrance',

@@ -26,8 +26,8 @@ class CommercialPremisesListSerializer(serializers.ModelSerializer):
     city = serializers.SlugRelatedField(slug_field='name', read_only=True)
     district = serializers.SlugRelatedField(slug_field='name', read_only=True)
     residential_complex = serializers.SlugRelatedField(slug_field='name', read_only=True)
-    cooker_hood = serializers.SlugRelatedField(slug_field='name', read_only=True)
 
+    cooker_hood = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     # скорее всего в fixed_agent нужен будет только id
     fixed_agent = serializers.SlugRelatedField(slug_field='username', read_only=True, many=True)
     floor = serializers.SlugRelatedField(slug_field='num_floor', read_only=True, many=True)
@@ -51,8 +51,8 @@ class CommercialPremisesDetailSerializer(serializers.ModelSerializer):
     city = serializers.SlugRelatedField(slug_field='name', read_only=True)
     district = serializers.SlugRelatedField(slug_field='name', read_only=True)
     residential_complex = serializers.SlugRelatedField(slug_field='name', read_only=True)
-    cooker_hood = serializers.SlugRelatedField(slug_field='name', read_only=True)
 
+    cooker_hood = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     # скорее всего в fixed_agent нужен будет только id
     fixed_agent = serializers.SlugRelatedField(slug_field='username', read_only=True, many=True)
     floor = serializers.SlugRelatedField(slug_field='num_floor', read_only=True, many=True)

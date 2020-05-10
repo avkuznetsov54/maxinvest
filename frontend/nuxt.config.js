@@ -41,8 +41,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/proxy',
-    'bootstrap-vue/nuxt'
+    '@nuxtjs/proxy'
+    // 'bootstrap-vue/nuxt'
   ],
   /*
    ** Axios module configuration

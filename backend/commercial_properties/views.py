@@ -9,8 +9,8 @@ class CommercialPremisesListView(APIView):
 
     def get(self, request):
         premises = CommercialPremises.objects.all() \
-            .select_related('region', 'city', 'district', 'residential_complex', 'cooker_hood') \
-            .prefetch_related('fixed_agent', 'floor', 'relative_location', 'purpose_commercial_premise',
+            .select_related('region', 'city', 'district', 'residential_complex') \
+            .prefetch_related('cooker_hood', 'fixed_agent', 'floor', 'relative_location', 'purpose_commercial_premise',
                               'business_category', 'communication_systems', 'type_entrance') \
             .prefetch_related('images_commercial_premises', 'floorplans_commercial_premises',
                               'video_commercial_premises')
@@ -23,7 +23,7 @@ class CommercialPremisesDetailView(APIView):
 
     def get(self, request, pk):
         premises = CommercialPremises.objects \
-            .select_related('region', 'city', 'district', 'residential_complex', 'cooker_hood') \
+            .select_related('region', 'city', 'district', 'residential_complex') \
             .get(id=pk)
 
         serializer = CommercialPremisesDetailSerializer(premises)
