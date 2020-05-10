@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container class="page-container">
     <el-header>
       <AppNavigation />
     </el-header>
@@ -19,4 +19,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="sass" scoped></style>
