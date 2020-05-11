@@ -20,7 +20,7 @@ class Specialization(models.Model):
     """Модель Специализация"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
     short_name = models.CharField(max_length=10, unique=True, default=None, verbose_name='Короткое название')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -72,7 +72,7 @@ class Profile(models.Model):
 
     full_name = models.CharField(max_length=255, db_index=True, blank=True, verbose_name='ФИО')
 
-    phone_number = models.CharField(max_length=20, null=True, blank=True, verbose_name='Телефон',
+    phone_number = models.CharField(max_length=20, blank=True, verbose_name='Телефон',
                                     help_text='Без пробелов, скобок, +7 и 8. '
                                               '<b style="color:red;font-size:10px;">ТОЛЬКО ЦИФРЫ !!!</b><br>'
                                               'Пример: 9131112233')
