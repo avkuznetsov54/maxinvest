@@ -39,7 +39,7 @@ class Deadline(models.Model):
 class Developer(models.Model):
     """Модель Застройщик"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Застройщик')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
     logo_image = models.FileField(upload_to=generate_url_for_logo_image,
                                   null=True,
                                   blank=True,
@@ -57,7 +57,7 @@ class Developer(models.Model):
 class ClassOfHousing(models.Model):
     """Модель Класс Жилья"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Класс Жилья')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -87,7 +87,7 @@ class NamesOfMetroStations(models.Model):
     distance_to_center = models.CharField(max_length=50, null=True, blank=True, verbose_name='Расстояние до центра')
     sub_text_distance_to_center = models.CharField(max_length=255, null=True, blank=True,
                                                    verbose_name='Текс для тултипа')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -101,7 +101,7 @@ class NamesOfMetroStations(models.Model):
 class MaterialWallsOfHouse(models.Model):
     """Модель Материал стен дома"""
     name = models.CharField(max_length=255, unique=True, verbose_name='Материал стен дома')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -115,7 +115,7 @@ class MaterialWallsOfHouse(models.Model):
 class ApartmentDecoration(models.Model):
     """Модель Отделка квартиры"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -133,7 +133,7 @@ class Infrastructure(models.Model):
                             null=True,
                             blank=True,
                             verbose_name="Иконка")
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -147,8 +147,8 @@ class Infrastructure(models.Model):
 class NumberOfRooms(models.Model):
     """Модель Количество комнат"""
     name = models.CharField(max_length=10, unique=True, verbose_name='Название')
-    additional_name = models.CharField(max_length=150, null=True, blank=True, verbose_name='Добавочное название')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    additional_name = models.CharField(max_length=150, blank=True, verbose_name='Добавочное название')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -167,6 +167,8 @@ class ResidentialComplex(models.Model):
                                               help_text='Отключит данные о квартирах, занесенные вручную.')
 
     name = models.CharField(max_length=150, db_index=True, unique=True, verbose_name='Название ЖК')
+    url_name = models.CharField(max_length=255, unique=True, verbose_name='URL для этого ЖК',
+                                help_text='Для адресной строки в браузере. Только ЛАТИНИИЦА!!! Без: / и пробелов.')
 
     logo_image = models.FileField(upload_to=generate_url_for_logo_image,
                                   null=True,
@@ -210,7 +212,7 @@ class ResidentialComplex(models.Model):
                                  blank=True)
     address = models.CharField(max_length=150, db_index=True, verbose_name='Адрес',
                                default=None,
-                               null=True, blank=True)
+                               blank=True)
     one_or_many_buildings = models.BooleanField(default=False, verbose_name='В ЖК несколько строений')
 
     number_of_storeys = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Этажность',
@@ -229,11 +231,11 @@ class ResidentialComplex(models.Model):
                                   null=True,
                                   blank=True,
                                   verbose_name="Главное изображение ЖК")
-    alt_attr = models.CharField(max_length=300, null=True, blank=True, verbose_name="img alt")
+    alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
 
     longitude = models.FloatField(null=True, blank=True, verbose_name='Долгота')
     latitude = models.FloatField(null=True, blank=True, verbose_name='Широта')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     distance_to_metro = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Растояние до метро, м')
     metro_stations = models.ManyToManyField(NamesOfMetroStations,
@@ -316,7 +318,7 @@ class ResidentialPremise(models.Model):
 
 class ImagesResidentialComplex(models.Model):
     """Модель Изображение Жилого Комплекса"""
-    alt_attr = models.CharField(max_length=300, null=True, blank=True, verbose_name="img alt")
+    alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
     image = models.FileField(upload_to=generate_url_for_image,
                              null=True,
                              blank=True,
@@ -336,7 +338,7 @@ class ImagesResidentialComplex(models.Model):
 
 class FloorPlansResidentialPremise(models.Model):
     """Модель Планировка Жилого помещения"""
-    alt_attr = models.CharField(max_length=300, null=True, blank=True, verbose_name="img alt")
+    alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
     image = models.FileField(upload_to=generate_url_for_image,
                              null=True,
                              blank=True,
@@ -366,7 +368,7 @@ class VideoResidentialComplex(models.Model):
                                             verbose_name="Жилой Комплекс",
                                             related_name='video_residential_complex',
                                             on_delete=models.CASCADE)
-    add_text = models.CharField(max_length=300, null=True, blank=True, verbose_name='Доплнительный текст')
+    add_text = models.CharField(max_length=300, blank=True, verbose_name='Доплнительный текст')
 
     class Meta:
         verbose_name = 'Видео Жилого Комплекса'
