@@ -18,9 +18,9 @@ class Region(models.Model):
                                   null=True,
                                   blank=True,
                                   verbose_name="Изображение")
-    alt_attr = models.CharField(max_length=300, null=True, blank=True, verbose_name="img alt")
+    alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
 
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -46,11 +46,11 @@ class City(models.Model):
                                   null=True,
                                   blank=True,
                                   verbose_name="Изображение")
-    alt_attr = models.CharField(max_length=300, null=True, blank=True, verbose_name="img alt")
+    alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
 
     longitude = models.FloatField(null=True, blank=True, verbose_name='Долгота')
     latitude = models.FloatField(null=True, blank=True, verbose_name='Широта')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -64,7 +64,7 @@ class City(models.Model):
 class District(models.Model):
     """Модель Района"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Район')
-    subname = models.CharField(max_length=10, unique=True, blank=True, verbose_name='Сокращённое название')
+    subname = models.CharField(max_length=10, unique=True, verbose_name='Сокращённое название')
     city = models.ForeignKey(City,
                              on_delete=models.SET_NULL,
                              verbose_name='Город',
@@ -77,8 +77,8 @@ class District(models.Model):
                                   null=True,
                                   blank=True,
                                   verbose_name="Изображение")
-    alt_attr = models.CharField(max_length=300, null=True, blank=True, verbose_name="img alt")
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
