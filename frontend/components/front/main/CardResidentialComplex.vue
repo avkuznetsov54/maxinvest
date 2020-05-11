@@ -48,7 +48,7 @@ export default {
   methods: {
     openCard() {
       // const id = 'test-id'
-      this.$router.push(`/novostroyki/${this.resComplex.id}`)
+      this.$router.push(`/novostroyki/${this.resComplex.url_name}`)
     }
   }
 }

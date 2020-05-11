@@ -1,7 +1,7 @@
 <template>
-  <nav>
+  <div class="top-line">
     BROKERNSK.PRO
-  </nav>
+  </div>
 </template>
 
 <script>
@@ -11,10 +11,11 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-nav
-  display: flex
-  align-items: center
-  justify-content: center
-  height: 100%
+.top-line
+  /*display: flex*/
+  /*align-items: center*/
+  /*justify-content: center*/
+  height: 48px
+  padding: 8px
   border-bottom: 1px solid #e6e6e6
 </style>

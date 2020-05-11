@@ -1,8 +1,9 @@
 <template>
   <b-container>
     <el-container class="page-container">
-      <el-header>
-        <AppNavigation />
+      <el-header height="100px">
+        <app-top-line />
+        <app-nav-menu />
       </el-header>
       <el-main>
         <nuxt />
@@ -13,10 +14,12 @@
 </template>
 
 <script>
-import AppNavigation from '@/components/front/header/AppNavigation'
+import AppTopLine from '@/components/front/header/TopLine'
+import AppNavMenu from '@/components/front/header/NavMenu'
 export default {
   components: {
-    AppNavigation
+    AppTopLine,
+    AppNavMenu
   }
 }
 </script>
