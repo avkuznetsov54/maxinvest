@@ -1,23 +1,12 @@
 <template>
-  <b-row>
-    <b-col
-      v-for="resComplex in resComplexes"
-      :key="resComplex.id"
-      cols="12"
-      sm="6"
-      md="4"
-      lg="3"
-    >
-      <app-card-residential-complex :res-complex="resComplex" />
-    </b-col>
-  </b-row>
+  <app-list-card-residential-complex />
 </template>
 
 <script>
-import AppCardResidentialComplex from '@/components/front/main/CardResidentialComplex'
+import AppListCardResidentialComplex from '@/components/front/main/ListCardResidentialComplex'
 export default {
   components: {
-    AppCardResidentialComplex
+    AppListCardResidentialComplex
   },
   async fetch({ store, error }) {
     try {
@@ -40,11 +29,7 @@ export default {
   //   // eslint-disable-next-line no-console
   //   console.log(this.data.length)
   // },
-  computed: {
-    resComplexes() {
-      return this.$store.getters['real-estate/GET_RESIDENTIAL_COMPLEXES']
-    }
-  },
+
   head() {
     return {
       title: 'Главная'

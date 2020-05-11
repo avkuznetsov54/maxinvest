@@ -63,7 +63,14 @@ export default {
   bootstrapVue: {
     icons: true,
     // https://bootstrap-vue.org/docs#tree-shaking-with-nuxtjs
-    components: ['BContainer', 'BRow', 'BCol', 'BIconArrowUp'],
+    components: [
+      'BContainer',
+      'BRow',
+      'BCol',
+      'BImg',
+      'BBadge',
+      'BIconArrowUp'
+    ],
     componentPlugins: ['IconsPlugin']
   },
   /*
