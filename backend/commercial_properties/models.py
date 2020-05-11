@@ -18,7 +18,7 @@ def generate_url_for_image(self, filename):
 class BusinessCategory(models.Model):
     """Модель Категория бизнеса"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -32,7 +32,7 @@ class BusinessCategory(models.Model):
 class PurposeOfCommercialPremise(models.Model):
     """Модель Назначение помещения"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -46,7 +46,7 @@ class PurposeOfCommercialPremise(models.Model):
 class CookerHood(models.Model):
     """Модель Вытяжка"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -60,7 +60,7 @@ class CookerHood(models.Model):
 class TypeEntranceToCommercialPremises(models.Model):
     """Модель Тип входа в коммерческое помещение"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -74,7 +74,7 @@ class TypeEntranceToCommercialPremises(models.Model):
 class CommunicationSystems(models.Model):
     """Модель Системы коммуникаций"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -88,7 +88,7 @@ class CommunicationSystems(models.Model):
 class RelativeLocation(models.Model):
     """Модель Расположение"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.name
@@ -147,7 +147,7 @@ class CommercialPremises(models.Model):
                                  default=None,
                                  null=True,
                                  blank=True)
-    address = models.CharField(max_length=150, default=None, verbose_name='Адрес')
+    address = models.CharField(max_length=150, default=None, blank=True, verbose_name='Адрес')
     relative_location = models.ManyToManyField(RelativeLocation,
                                                verbose_name='Расположение',
                                                related_name='compremises_relativelocation',
@@ -218,11 +218,11 @@ class CommercialPremises(models.Model):
                                   null=True,
                                   blank=True,
                                   verbose_name="Главное изображение помещения")
-    alt_attr = models.CharField(max_length=300, null=True, blank=True, verbose_name="img alt")
+    alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
 
     longitude = models.FloatField(null=True, blank=True, verbose_name='Долгота')
     latitude = models.FloatField(null=True, blank=True, verbose_name='Широта')
-    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
         return self.address
@@ -235,7 +235,7 @@ class CommercialPremises(models.Model):
 
 class ImagesCommercialPremises(models.Model):
     """Модель Изображение Коммерческого помещения"""
-    alt_attr = models.CharField(max_length=300, null=True, blank=True, verbose_name="img alt")
+    alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
     image = models.FileField(upload_to=generate_url_for_image,
                              null=True,
                              blank=True,
@@ -255,7 +255,7 @@ class ImagesCommercialPremises(models.Model):
 
 class FloorPlansCommercialPremises(models.Model):
     """Модель Планировка Коммерческого помещения"""
-    alt_attr = models.CharField(max_length=300, null=True, blank=True, verbose_name="img alt")
+    alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
     image = models.FileField(upload_to=generate_url_for_image,
                              null=True,
                              blank=True,
@@ -284,7 +284,7 @@ class VideoCommercialPremises(models.Model):
                                             verbose_name="Коммерческое помещение",
                                             related_name='video_commercial_premises',
                                             on_delete=models.CASCADE)
-    add_text = models.CharField(max_length=300, null=True, blank=True, verbose_name='Доплнительный текст')
+    add_text = models.CharField(max_length=300, blank=True, verbose_name='Доплнительный текст')
 
     class Meta:
         verbose_name = 'Видео Коммерческого помещения'
