@@ -1,80 +1,57 @@
 <template>
-  <!--  <Card :padding="0" class="card" @click.native="openCard">-->
-  <!--  <Card :padding="0" class="card">-->
   <div class="card">
-    <div class="card-obj-badge">
-      <Tag class="card-obj-badge-tag" color="primary">{{
-        resComplex.class_of_housing
-      }}</Tag>
-    </div>
-
-    <div v-if="resComplex.images_residential_complex.length === 0">
-      <div class="card-wrap-image" @click="openCard">
-        <!--        <img-->
-        <!--          class="card-image"-->
-        <!--          :src="resComplex.main_image"-->
-        <!--          :alt="resComplex.name"-->
-        <!--        />-->
-        <img
-          v-lazy-load
-          class="card-image"
-          :data-src="resComplex.main_image"
-          :alt="resComplex.name"
-        />
-        <!--        <img-->
-        <!--          v-lazy="resComplex.main_image"-->
-        <!--          class="card-image"-->
-        <!--          :alt="resComplex.name"-->
-        <!--        />-->
+    <div class="card-image">
+      <div class="card-obj-badge">
+        <Tag class="card-obj-badge-tag" color="primary">{{
+          resComplex.class_of_housing
+        }}</Tag>
       </div>
-    </div>
 
-    <div v-else>
-      <div v-swiper:mySwiper="swiperOption">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="card-wrap-image" @click="openCard">
-              <!--              <img-->
-              <!--                class="card-image"-->
-              <!--                :src="resComplex.main_image"-->
-              <!--                :alt="resComplex.name"-->
-              <!--              />-->
-              <img
-                v-lazy-load
-                class="card-image"
-                :data-src="resComplex.main_image"
-                :alt="resComplex.name"
-              />
-              <!--              <img-->
-              <!--                v-lazy="resComplex.main_image"-->
-              <!--                class="card-image"-->
-              <!--                :alt="resComplex.name"-->
-              <!--              />-->
-            </div>
-          </div>
-          <div
-            v-for="img in resComplex.images_residential_complex"
-            :key="img.id"
-            class="swiper-slide"
-          >
-            <div class="card-wrap-image" @click="openCard">
-              <!--              <img class="card-image" :src="img.image" :alt="img.alt_attr" />-->
-              <img
-                v-lazy-load
-                class="card-image"
-                :data-src="img.image"
-                :alt="img.alt_attr"
-              />
-              <!--              <img v-lazy="img.image" class="card-image" :alt="img.alt_attr" />-->
-            </div>
-          </div>
+      <div v-if="resComplex.images_residential_complex.length === 0">
+        <div class="card-wrap-image" @click="openCard">
+          <img
+            v-lazy-load
+            class="card-image"
+            :data-src="resComplex.main_image"
+            :alt="resComplex.name"
+          />
         </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+      </div>
+
+      <div v-else>
+        <div v-swiper:mySwiper="swiperOption">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="card-wrap-image" @click="openCard">
+                <img
+                  v-lazy-load
+                  class="card-image"
+                  :data-src="resComplex.main_image"
+                  :alt="resComplex.name"
+                />
+              </div>
+            </div>
+            <div
+              v-for="img in resComplex.images_residential_complex"
+              :key="img.id"
+              class="swiper-slide"
+            >
+              <div class="card-wrap-image" @click="openCard">
+                <img
+                  v-lazy-load
+                  class="card-image"
+                  :data-src="img.image"
+                  :alt="img.alt_attr"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
       </div>
     </div>
-
     <div class="card-content" @click="openCard">
       <nuxt-link to="openCard">{{ resComplex.name }}</nuxt-link>
       <!--      <span>{{ resComplex.name }}</span>-->
@@ -86,11 +63,9 @@
       <small>{{ resComplex.address }}</small>
     </div>
   </div>
-  <!--  </Card>-->
 </template>
 
 <script>
-// import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
 import { directive } from 'vue-awesome-swiper'
 export default {
   name: 'ResidentialComplexCard',
@@ -133,10 +108,18 @@ export default {
 .card {
   height: 300px;
   margin-bottom: 16px;
-  /*border-radius: 8px;*/
-  /*z-index: 2;*/
-  /*overflow: hidden;*/
-  /*-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC); !* this fixes the overflow:hidden in Chrome/Opera *!*/
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.3s ease-in-out;
+  &:hover {
+    box-shadow: 0 6px 9px rgba(36, 38, 41, 0.16);
+  }
+  .card-image {
+    height: 200px;
+    position: relative;
+  }
 }
 .card-wrap-image {
   cursor: pointer;
@@ -160,11 +143,17 @@ export default {
   border-radius: 26px;
   width: 38px;
   height: 38px;
-  opacity: 0.35;
+  opacity: 0.55;
   &:hover {
     background-color: #fff !important;
-    opacity: 0.75;
+    opacity: 0.85;
   }
+}
+.swiper-pagination:hover ~ .swiper-button-prev,
+.swiper-pagination:hover ~ .swiper-button-next,
+.swiper-wrapper:hover ~ .swiper-button-prev,
+.swiper-wrapper:hover ~ .swiper-button-next {
+  opacity: 0.85;
 }
 .swiper-button-disabled {
   display: none;
@@ -198,7 +187,7 @@ export default {
   }
 }
 .card-content {
-  height: 100%;
+  /*height: 100%;*/
   padding: 14px;
   display: flex;
   flex-grow: 1;
