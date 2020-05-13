@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AppMainView from '@/components/front/content/MainView'
+import AppMainView from '@/components/front/content/main-page/MainView'
 export default {
   components: {
     AppMainView

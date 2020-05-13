@@ -3,7 +3,7 @@
     <div class="container">
       <Row>
         <i-col :xs="24" :sm="16" :md="16" :lg="12">
-          <nuxt-link to="/"><h1>Brokernsk.pro</h1></nuxt-link>
+          <h1><nuxt-link to="/">Brokernsk.pro</nuxt-link></h1>
         </i-col>
         <i-col :xs="24" :sm="8" :md="8" :lg="{ span: 4, offset: 8 }">
           <Button type="error"><b>ОСТАВИТЬ ЗАЯВКУ</b></Button>
