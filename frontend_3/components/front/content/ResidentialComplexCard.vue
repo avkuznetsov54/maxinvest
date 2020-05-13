@@ -1,6 +1,7 @@
 <template>
   <!--  <Card :padding="0" class="card" @click.native="openCard">-->
-  <Card :padding="0" class="card">
+  <!--  <Card :padding="0" class="card">-->
+  <div class="card">
     <div class="card-obj-badge">
       <Tag class="card-obj-badge-tag" color="primary">{{
         resComplex.class_of_housing
@@ -8,13 +9,23 @@
     </div>
 
     <div v-if="resComplex.images_residential_complex.length === 0">
-      <div class="card-wrap-image">
+      <div class="card-wrap-image" @click="openCard">
+        <!--        <img-->
+        <!--          class="card-image"-->
+        <!--          :src="resComplex.main_image"-->
+        <!--          :alt="resComplex.name"-->
+        <!--        />-->
         <img
           v-lazy-load
           class="card-image"
           :data-src="resComplex.main_image"
           :alt="resComplex.name"
         />
+        <!--        <img-->
+        <!--          v-lazy="resComplex.main_image"-->
+        <!--          class="card-image"-->
+        <!--          :alt="resComplex.name"-->
+        <!--        />-->
       </div>
     </div>
 
@@ -22,13 +33,23 @@
       <div v-swiper:mySwiper="swiperOption">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
-            <div class="card-wrap-image">
+            <div class="card-wrap-image" @click="openCard">
+              <!--              <img-->
+              <!--                class="card-image"-->
+              <!--                :src="resComplex.main_image"-->
+              <!--                :alt="resComplex.name"-->
+              <!--              />-->
               <img
                 v-lazy-load
                 class="card-image"
                 :data-src="resComplex.main_image"
                 :alt="resComplex.name"
               />
+              <!--              <img-->
+              <!--                v-lazy="resComplex.main_image"-->
+              <!--                class="card-image"-->
+              <!--                :alt="resComplex.name"-->
+              <!--              />-->
             </div>
           </div>
           <div
@@ -36,13 +57,15 @@
             :key="img.id"
             class="swiper-slide"
           >
-            <div class="card-wrap-image">
+            <div class="card-wrap-image" @click="openCard">
+              <!--              <img class="card-image" :src="img.image" :alt="img.alt_attr" />-->
               <img
                 v-lazy-load
                 class="card-image"
                 :data-src="img.image"
                 :alt="img.alt_attr"
               />
+              <!--              <img v-lazy="img.image" class="card-image" :alt="img.alt_attr" />-->
             </div>
           </div>
         </div>
@@ -62,7 +85,8 @@
       <small>{{ resComplex.district }}</small>
       <small>{{ resComplex.address }}</small>
     </div>
-  </Card>
+  </div>
+  <!--  </Card>-->
 </template>
 
 <script>
@@ -114,6 +138,9 @@ export default {
   /*overflow: hidden;*/
   /*-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC); !* this fixes the overflow:hidden in Chrome/Opera *!*/
 }
+.card-wrap-image {
+  cursor: pointer;
+}
 .card-obj-badge {
   position: absolute;
   right: 18px;
@@ -128,8 +155,7 @@ export default {
   color: #fff;
 }
 .swiper-button-prev,
-.swiper-button-next,
-.swiper-button-disabled {
+.swiper-button-next {
   background-color: #fff !important;
   border-radius: 26px;
   width: 38px;
@@ -139,6 +165,9 @@ export default {
     background-color: #fff !important;
     opacity: 0.75;
   }
+}
+.swiper-button-disabled {
+  display: none;
 }
 .swiper-button-prev:after,
 .swiper-button-next:after {
@@ -163,6 +192,7 @@ export default {
 
     .card-image img {
       max-width: 100%;
+      height: 200px;
       /*overflow: hidden;*/
     }
   }

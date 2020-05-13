@@ -42,7 +42,12 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
-    'nuxt-lazy-load'
+    [
+      'nuxt-lazy-load',
+      {
+        defaultImage: '/media/download.svg'
+      }
+    ]
   ],
   /*
    ** Axios module configuration
