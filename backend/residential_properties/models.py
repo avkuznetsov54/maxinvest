@@ -12,10 +12,11 @@ from geo_location.models import Region, City, District
 
 
 # !!!!
-def generate_url_for_image(instance, filename):
+def generate_url_for_image(self, filename):
+    print(self.name)
     ext = filename.split('.')[-1]
     name = filename.split('.')[0]
-    filename = "%s.%s" % (slugify(name, to_lower=True), ext)
+    filename = "%s.%s" % (slugify(self.name, to_lower=True), ext)
     now = datetime.datetime.now()
     url = 'images/realestate/%s/%s/%s/%s%s%s-%s-%s' % (now.year, now.month, now.day,
                                                        now.hour, now.minute, now.second, now.microsecond, filename)
@@ -320,8 +321,8 @@ class ResidentialComplex(models.Model):
                 im = Image.open(str(self.main_image.path))  # открываем изображение
 
                 (width, height) = im.size  # получаем width и height загружаемой картинки
-                print('width:', width)
-                print('height:', height)
+                # print('width:', width)
+                # print('height:', height)
                 new_height = 300  # Высота
                 new_width = int(new_height * width / height)
                 im.thumbnail((new_width, new_height))
@@ -329,7 +330,7 @@ class ResidentialComplex(models.Model):
                 # im.thumbnail((size['width'], size['height']))  # создаем миниатюру указанной ширины и высоты (важно - im.thumbnail сохраняет пропорции изображения!)
                 thumbname = filename + "_" + str(new_width) + "x" + str(
                     new_height) + '.' + extension  # имя нового изображения в формате oldname_60x60.jpg
-                im.save(fullpath + os.sep + thumbname)  # сохраняем полученную миниатюру
+                im.save(fullpath + os.sep + thumbname, 'JPEG', optimize=True, quality=60)  # сохраняем полученную миниатюру
                 self.main_image_thumb = some_model_thumb_name(self, thumbname)  # записываем путь к ней в поле image_thumb в модели
                 super(ResidentialComplex, self).save(*args, **kwargs)
         else:
