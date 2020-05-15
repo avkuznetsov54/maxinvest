@@ -49,7 +49,7 @@
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide>
             <div class="card-wrap-image" @click="openCard">
-              <img class="card-image" :src="resComplex.main_image" />
+              <img class="card-image" :src="resComplex.main_image_thumb" />
               <!--              <div class="swiper-lazy-preloader"></div>-->
             </div>
           </swiper-slide>

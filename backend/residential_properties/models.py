@@ -1,4 +1,5 @@
 import os
+from django.core.exceptions import ValidationError as DjangoValidationError
 
 from django.db import models
 
@@ -22,8 +23,11 @@ def generate_url_for_image(instance, filename):
 
 
 def some_model_thumb_name(instance, filename):
-    original_image_path = str(instance.main_image).rsplit('/', 1)[0]
-    return os.path.join(original_image_path, filename)
+    now = datetime.datetime.now()
+    # original_image_path = str(instance.main_image).rsplit('/', 1)[0]
+    # return os.path.join(original_image_path, filename)
+    url = '/media/images/realestate/%s/%s/%s/%s' % (now.year, now.month, now.day, filename)
+    return url
 
 
 # # ф-ция генерит путь для загружаемого изображения и планировок
@@ -304,18 +308,27 @@ class ResidentialComplex(models.Model):
 
     def save(self, *args, **kwargs):
         if self.main_image.url != self.__original_main_image:
-            size = {'height': 60, 'width': 60}
+
+            # size = {'height': 200, 'width': 320}
+
             super(ResidentialComplex, self).save(*args, **kwargs)
             extension = str(self.main_image.path).rsplit('.', 1)[1]  # получаем расширение загруженного файла
-            filename = str(self.main_image.path).rsplit(os.sep, 1)[1].rsplit('.', 1)[
-                0]  # получаем имя загруженного файла (без пути к нему и расширения)
+            filename = str(self.main_image.path).rsplit(os.sep, 1)[1].rsplit('.', 1)[0]  # получаем имя загруженного файла (без пути к нему и расширения)
             fullpath = str(self.main_image.path).rsplit(os.sep, 1)[0]  # получаем путь к файлу (без имени и расширения)
 
             if extension in ['jpg', 'jpeg', 'png']:  # если расширение входит в разрешенный список
                 im = Image.open(str(self.main_image.path))  # открываем изображение
-                im.thumbnail((size['width'], size['height']))  # создаем миниатюру указанной ширины и высоты (важно - im.thumbnail сохраняет пропорции изображения!)
-                thumbname = filename + "_" + str(size['width']) + "x" + str(
-                    size['height']) + '.' + extension  # имя нового изображения в формате oldname_60x60.jpg
+
+                (width, height) = im.size  # получаем width и height загружаемой картинки
+                print('width:', width)
+                print('height:', height)
+                new_height = 300  # Высота
+                new_width = int(new_height * width / height)
+                im.thumbnail((new_width, new_height))
+
+                # im.thumbnail((size['width'], size['height']))  # создаем миниатюру указанной ширины и высоты (важно - im.thumbnail сохраняет пропорции изображения!)
+                thumbname = filename + "_" + str(new_width) + "x" + str(
+                    new_height) + '.' + extension  # имя нового изображения в формате oldname_60x60.jpg
                 im.save(fullpath + os.sep + thumbname)  # сохраняем полученную миниатюру
                 self.main_image_thumb = some_model_thumb_name(self, thumbname)  # записываем путь к ней в поле image_thumb в модели
                 super(ResidentialComplex, self).save(*args, **kwargs)
