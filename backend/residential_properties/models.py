@@ -13,7 +13,7 @@ from geo_location.models import Region, City, District
 
 # !!!!
 def generate_url_for_image(self, filename):
-    print(self.name)
+    # print(self.name)
     ext = filename.split('.')[-1]
     name = filename.split('.')[0]
     filename = "%s.%s" % (slugify(self.name, to_lower=True), ext)
@@ -314,24 +314,49 @@ class ResidentialComplex(models.Model):
 
             super(ResidentialComplex, self).save(*args, **kwargs)
             extension = str(self.main_image.path).rsplit('.', 1)[1]  # получаем расширение загруженного файла
-            filename = str(self.main_image.path).rsplit(os.sep, 1)[1].rsplit('.', 1)[0]  # получаем имя загруженного файла (без пути к нему и расширения)
-            fullpath = str(self.main_image.path).rsplit(os.sep, 1)[0]  # получаем путь к файлу (без имени и расширения)
+            # получаем имя загруженного файла (без пути к нему и расширения)
+            filename = str(self.main_image.path).rsplit(os.sep, 1)[1].rsplit('.', 1)[0]
+            # получаем путь к файлу (без имени и расширения)
+            fullpath = str(self.main_image.path).rsplit(os.sep, 1)[0]
+            print(str(self.main_image.path))
 
             if extension in ['jpg', 'jpeg', 'png']:  # если расширение входит в разрешенный список
                 im = Image.open(str(self.main_image.path))  # открываем изображение
 
+                # Это необходимо для сохранения вашего изображения в формате JPEG.
+                if im.mode != 'RGB':
+                    im = im.convert('RGB')
+
                 (width, height) = im.size  # получаем width и height загружаемой картинки
                 # print('width:', width)
                 # print('height:', height)
-                new_height = 300  # Высота
-                new_width = int(new_height * width / height)
-                im.thumbnail((new_width, new_height))
 
-                # im.thumbnail((size['width'], size['height']))  # создаем миниатюру указанной ширины и высоты (важно - im.thumbnail сохраняет пропорции изображения!)
-                thumbname = filename + "_" + str(new_width) + "x" + str(
-                    new_height) + '.' + extension  # имя нового изображения в формате oldname_60x60.jpg
-                im.save(fullpath + os.sep + thumbname, 'JPEG', optimize=True, quality=60)  # сохраняем полученную миниатюру
-                self.main_image_thumb = some_model_thumb_name(self, thumbname)  # записываем путь к ней в поле image_thumb в модели
+                # Обработываем main_image
+                new_height_main_image = 500
+                new_width_main_image = int(new_height_main_image * width / height)
+                im.thumbnail((new_width_main_image, new_height_main_image))
+                resize_main_image = filename + "_" + str(new_width_main_image) + "x" + str(new_height_main_image) + '.' + extension
+                im.save(fullpath + os.sep + resize_main_image, 'JPEG', optimize=True, quality=60)
+                self.main_image = some_model_thumb_name(self, resize_main_image)
+
+                # Обработываем main_image_thumb
+                new_height_thumb = 300  # Высота
+                # Изменение высоты изображения, пропорционально обновляем и ширину
+                new_width_thumb = int(new_height_thumb * width / height)
+                im.thumbnail((new_width_thumb, new_height_thumb))
+
+                # создаем миниатюру указанной ширины и высоты (важно - im.thumbnail сохраняет пропорции изображения!)
+                # im.thumbnail((size['width'], size['height']))
+
+                # имя нового изображения в формате oldname_60x60.jpg
+                thumbname = filename + "_" + str(new_width_thumb) + "x" + str(new_height_thumb) + '.' + extension
+
+                # сохраняем полученную миниатюру
+                im.save(fullpath + os.sep + thumbname, 'JPEG', optimize=True, quality=60)
+
+                # записываем путь к ней в поле image_thumb в модели
+                self.main_image_thumb = some_model_thumb_name(self, thumbname)
+
                 super(ResidentialComplex, self).save(*args, **kwargs)
         else:
             super(ResidentialComplex, self).save(*args, **kwargs)
