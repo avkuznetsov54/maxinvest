@@ -1,16 +1,37 @@
+import os
+
 from django.db import models
 
 import datetime
+from slugify import slugify     # тут используется awesome-slugify
+from PIL import Image           # для обработки изображения нам нужен pillow
 
+from project import settings
 from geo_location.models import Region, City, District
 
 
-# ф-ция генерит путь для загружаемого изображения и планировок
-def generate_url_for_image(self, filename):
+# !!!!
+def generate_url_for_image(instance, filename):
+    ext = filename.split('.')[-1]
+    name = filename.split('.')[0]
+    filename = "%s.%s" % (slugify(name, to_lower=True), ext)
     now = datetime.datetime.now()
     url = 'images/realestate/%s/%s/%s/%s%s%s-%s-%s' % (now.year, now.month, now.day,
                                                        now.hour, now.minute, now.second, now.microsecond, filename)
     return url
+
+
+def some_model_thumb_name(instance, filename):
+    original_image_path = str(instance.main_image).rsplit('/', 1)[0]
+    return os.path.join(original_image_path, filename)
+
+
+# # ф-ция генерит путь для загружаемого изображения и планировок
+# def generate_url_for_image(self, filename):
+#     now = datetime.datetime.now()
+#     url = 'images/realestate/%s/%s/%s/%s%s%s-%s-%s' % (now.year, now.month, now.day,
+#                                                        now.hour, now.minute, now.second, now.microsecond, filename)
+#     return url
 
 
 # ф-ция генерит путь для загружаемого логотипа застройщика
@@ -232,6 +253,7 @@ class ResidentialComplex(models.Model):
                                   blank=True,
                                   verbose_name="Главное изображение ЖК")
     alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
+    main_image_thumb = models.CharField('Thumbnail image', max_length=255, blank=True)
 
     longitude = models.FloatField(null=True, blank=True, verbose_name='Долгота')
     latitude = models.FloatField(null=True, blank=True, verbose_name='Широта')
@@ -267,8 +289,38 @@ class ResidentialComplex(models.Model):
                                               blank=True)
     is_visible_video = models.BooleanField(default=False, verbose_name='Показывать видео')
 
+    # создание миниатюр для "Главное изображение ЖК" будет происходить каждый раз при сохранении модели.
+    # Постараемся с этим побороться, добавив в модель следующий метод:
+    def __init__(self, *args, **kwargs):
+        super(ResidentialComplex, self).__init__(*args, **kwargs)
+        self.__original_main_image = self.main_image.url
+
     def __str__(self):
         return self.name
+
+    # Путь до миниатюры "Главное изображение ЖК"
+    def get_thumb_main_image_url(self):
+        return settings.MEDIA_URL + self.main_image_thumb
+
+    def save(self, *args, **kwargs):
+        if self.main_image.url != self.__original_main_image:
+            size = {'height': 60, 'width': 60}
+            super(ResidentialComplex, self).save(*args, **kwargs)
+            extension = str(self.main_image.path).rsplit('.', 1)[1]  # получаем расширение загруженного файла
+            filename = str(self.main_image.path).rsplit(os.sep, 1)[1].rsplit('.', 1)[
+                0]  # получаем имя загруженного файла (без пути к нему и расширения)
+            fullpath = str(self.main_image.path).rsplit(os.sep, 1)[0]  # получаем путь к файлу (без имени и расширения)
+
+            if extension in ['jpg', 'jpeg', 'png']:  # если расширение входит в разрешенный список
+                im = Image.open(str(self.main_image.path))  # открываем изображение
+                im.thumbnail((size['width'], size['height']))  # создаем миниатюру указанной ширины и высоты (важно - im.thumbnail сохраняет пропорции изображения!)
+                thumbname = filename + "_" + str(size['width']) + "x" + str(
+                    size['height']) + '.' + extension  # имя нового изображения в формате oldname_60x60.jpg
+                im.save(fullpath + os.sep + thumbname)  # сохраняем полученную миниатюру
+                self.main_image_thumb = some_model_thumb_name(self, thumbname)  # записываем путь к ней в поле image_thumb в модели
+                super(ResidentialComplex, self).save(*args, **kwargs)
+        else:
+            super(ResidentialComplex, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Жилой Комплекс'

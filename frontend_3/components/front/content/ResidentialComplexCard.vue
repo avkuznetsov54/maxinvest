@@ -166,16 +166,19 @@ export default {
   border-radius: 26px;
   width: 38px;
   height: 38px;
-  opacity: 0.55;
+  opacity: 0.5;
   &:hover {
     background-color: #fff !important;
     opacity: 0.85;
   }
 }
-.swiper-pagination:hover ~ .swiper-button-prev,
-.swiper-pagination:hover ~ .swiper-button-next,
-.swiper-wrapper:hover ~ .swiper-button-prev,
-.swiper-wrapper:hover ~ .swiper-button-next {
+.card:hover ~ .swiper-button-prev,
+.card:hover ~ .swiper-button-next
+/*.swiper-pagination:hover ~ .swiper-button-prev,*/
+/*.swiper-pagination:hover ~ .swiper-button-next,*/
+/*.swiper-wrapper:hover ~ .swiper-button-prev,*/
+/*.swiper-wrapper:hover ~ .swiper-button-next */
+ {
   opacity: 0.85;
 }
 .swiper-button-disabled {

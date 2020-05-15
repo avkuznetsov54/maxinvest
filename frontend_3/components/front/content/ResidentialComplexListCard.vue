@@ -18,7 +18,7 @@
 <script>
 import AppResidentialComplexCard from '@/components/front/content/ResidentialComplexCard'
 export default {
-  name: 'ResidentialComplexListCard',
+  name: 'ResidentialComplexListCar2',
   components: {
     AppResidentialComplexCard
   },
