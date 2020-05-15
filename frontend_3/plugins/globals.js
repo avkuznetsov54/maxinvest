@@ -17,7 +17,7 @@ Vue.use(VueAwesomeSwiper /* { default options with global component } */)
 //   preLoad: 1.3,
 //   error: 'https://via.placeholder.com/300',
 //   // eslint-disable-next-line
-//   loading: require(`${'~~/assets/svg/download.svg'}`),
+//   loading: require(`${'@/assets/svg/download.svg'}`),
 //   attempt: 3,
 //   lazyComponent: true,
 //   observer: true,

@@ -9,47 +9,65 @@
 
       <div v-if="resComplex.images_residential_complex.length === 0">
         <div class="card-wrap-image" @click="openCard">
-          <img
-            v-lazy-load
-            class="card-image"
-            :data-src="resComplex.main_image"
-            :alt="resComplex.name"
-          />
+          <img class="card-image" :src="resComplex.main_image" />
         </div>
       </div>
 
       <div v-else>
-        <div v-swiper:mySwiper="swiperOption">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="card-wrap-image" @click="openCard">
-                <img
-                  v-lazy-load
-                  class="card-image"
-                  :data-src="resComplex.main_image"
-                  :alt="resComplex.name"
-                />
-              </div>
+        <!--        <div v-swiper:mySwiper="swiperOption">-->
+        <!--          <div class="swiper-wrapper">-->
+        <!--            <div class="swiper-slide">-->
+        <!--              <div class="card-wrap-image" @click="openCard">-->
+        <!--                <img-->
+        <!--                  v-lazy-load-->
+        <!--                  class="card-image"-->
+        <!--                  :data-src="resComplex.main_image"-->
+        <!--                  :alt="resComplex.name"-->
+        <!--                />-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--            <div-->
+        <!--              v-for="img in resComplex.images_residential_complex"-->
+        <!--              :key="img.id"-->
+        <!--              class="swiper-slide"-->
+        <!--            >-->
+        <!--              <div class="card-wrap-image" @click="openCard">-->
+        <!--                <img-->
+        <!--                  v-lazy-load-->
+        <!--                  class="card-image"-->
+        <!--                  :data-src="img.image"-->
+        <!--                  :alt="img.alt_attr"-->
+        <!--                />-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <div class="swiper-pagination"></div>-->
+        <!--          <div class="swiper-button-prev"></div>-->
+        <!--          <div class="swiper-button-next"></div>-->
+        <!--        </div>-->
+
+        <swiper class="swiper" :options="swiperOption">
+          <swiper-slide>
+            <div class="card-wrap-image" @click="openCard">
+              <img class="card-image" :src="resComplex.main_image" />
+              <!--              <div class="swiper-lazy-preloader"></div>-->
             </div>
-            <div
-              v-for="img in resComplex.images_residential_complex"
-              :key="img.id"
-              class="swiper-slide"
-            >
-              <div class="card-wrap-image" @click="openCard">
-                <img
-                  v-lazy-load
-                  class="card-image"
-                  :data-src="img.image"
-                  :alt="img.alt_attr"
-                />
-              </div>
+          </swiper-slide>
+
+          <swiper-slide
+            v-for="img in resComplex.images_residential_complex"
+            :key="img.id"
+          >
+            <div class="card-wrap-image" @click="openCard">
+              <img class="card-image" :src="img.image" />
+              <!--              <div class="swiper-lazy-preloader"></div>-->
             </div>
-          </div>
-          <div class="swiper-pagination"></div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+          </swiper-slide>
+
+          <div slot="pagination" class="swiper-pagination"></div>
+          <div slot="button-prev" class="swiper-button-prev"></div>
+          <div slot="button-next" class="swiper-button-next"></div>
+        </swiper>
       </div>
     </div>
     <div class="card-content" @click="openCard">
@@ -66,13 +84,18 @@
 </template>
 
 <script>
-import { directive } from 'vue-awesome-swiper'
+// import { directive } from 'vue-awesome-swiper'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+
 export default {
   name: 'ResidentialComplexCard',
-  components: {},
-  directives: {
-    swiper: directive
+  components: {
+    Swiper,
+    SwiperSlide
   },
+  // directives: {
+  //   swiper: directive
+  // },
   props: {
     resComplex: {
       type: Object,
