@@ -318,7 +318,7 @@ class ResidentialComplex(models.Model):
             filename = str(self.main_image.path).rsplit(os.sep, 1)[1].rsplit('.', 1)[0]
             # получаем путь к файлу (без имени и расширения)
             fullpath = str(self.main_image.path).rsplit(os.sep, 1)[0]
-            print(str(self.main_image.path))
+            # print(str(self.main_image.path))
 
             if extension in ['jpg', 'jpeg', 'png']:  # если расширение входит в разрешенный список
                 im = Image.open(str(self.main_image.path))  # открываем изображение
@@ -357,14 +357,20 @@ class ResidentialComplex(models.Model):
                 # записываем путь к ней в поле image_thumb в модели
                 self.main_image_thumb = some_model_thumb_name(self, thumbname)
 
+                # Удаляем оригинал картинки
+                print(fullpath + filename + '.' + extension)
+                if os.path.exists(str(fullpath + '/' + filename + '.' + extension)):
+                    os.remove(str(fullpath + '/' + filename + '.' + extension))
+
                 super(ResidentialComplex, self).save(*args, **kwargs)
+
         else:
             super(ResidentialComplex, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Жилой Комплекс'
         verbose_name_plural = 'Жилые Комплексы'
-        ordering = ['name']
+        ordering = ['id']
 
 
 class ResidentialPremise(models.Model):

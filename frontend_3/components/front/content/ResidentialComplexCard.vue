@@ -9,7 +9,7 @@
 
       <div v-if="resComplex.images_residential_complex.length === 0">
         <div class="card-wrap-image" @click="openCard">
-          <img class="card-image" :src="resComplex.main_image" />
+          <img class="card-image" :src="resComplex.main_image_thumb" />
         </div>
       </div>
 
