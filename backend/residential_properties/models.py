@@ -14,21 +14,38 @@ from geo_location.models import Region, City, District
 
 # ф-ция генерит путь для загружаемого изображения и планировок
 def generate_url_for_image(self, filename):
-    # print(self.name)
+
+    # проверяет в какой model была фызвана ф-ция, и бирёт нужный атрибут для имени файла
+    if hasattr(self, 'name'):
+        name_file = self.name
+    elif hasattr(self, 'residential_complex'):
+        name_file = self.residential_complex.name
+    else:
+        name_file = 'file_without_name'
+
     ext = filename.split('.')[-1]
     name = filename.split('.')[0]
-    filename = "%s.%s" % (slugify(self.name, to_lower=True), ext)
+    filename = "%s.%s" % (slugify(name_file, to_lower=True), ext)
     now = datetime.datetime.now()
     url = 'images/realestate/%s/%s/%s/%s%s%s-%s-%s' % (now.year, now.month, now.day,
                                                        now.hour, now.minute, now.second, now.microsecond, filename)
     return url
 
 
+# # ф-ция генерит путь для загружаемого изображения модели ImagesResidentialComplex
+# def generate_url_for_imagerescomlex(self, filename):
+#     ext = filename.split('.')[-1]
+#     name = filename.split('.')[0]
+#     filename = "%s.%s" % (slugify(self.residential_complex.name, to_lower=True), ext)
+#     now = datetime.datetime.now()
+#     url = 'images/realestate/%s/%s/%s/%s%s%s-%s-%s' % (now.year, now.month, now.day,
+#                                                        now.hour, now.minute, now.second, now.microsecond, filename)
+#     return url
+
+
 # ф-ция генерит путь для thumbnail image
 def some_model_thumb_name(instance, filename):
     now = datetime.datetime.now()
-    # original_image_path = str(instance.main_image).rsplit('/', 1)[0]
-    # return os.path.join(original_image_path, filename)
     url = '/media/images/realestate/%s/%s/%s/%s' % (now.year, now.month, now.day, filename)
     return url
 
@@ -454,75 +471,80 @@ class ImagesResidentialComplex(models.Model):
                                             related_name='images_residential_complex',
                                             on_delete=models.CASCADE)
 
-    # def __init__(self, *args, **kwargs):
-    #     super(ImagesResidentialComplex, self).__init__(*args, **kwargs)
-    #     self.__original_image = self.image.url
+    def __init__(self, *args, **kwargs):
+        super(ImagesResidentialComplex, self).__init__(*args, **kwargs)
+        if self.image:
+            self.__original_image = self.image.url
+            self.__old_image = self.image.url
+            self.__old_image_thumb = self.image_thumb
+
+        else:
+            self.__original_image = ''
+            self.__old_image = ''
+            self.__old_image_thumb = ''
 
     def __str__(self):
         return f'{self.id}'
 
-    # def get_thumb_image_url(self):
-    #     return settings.MEDIA_URL + self.image_thumb
+    def get_thumb_image_url(self):
+        return settings.MEDIA_URL + self.image_thumb
 
-    # def save(self, *args, **kwargs):
-    #     if self.image.url != self.__original_image:
-    #
-    #         # size = {'height': 200, 'width': 320}
-    #
-    #         super(ImagesResidentialComplex, self).save(*args, **kwargs)
-    #         extension = str(self.image.path).rsplit('.', 1)[1]  # получаем расширение загруженного файла
-    #         # получаем имя загруженного файла (без пути к нему и расширения)
-    #         filename = str(self.image.path).rsplit(os.sep, 1)[1].rsplit('.', 1)[0]
-    #         # получаем путь к файлу (без имени и расширения)
-    #         fullpath = str(self.image.path).rsplit(os.sep, 1)[0]
-    #         # print(str(self.main_image.path))
-    #
-    #         if extension in ['jpg', 'jpeg', 'png']:  # если расширение входит в разрешенный список
-    #             im = Image.open(str(self.image.path))  # открываем изображение
-    #
-    #             # Это необходимо для сохранения вашего изображения в формате JPEG.
-    #             if im.mode != 'RGB':
-    #                 im = im.convert('RGB')
-    #
-    #             (width, height) = im.size  # получаем width и height загружаемой картинки
-    #             # print('width:', width)
-    #             # print('height:', height)
-    #
-    #             # Обработываем main_image
-    #             new_height_image = 500
-    #             new_width_image = int(new_height_image * width / height)
-    #             im.thumbnail((new_width_image, new_height_image))
-    #             resize_image = filename + "_" + str(new_width_image) + "x" + str(new_height_image) + '.' + extension
-    #             im.save(fullpath + os.sep + resize_image, 'JPEG', optimize=True, quality=60)
-    #             self.image = some_model_thumb_name(self, resize_image)
-    #
-    #             # Обработываем main_image_thumb
-    #             new_height_thumb = 300  # Высота
-    #             # Изменение высоты изображения, пропорционально обновляем и ширину
-    #             new_width_thumb = int(new_height_thumb * width / height)
-    #             im.thumbnail((new_width_thumb, new_height_thumb))
-    #
-    #             # создаем миниатюру указанной ширины и высоты (важно - im.thumbnail сохраняет пропорции изображения!)
-    #             # im.thumbnail((size['width'], size['height']))
-    #
-    #             # имя нового изображения в формате oldname_60x60.jpg
-    #             thumbname = filename + "_" + str(new_width_thumb) + "x" + str(new_height_thumb) + '.' + extension
-    #
-    #             # сохраняем полученную миниатюру
-    #             im.save(fullpath + os.sep + thumbname, 'JPEG', optimize=True, quality=60)
-    #
-    #             # записываем путь к ней в поле image_thumb в модели
-    #             self.image_thumb = some_model_thumb_name(self, thumbname)
-    #
-    #             # Удаляем оригинал картинки
-    #             # print(fullpath + filename + '.' + extension)
-    #             if os.path.exists(str(fullpath + '/' + filename + '.' + extension)):
-    #                 os.remove(str(fullpath + '/' + filename + '.' + extension))
-    #
-    #             super(ImagesResidentialComplex, self).save(*args, **kwargs)
-    #
-    #     else:
-    #         super(ImagesResidentialComplex, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+
+        if self.image.url != self.__original_image:
+
+            # size = {'height': 200, 'width': 320}
+
+            super(ImagesResidentialComplex, self).save(*args, **kwargs)
+            extension = str(self.image.path).rsplit('.', 1)[1]  # получаем расширение загруженного файла
+            # получаем имя загруженного файла (без пути к нему и расширения)
+            filename = str(self.image.path).rsplit(os.sep, 1)[1].rsplit('.', 1)[0]
+            # получаем путь к файлу (без имени и расширения)
+            fullpath = str(self.image.path).rsplit(os.sep, 1)[0]
+            # print(str(self.main_image.path))
+
+            if extension in ['jpg', 'jpeg', 'png']:  # если расширение входит в разрешенный список
+                im = Image.open(str(self.image.path))  # открываем изображение
+
+                if im.mode != 'RGB':
+                    im = im.convert('RGB')
+
+                (width, height) = im.size  # получаем width и height загружаемой картинки
+
+                # Обработываем main_image
+                new_height_image = 500
+                new_width_image = int(new_height_image * width / height)
+                im.thumbnail((new_width_image, new_height_image))
+                resize_image = filename + "_" + str(new_width_image) + "x" + str(
+                    new_height_image) + '.' + extension
+                im.save(fullpath + os.sep + resize_image, 'JPEG', optimize=True, quality=60)
+                self.image = some_model_thumb_name(self, resize_image)
+
+                new_height_thumb = 300  # Высота
+                new_width_thumb = int(new_height_thumb * width / height)
+                im.thumbnail((new_width_thumb, new_height_thumb))
+                thumbname = filename + "_" + str(new_width_thumb) + "x" + str(new_height_thumb) + '.' + extension
+                im.save(fullpath + os.sep + thumbname, 'JPEG', optimize=True, quality=60)
+
+                self.image_thumb = some_model_thumb_name(self, thumbname)
+
+                if os.path.exists(str(fullpath + '/' + filename + '.' + extension)):
+                    os.remove(str(fullpath + '/' + filename + '.' + extension))
+
+                if self.__old_image != '':
+                    name = str(self.__old_image).rsplit('/', 1)[1]
+                    if os.path.exists(str(fullpath + '/' + name)):
+                        os.remove(str(fullpath + '/' + name))
+
+                if self.__old_image_thumb != '':
+                    name = str(self.__old_image_thumb).rsplit('/', 1)[1]
+                    if os.path.exists(str(fullpath + '/' + name)):
+                        os.remove(str(fullpath + '/' + name))
+
+                super(ImagesResidentialComplex, self).save(*args, **kwargs)
+
+        else:
+            super(ImagesResidentialComplex, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Изображение Жилого Комплекса"

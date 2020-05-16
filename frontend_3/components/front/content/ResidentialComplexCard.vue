@@ -59,7 +59,7 @@
             :key="img.id"
           >
             <div class="card-wrap-image" @click="openCard">
-              <img class="card-image" :src="img.image" />
+              <img class="card-image" :src="img.image_thumb" />
               <!--              <div class="swiper-lazy-preloader"></div>-->
             </div>
           </swiper-slide>
