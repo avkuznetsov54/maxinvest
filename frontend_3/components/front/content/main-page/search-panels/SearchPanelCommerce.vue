@@ -1,12 +1,89 @@
 <template>
-  <div class="container">
-    <Row>
-      <i-col :xs="24" :sm="8" :md="6" :lg="4">
-        <div class="desktop-filter-titles">
-          <span>Город</span>
-        </div>
-        <div>
-          <Select v-model="changeCities" multiple max-tag-count="0">
+  <!--
+  <Row>
+    <i-col :xs="24" :sm="8" :md="6" :lg="5">
+      <div class="desktop-filter-titles">
+        <span>Город</span>
+      </div>
+      <div>
+        <Select
+          v-model="changeCities"
+          multiple
+          :max-tag-count="maxTagCountCities"
+        >
+          <Option
+            v-for="item in cityList"
+            :key="item.value"
+            :value="item.value"
+            >{{ item.label }}</Option
+          >
+        </Select>
+      </div>
+    </i-col>
+    <i-col :xs="24" :sm="8" :md="6" :lg="5">
+      <div class="desktop-filter-titles">
+        <span>Стоимость, руб.</span>
+      </div>
+      <div>
+        <Input v-model="minCost" placeholder="От" clearable />
+        <Input v-model="maxCost" placeholder="До" clearable />
+      </div>
+    </i-col>
+    <i-col :xs="24" :sm="8" :md="6" :lg="5">
+      <div class="desktop-filter-titles">
+        <span>Площадь, кв.м.</span>
+      </div>
+      <div>
+        <Input v-model="minSquare" placeholder="От" clearable />
+        <Input v-model="maxSquare" placeholder="До" clearable />
+      </div>
+    </i-col>
+    <i-col :xs="24" :sm="8" :md="6" :lg="4">
+      <div class="desktop-filter-titles">
+        <span>Район</span>
+      </div>
+      <div>
+        <Select v-model="changeDistrict" multiple>
+          <Option
+            v-for="item in districtList"
+            :key="item.value"
+            :value="item.value"
+            >{{ item.label }}</Option
+          >
+        </Select>
+      </div>
+    </i-col>
+    <i-col :xs="24" :sm="8" :md="6" :lg="4">
+      <div class="desktop-filter-titles">
+        <span>Жилой комплекс</span>
+      </div>
+      <div>
+        <Select
+          v-model="changeResComplex"
+          multiple
+          filterable
+          :max-tag-count="maxTagCount"
+        >
+          <Option
+            v-for="item in resComplexList"
+            :key="item.value"
+            :value="item.value"
+            >{{ item.label }}</Option
+          >
+        </Select>
+      </div>
+    </i-col>
+  </Row>
+  -->
+  <Row>
+    <Form :model="formTop" label-position="top">
+      <i-col :xs="24" :sm="8" :md="6" :lg="5">
+        <FormItem label="Город">
+          <Select
+            v-model="changeCities"
+            multiple
+            :max-tag-count="maxTagCountCities"
+          >
             <Option
               v-for="item in cityList"
               :key="item.value"
@@ -14,32 +91,31 @@
               >{{ item.label }}</Option
             >
           </Select>
-        </div>
+        </FormItem>
       </i-col>
       <i-col :xs="24" :sm="8" :md="6" :lg="5">
-        <div class="desktop-filter-titles">
-          <span>Стоимость, руб.</span>
-        </div>
-        <div>
-          <Input v-model="minCost" placeholder="От" clearable />
-          <Input v-model="maxCost" placeholder="До" clearable />
-        </div>
+        <FormItem label="Стоимость, руб.">
+          <div>
+            <Input v-model="minCost" placeholder="От" clearable />
+            <Input v-model="maxCost" placeholder="До" clearable />
+          </div>
+        </FormItem>
       </i-col>
       <i-col :xs="24" :sm="8" :md="6" :lg="5">
-        <div class="desktop-filter-titles">
-          <span>Площадь, кв.м.</span>
-        </div>
-        <div>
-          <Input v-model="minSquare" placeholder="От" clearable />
-          <Input v-model="maxSquare" placeholder="До" clearable />
-        </div>
+        <FormItem label="Площадь, кв.м.">
+          <div>
+            <Input v-model="minSquare" placeholder="От" clearable />
+            <Input v-model="maxSquare" placeholder="До" clearable />
+          </div>
+        </FormItem>
       </i-col>
-      <i-col :xs="24" :sm="8" :md="6" :lg="4">
-        <div class="desktop-filter-titles">
-          <span>Район</span>
-        </div>
-        <div>
-          <Select v-model="changeDistrict" multiple>
+      <i-col :xs="24" :sm="8" :md="6" :lg="5">
+        <FormItem label="Район">
+          <Select
+            v-model="changeDistrict"
+            multiple
+            :max-tag-count="maxTagCountDistrict"
+          >
             <Option
               v-for="item in districtList"
               :key="item.value"
@@ -47,18 +123,15 @@
               >{{ item.label }}</Option
             >
           </Select>
-        </div>
+        </FormItem>
       </i-col>
       <i-col :xs="24" :sm="8" :md="6" :lg="4">
-        <div class="desktop-filter-titles">
-          <span>Жилой комплекс</span>
-        </div>
-        <div>
+        <FormItem label="Жилой комплекс">
           <Select
             v-model="changeResComplex"
             multiple
             filterable
-            max-tag-count="1"
+            :max-tag-count="maxTagCount"
           >
             <Option
               v-for="item in resComplexList"
@@ -67,17 +140,21 @@
               >{{ item.label }}</Option
             >
           </Select>
-        </div>
+        </FormItem>
       </i-col>
-    </Row>
-  </div>
+    </Form>
+  </Row>
 </template>
 
 <script>
 export default {
   name: 'SearchPanelCommerce',
+
   data() {
     return {
+      maxTagCount: 0,
+      maxTagCountCities: 1,
+      maxTagCountDistrict: 1,
       cityList: [
         {
           value: 'Новосибирск',
