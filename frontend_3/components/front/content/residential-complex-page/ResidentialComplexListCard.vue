@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import AppResidentialComplexCard from '@/components/front/content/ResidentialComplexCard'
+import AppResidentialComplexCard from '@/components/front/content/residential-complex-page/ResidentialComplexCard'
 export default {
   name: 'ResidentialComplexListCar2',
   components: {

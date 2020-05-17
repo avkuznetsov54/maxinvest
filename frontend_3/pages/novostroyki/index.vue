@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import AppResidentialComplexListCard from '@/components/front/content/ResidentialComplexListCard'
+import AppResidentialComplexListCard from '@/components/front/content/residential-complex-page/ResidentialComplexListCard'
 
 export default {
   components: {

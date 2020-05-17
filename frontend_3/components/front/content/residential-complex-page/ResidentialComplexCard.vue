@@ -71,14 +71,16 @@
       </div>
     </div>
     <div class="card-content" @click="openCard">
-      <nuxt-link to="openCard">{{ resComplex.name }}</nuxt-link>
-      <!--      <span>{{ resComplex.name }}</span>-->
-      <!--      <div class="bottom clearfix">-->
-      <!--        <time class="time">{{ currentDate }}</time>-->
-      <!--      </div>-->
-      <small>{{ resComplex.city }}</small>
-      <small>{{ resComplex.district }}</small>
-      <small>{{ resComplex.address }}</small>
+      <div class="card-content-title">
+        <p>{{ resComplex.name }}</p>
+      </div>
+      <div class="card-content-address">
+        <span>{{ resComplex.city }},</span>
+        <span>{{ resComplex.district }},</span>
+        <span>{{ resComplex.address }}</span>
+      </div>
+
+      <small>Срок сдачи: {{ resComplex.house_completed ? 'Сдан' : '' }}</small>
     </div>
   </div>
 </template>
@@ -129,7 +131,7 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-  height: 300px;
+  height: 400px;
   margin-bottom: 16px;
   border: 1px solid #eaeaea;
   border-radius: 5px;
@@ -162,33 +164,47 @@ export default {
 }
 .swiper-button-prev,
 .swiper-button-next {
-  background-color: #fff !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
   border-radius: 26px;
-  width: 38px;
-  height: 38px;
-  opacity: 0.5;
+  width: 32px;
+  height: 32px;
+  opacity: 0;
   &:hover {
-    background-color: #fff !important;
-    opacity: 0.85;
+    /*background-color: rgba(0, 0, 0, 0.5) !important;*/
+    /*opacity: 0.85;*/
   }
 }
-.card:hover ~ .swiper-button-prev,
-.card:hover ~ .swiper-button-next
+
 /*.swiper-pagination:hover ~ .swiper-button-prev,*/
 /*.swiper-pagination:hover ~ .swiper-button-next,*/
 /*.swiper-wrapper:hover ~ .swiper-button-prev,*/
 /*.swiper-wrapper:hover ~ .swiper-button-next */
- {
-  opacity: 0.85;
+.card:hover .swiper-button-prev,
+.card:hover .swiper-button-next {
+  opacity: 0.95;
 }
 .swiper-button-disabled {
   display: none;
 }
 .swiper-button-prev:after,
 .swiper-button-next:after {
-  font-size: 18px;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 900;
 }
-
+.swiper-pagination.swiper-pagination-fraction {
+  position: absolute;
+  background: rgba(51, 51, 51, 0.5);
+  border-radius: 4px;
+  text-align: center;
+  min-width: 40px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  left: 15px;
+  bottom: 15px;
+  z-index: 15;
+  width: 15px;
+}
 .card-wrap-image {
   display: flex;
   justify-content: center; /*центрируем элемент по горизонтали */
@@ -220,5 +236,17 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   cursor: pointer;
+}
+.card-content-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.card-content-address {
+  font-size: 14px;
+  line-height: 1.4;
+  span {
+    white-space: nowrap;
+  }
 }
 </style>

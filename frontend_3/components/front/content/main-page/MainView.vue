@@ -1,5 +1,11 @@
 <template>
-  <div class="hero-image"></div>
+  <div class="hero-image">
+    <div class="container">
+      <div class="title text-center">
+        <h1>Все коммерческие помещени на brokernsk.pro</h1>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -16,9 +22,14 @@ export default {
   height: 500px;
   max-height: 600px;
   background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)),
-    url('https://www.restate.ru/attachment/ee9f94fab094a9f3b0dea7d647626f9e992b10f9/proportional/1920x760/sk6.jpg');
+    url('/media/main_bg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  color: #fff;
+}
+.title h1 {
+  font-size: 36px;
+  line-height: 47px;
 }
 </style>
