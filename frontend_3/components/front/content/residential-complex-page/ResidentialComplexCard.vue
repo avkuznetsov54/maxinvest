@@ -138,6 +138,7 @@ export default {
   overflow: hidden;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.07);
   transition: box-shadow 0.3s ease-in-out;
+  background: #fff;
   &:hover {
     box-shadow: 0 6px 9px rgba(36, 38, 41, 0.16);
   }

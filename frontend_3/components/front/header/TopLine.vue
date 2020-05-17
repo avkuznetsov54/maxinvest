@@ -26,4 +26,5 @@ export default {
   align-items: center
   height: 50px
   border-bottom: 1px solid #e6e6e6
+  background: #fff;
 </style>

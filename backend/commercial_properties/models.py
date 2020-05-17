@@ -101,7 +101,10 @@ class RelativeLocation(models.Model):
 
 class CommercialPremises(models.Model):
     """Модель Коммерческого помещения"""
-    is_active = models.BooleanField(default=True, verbose_name='Отображать, Да/Нет')
+    is_active = models.BooleanField(default=True, verbose_name='Отображать')
+
+    is_group_multiple_objs = models.BooleanField(default=False, verbose_name='Сгруппировать несколько объектов',
+                                                 help_text='Если нужно занести несколько помещений в одну карточку.')
 
     use_contacts_fixed_agent = models.BooleanField(default=False,
                                                    verbose_name='Использовать контакты Закреплённого(-ых) агента(-ов)')
@@ -162,13 +165,11 @@ class CommercialPremises(models.Model):
                                             null=True,
                                             blank=True)
 
-    READY_CHOICES = (
-        ('building', 'Строящее'),
-        ('finished', 'Готовое')
-    )
+    building_commercial_premise = models.BooleanField(default=False, verbose_name='Строящее',
+                                                      help_text='Находиться в процессе строительства.')
 
-    ready_commercial_premise = models.CharField(choices=READY_CHOICES, max_length=25, db_index=True, blank=True,
-                                                verbose_name='Готовность помещения')
+    finished_commercial_premise = models.BooleanField(default=False, verbose_name='Готовое',
+                                                      help_text='Построенное помещение.')
 
     purpose_commercial_premise = models.ManyToManyField(PurposeOfCommercialPremise,
                                                         verbose_name='Назначение коммерческого помещения',
@@ -180,8 +181,14 @@ class CommercialPremises(models.Model):
                                                related_name='compremises_businesscategory',
                                                default=None,
                                                blank=True)
-    rent_price = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Стоимость аренды, руб/мес.')
 
+    rent_price_sq_m = models.IntegerField(db_index=True, null=True, blank=True,
+                                          verbose_name='Стоимость аренды, руб/кв.м.')
+    rent_price_month = models.IntegerField(db_index=True, null=True, blank=True,
+                                           verbose_name='Стоимость аренды, руб/мес.')
+
+    cost_of_sale = models.IntegerField(db_index=True, null=True, blank=True,
+                                       verbose_name='Стоймость на продажу')
     min_cost_of_sale = models.IntegerField(db_index=True, null=True, blank=True,
                                            verbose_name='Стоймость на продажу, от')
     max_cost_of_sale = models.IntegerField(db_index=True, null=True, blank=True,
@@ -190,14 +197,16 @@ class CommercialPremises(models.Model):
     min_payback = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Окупаемость от, мес')
     max_payback = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Окупаемость до, мес')
     min_average_rental_rate = models.IntegerField(db_index=True, null=True, blank=True,
-                                                  verbose_name='Средняя арендная ставка, от')
+                                                  verbose_name='Средняя арендная ставка от, руб/кв.м.')
     max_average_rental_rate = models.IntegerField(db_index=True, null=True, blank=True,
-                                                  verbose_name='Средняя арендная ставка, до')
-    possible_income = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Возможный доход')
+                                                  verbose_name='Средняя арендная ставка до, руб/кв.м.')
+    possible_income = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Возможный доход, руб/мес.')
 
     kw = models.FloatField(db_index=True, null=True, blank=True, verbose_name='кВт')
     min_kw = models.FloatField(db_index=True, null=True, blank=True, verbose_name='кВт, от')
     max_kw = models.FloatField(db_index=True, null=True, blank=True, verbose_name='кВт, до')
+    comment_kw = models.CharField(max_length=255, blank=True,
+                                  verbose_name='Комментарий к "кВт"')
 
     communication_systems = models.ManyToManyField(CommunicationSystems,
                                                    verbose_name='Системы коммуникаций',

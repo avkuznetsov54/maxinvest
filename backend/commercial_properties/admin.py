@@ -94,9 +94,11 @@ class CommercialPremisesAdmin(admin.ModelAdmin):
     readonly_fields = ("get_image",)
     fieldsets = (
         (None, {
-            'fields': ('is_active',
-                       ('is_sale', 'is_rent'),
-                       ),
+            'fields': (
+                'is_active',
+                'is_group_multiple_objs',
+                ('is_sale', 'is_rent'),
+            ),
         }),
         (None, {
             'fields': ('use_contacts_fixed_agent',
@@ -116,26 +118,27 @@ class CommercialPremisesAdmin(admin.ModelAdmin):
                        'address',
                        'relative_location',
                        'residential_complex',
-                       'ready_commercial_premise',
+                       'building_commercial_premise',
+                       'finished_commercial_premise',
                        'purpose_commercial_premise',
                        'business_category',
                        ),
         }),
         (None, {
-            'fields': ('rent_price',
-                       'min_cost_of_sale',
-                       'max_cost_of_sale',
-                       'min_payback',
-                       'max_payback',
-                       'min_average_rental_rate',
-                       'max_average_rental_rate',
-                       'possible_income',
-                       ),
+            'fields': (
+                ('rent_price_sq_m', 'rent_price_month'),
+                'cost_of_sale',
+                ('min_cost_of_sale', 'max_cost_of_sale'),
+                ('min_payback', 'max_payback'),
+                ('min_average_rental_rate', 'max_average_rental_rate'),
+                'possible_income',
+            ),
         }),
         (None, {
             'fields': ('kw',
                        'min_kw',
                        'max_kw',
+                       'comment_kw',
                        'communication_systems',
                        'cooker_hood',
                        'type_entrance',

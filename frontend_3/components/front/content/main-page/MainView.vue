@@ -2,15 +2,20 @@
   <div class="hero-image">
     <div class="container">
       <div class="title text-center">
-        <h1>Все коммерческие помещени на brokernsk.pro</h1>
+        <h1>Вся коммерческая недвижимость на brokernsk.pro</h1>
       </div>
+      <app-main-search-panel />
     </div>
   </div>
 </template>
 
 <script>
+import AppMainSearchPanel from './MainSearchPanel'
 export default {
-  name: 'MainView'
+  name: 'MainView',
+  components: {
+    AppMainSearchPanel
+  }
 }
 </script>
 
@@ -28,8 +33,27 @@ export default {
   background-size: cover;
   color: #fff;
 }
+.title {
+  font-size: 48px;
+  line-height: 58px;
+  font-weight: 500;
+  color: #fff;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 220px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 36px;
+}
 .title h1 {
-  font-size: 36px;
+  font-size: 48px;
   line-height: 47px;
 }
 </style>
