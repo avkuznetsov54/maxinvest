@@ -45,6 +45,7 @@ export default {
     [
       'nuxt-lazy-load',
       {
+        directiveOnly: true,
         // native: true,
         defaultImage: '/media/download.svg'
         //   defaultImage:

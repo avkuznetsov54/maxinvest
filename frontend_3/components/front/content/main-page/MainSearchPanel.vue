@@ -1,26 +1,26 @@
 <template>
   <Tabs :animated="false" class="search-panel">
-    <TabPane label="Коммерческая" name="name1">
+    <TabPane label="Продажа" name="name1">
       <!--      <div class="desktop-filter-row"></div>-->
-      <app-search-panel-commerce />
+      <app-search-panel-commerce-sale />
     </TabPane>
-    <TabPane label="Новостройки" name="name2">Новостройки тут</TabPane>
+    <TabPane label="Аренда" name="name2">Аренда тут</TabPane>
   </Tabs>
 </template>
 
 <script>
-import AppSearchPanelCommerce from './search-panels/SearchPanelCommerce'
+import AppSearchPanelCommerceSale from './search-panels/SearchPanelCommerceSale'
 export default {
   name: 'MainSearchPanel',
   components: {
-    AppSearchPanelCommerce
+    AppSearchPanelCommerceSale
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .search-panel {
-  height: 200px;
+  min-height: 230px;
   background: #fff;
   padding: 15px;
   margin: 20px auto 0;

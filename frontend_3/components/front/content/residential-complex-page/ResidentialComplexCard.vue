@@ -9,7 +9,11 @@
 
       <div v-if="resComplex.images_residential_complex.length === 0">
         <div class="card-wrap-image" @click="openCard">
-          <img class="card-image" :src="resComplex.main_image_thumb" />
+          <img
+            v-lazy-load
+            class="card-image"
+            :data-src="resComplex.main_image_thumb"
+          />
         </div>
       </div>
 
@@ -49,7 +53,11 @@
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide>
             <div class="card-wrap-image" @click="openCard">
-              <img class="card-image" :src="resComplex.main_image_thumb" />
+              <img
+                v-lazy-load
+                class="card-image"
+                :data-src="resComplex.main_image_thumb"
+              />
               <!--              <div class="swiper-lazy-preloader"></div>-->
             </div>
           </swiper-slide>
@@ -59,7 +67,7 @@
             :key="img.id"
           >
             <div class="card-wrap-image" @click="openCard">
-              <img class="card-image" :src="img.image_thumb" />
+              <img v-lazy-load class="card-image" :data-src="img.image_thumb" />
               <!--              <div class="swiper-lazy-preloader"></div>-->
             </div>
           </swiper-slide>

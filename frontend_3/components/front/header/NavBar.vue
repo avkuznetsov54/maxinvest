@@ -3,7 +3,9 @@
     <div class="container">
       <MenuItem name="1">
         <!--        <Icon type="ios-paper" />-->
-        <nuxt-link to="/novostroyki/">Новостройки без комиссии</nuxt-link>
+        <nuxt-link to="/novostroyki/" :style="{ color: 'white' }"
+          >Новостройки без комиссии</nuxt-link
+        >
       </MenuItem>
       <!--      <Submenu name="2">-->
       <!--        <template slot="title">-->
@@ -30,7 +32,7 @@
         :visible="visible"
         style="margin-left: 20px"
       >
-        <span @mouseenter="handleToggeleOpen">
+        <span @click="handleToggeleOpen">
           Коммерческая
           <Icon type="ios-arrow-down"></Icon>
         </span>

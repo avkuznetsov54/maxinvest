@@ -24,7 +24,7 @@ export default {
   position: relative;
   /*height: 100vh;*/
   /*min-height: 700px;*/
-  height: 500px;
+  height: 600px;
   max-height: 600px;
   background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)),
     url('/media/main_bg.jpg');
