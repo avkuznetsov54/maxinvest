@@ -103,16 +103,18 @@
                 <Input
                   v-model="form.minCost"
                   placeholder="От"
-                  clearable
+                  :maxlength="14"
                   size="large"
+                  @keypress.native="onlyNumber"
                 />
               </FormItem>
               <FormItem prop="maxCost">
                 <Input
                   v-model="form.maxCost"
                   placeholder="До"
-                  clearable
+                  :maxlength="14"
                   size="large"
+                  @keypress.native="onlyNumber"
                 />
               </FormItem>
             </div>
@@ -125,16 +127,18 @@
                 <Input
                   v-model="form.minSquare"
                   placeholder="От"
-                  clearable
+                  :maxlength="10"
                   size="large"
+                  @keypress.native="onlyNumber"
                 />
               </FormItem>
               <FormItem prop="maxSquare">
                 <Input
                   v-model="form.maxSquare"
                   placeholder="До"
-                  clearable
+                  :maxlength="10"
                   size="large"
+                  @keypress.native="onlyNumber"
                 />
               </FormItem>
             </div>
@@ -398,6 +402,16 @@ export default {
       handler(newValue) {
         this.form.maxCost = this.thousandSeparator(newValue)
       }
+    },
+    'form.minSquare': {
+      handler(newValue) {
+        this.form.minSquare = this.thousandSeparator(newValue)
+      }
+    },
+    'form.maxSquare': {
+      handler(newValue) {
+        this.form.maxSquare = this.thousandSeparator(newValue)
+      }
     }
   },
   methods: {
@@ -421,6 +435,14 @@ export default {
     },
     showExtendedFilter() {
       this.isExtendedFilter = !this.isExtendedFilter
+    },
+    onlyNumber($event) {
+      // console.log($event.keyCode); //keyCodes value
+      const keyCode = $event.keyCode ? $event.keyCode : $event.which
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        // 46 is dot
+        $event.preventDefault()
+      }
     }
   }
 }

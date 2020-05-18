@@ -44,6 +44,10 @@
           </div>
         </DropdownMenu>
       </Dropdown>
+      <MenuItem name="2">
+        <!--        <Icon type="ios-paper" />-->
+        <nuxt-link to="/" :style="{ color: 'white' }">Ипотека</nuxt-link>
+      </MenuItem>
     </div>
   </Menu>
 </template>
