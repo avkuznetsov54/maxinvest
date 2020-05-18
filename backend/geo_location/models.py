@@ -3,9 +3,6 @@ from django.db import models
 
 import datetime
 
-from django.utils.functional import cached_property
-
-
 def generate_url_for_image(self, filename):
     now = datetime.datetime.now()
     url = 'images/geo/%s/%s/%s/%s%s%s-%s-%s' % (now.year, now.month, now.day,

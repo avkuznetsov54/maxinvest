@@ -9,7 +9,7 @@ from slugify import slugify  # тут используется awesome-slugify
 from PIL import Image  # для обработки изображения нам нужен pillow
 
 from project import settings
-from geo_location.models import Region, City, District
+from geo_location.models import Region, City, District, Address
 
 
 # ф-ция генерит путь для загружаемого изображения и планировок
@@ -331,7 +331,7 @@ class ResidentialComplex(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if self.main_image.url != self.__original_main_image:
+        if self.main_image and hasattr(self.main_image, 'url') and self.main_image.url != self.__original_main_image:
 
             # print(self.__old_main_image)
             # print(self.__old_main_image_thumb)
@@ -491,7 +491,7 @@ class ImagesResidentialComplex(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if self.image.url != self.__original_image:
+        if self.image and hasattr(self.image, 'url') and self.image.url != self.__original_image:
 
             # size = {'height': 200, 'width': 320}
 
