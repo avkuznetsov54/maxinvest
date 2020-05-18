@@ -14,7 +14,6 @@ from geo_location.models import Region, City, District, Address
 
 # ф-ция генерит путь для загружаемого изображения и планировок
 def generate_url_for_image(self, filename):
-
     # проверяет в какой model была фызвана ф-ция, и бирёт нужный атрибут для имени файла
     if hasattr(self, 'name'):
         name_file = self.name
@@ -247,9 +246,12 @@ class ResidentialComplex(models.Model):
                                  default=None,
                                  null=True,
                                  blank=True)
-    address = models.CharField(max_length=150, db_index=True, verbose_name='Адрес',
-                               default=None,
-                               blank=True)
+    address = models.ManyToManyField(Address,
+                                     verbose_name='Адрес',
+                                     related_name='rescomplex_address',
+                                     default=None,
+                                     blank=True)
+
     one_or_many_buildings = models.BooleanField(default=False, verbose_name='В ЖК несколько строений')
 
     number_of_storeys = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Этажность',

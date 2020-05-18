@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 import datetime
 
-from geo_location.models import Region, City, District
+from geo_location.models import Region, City, District, Address
 from residential_properties.models import FloorInBuilding, ResidentialComplex
 
 
@@ -150,7 +150,15 @@ class CommercialPremises(models.Model):
                                  default=None,
                                  null=True,
                                  blank=True)
-    address = models.CharField(max_length=150, default=None, blank=True, verbose_name='Адрес')
+    # address = models.CharField(max_length=150, default=None, blank=True, verbose_name='Адрес')
+    address = models.ForeignKey(Address,
+                                on_delete=models.SET_NULL,
+                                verbose_name='Адрес',
+                                related_name='compremises_address',
+                                default=None,
+                                null=True,
+                                blank=False)
+
     relative_location = models.ManyToManyField(RelativeLocation,
                                                verbose_name='Расположение',
                                                related_name='compremises_relativelocation',
@@ -200,7 +208,8 @@ class CommercialPremises(models.Model):
                                                   verbose_name='Средняя арендная ставка от, руб/кв.м.')
     max_average_rental_rate = models.IntegerField(db_index=True, null=True, blank=True,
                                                   verbose_name='Средняя арендная ставка до, руб/кв.м.')
-    possible_income = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Возможный доход, руб/мес.')
+    possible_income = models.IntegerField(db_index=True, null=True, blank=True,
+                                          verbose_name='Возможный доход, руб/мес.')
 
     kw = models.FloatField(db_index=True, null=True, blank=True, verbose_name='кВт')
     min_kw = models.FloatField(db_index=True, null=True, blank=True, verbose_name='кВт, от')
@@ -234,7 +243,7 @@ class CommercialPremises(models.Model):
     description = models.TextField(blank=True, verbose_name='Описание')
 
     def __str__(self):
-        return self.address
+        return f'{self.address}'
 
     class Meta:
         verbose_name = 'Коммерческое помещение'

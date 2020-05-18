@@ -29,6 +29,7 @@ class ResidentialComplexListSerializer(serializers.ModelSerializer):
     developer = serializers.SlugRelatedField(slug_field='name', read_only=True)
     class_of_housing = serializers.SlugRelatedField(slug_field='name', read_only=True)
 
+    address = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     deadline = serializers.SlugRelatedField(slug_field='full_date', read_only=True, many=True)
     metro_stations = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     infrastructure = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
@@ -50,6 +51,7 @@ class ResidentialComplexDetailSerializer(serializers.ModelSerializer):
     developer = serializers.SlugRelatedField(slug_field='name', read_only=True)
     class_of_housing = serializers.SlugRelatedField(slug_field='name', read_only=True)
 
+    address = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     deadline = serializers.SlugRelatedField(slug_field='full_date', read_only=True, many=True)
     metro_stations = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     infrastructure = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)

@@ -11,7 +11,7 @@ class ResidentialComplexListView(APIView):
     def get(self, request):
         premises = ResidentialComplex.objects.all() \
             .select_related('region', 'city', 'district', 'developer', 'class_of_housing') \
-            .prefetch_related('deadline', 'metro_stations', 'infrastructure', 'material_walls', 'apart_decoration') \
+            .prefetch_related('address', 'deadline', 'metro_stations', 'infrastructure', 'material_walls', 'apart_decoration') \
             .prefetch_related('images_residential_complex', 'video_residential_complex')
 
         serializer = ResidentialComplexListSerializer(premises, many=True)

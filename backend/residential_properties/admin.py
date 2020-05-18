@@ -102,10 +102,10 @@ class InfrastructureAdmin(admin.ModelAdmin):
 
 @admin.register(ResidentialComplex)
 class ResidentialComplexAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'address', 'developer', 'is_active')
+    list_display = ('id', 'name', 'developer', 'is_active')
     list_display_links = ('name',)
     list_filter = ('is_active', 'developer',)
-    search_fields = ('name', 'address', 'developer',)
+    search_fields = ('name', 'developer',)
     inlines = [ImagesResidentialComplexInline, VideoResidentialComplexInline]
     save_on_top = True
     save_as = True
