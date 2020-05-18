@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from django.forms import Textarea, TextInput
 
-from .models import Region, City, District
+from .models import Region, City, District, Street, NumHouse, Address
 
 
 class CityInline(admin.TabularInline):
@@ -40,3 +40,22 @@ class CityAdmin(admin.ModelAdmin):
 class DistrictAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'subname', 'city')
     list_display_links = ('name',)
+
+
+@admin.register(Street)
+class StreetAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('id', 'name',)
+
+
+@admin.register(NumHouse)
+class NumHouseAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('id', 'name',)
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'street', 'numhouse')
+    list_display_links = ('id', 'name',)
+    readonly_fields = ('name',)
