@@ -10,12 +10,12 @@ from .models import (Deadline, Developer, ClassOfHousing, FloorInBuilding,  Resi
 class ImagesResidentialComplexInline(admin.TabularInline):
     model = ImagesResidentialComplex
     extra = 1
-    readonly_fields = ("get_image",)
+    readonly_fields = ("get_image_thumb",)
 
-    def get_image(self, obj):
-        return mark_safe(f'<img src={obj.image.url} height="70"')
+    def get_image_thumb(self, obj):
+        return mark_safe(f'<img src={obj.image_thumb.url} height="70"')
 
-    get_image.short_description = "Изображение"
+    get_image_thumb.short_description = "Изображение"
 
 
 class FloorPlansResidentialPremiseInline(admin.TabularInline):
@@ -66,7 +66,7 @@ class ImagesResidentialComplexAdmin(admin.ModelAdmin):
 
 @admin.register(FloorPlansResidentialPremise)
 class FloorPlansResidentialPremiseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'alt_attr')
+    list_display = ('id', 'alt_attr', 'residential_premises')
     list_display_links = ('id',)
 
 

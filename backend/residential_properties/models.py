@@ -12,15 +12,17 @@ from project import settings
 from geo_location.models import Region, City, District, Address
 
 
-# ф-ция генерит путь для загружаемого изображения и планировок
+# ф-ция генерит путь для загружаемого изображения
 def generate_url_for_image(self, filename):
     # проверяет в какой model была фызвана ф-ция, и бирёт нужный атрибут для имени файла
     if hasattr(self, 'name'):
         name_file = self.name
-    elif hasattr(self, 'residential_complex'):
-        name_file = self.residential_complex.name
+    # elif hasattr(self, 'residential_complex'):
+    #     name_file = self.residential_complex.name
+    elif hasattr(self, 'alt_attr') and self.alt_attr != '':
+        name_file = self.alt_attr
     else:
-        name_file = 'file_without_name'
+        name_file = 'residential_complex_image'
 
     ext = filename.split('.')[-1]
     name = filename.split('.')[0]
@@ -45,7 +47,24 @@ def generate_url_for_image(self, filename):
 # ф-ция генерит путь для thumbnail image
 def some_model_thumb_name(instance, filename):
     now = datetime.datetime.now()
-    url = '/media/images/realestate/%s/%s/%s/%s' % (now.year, now.month, now.day, filename)
+    url = 'images/realestate/%s/%s/%s/%s' % (now.year, now.month, now.day, filename)
+    return url
+
+
+# ф-ция генерит путь для загружаемого планировок
+def generate_url_for_floor_plan(self, filename):
+    if hasattr(self, 'alt_attr') and self.alt_attr != '':
+        name_file = self.alt_attr
+    else:
+        name_file = 'floor_plan_image'
+
+    ext = filename.split('.')[-1]
+    name = filename.split('.')[0]
+    filename = "%s.%s" % (slugify(name_file, to_lower=True), ext)
+
+    now = datetime.datetime.now()
+    url = 'images/realestate/%s/%s/%s/%s%s%s-%s-%s' % (now.year, now.month, now.day,
+                                                       now.hour, now.minute, now.second, now.microsecond, filename)
     return url
 
 
@@ -269,9 +288,17 @@ class ResidentialComplex(models.Model):
     main_image = models.FileField(upload_to=generate_url_for_image,
                                   null=True,
                                   blank=True,
-                                  verbose_name="Главное изображение ЖК")
+                                  verbose_name="Главное изображение ЖК",
+                                  help_text='После сохранения автоматически меняет высоту картинки на 500px.<br>'
+                                            'Соотношение сторон сохраняеться.')
     alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
-    main_image_thumb = models.CharField('Thumbnail image', max_length=255, blank=True)
+    main_image_thumb = models.FileField(upload_to=generate_url_for_image,
+                                        null=True,
+                                        blank=True,
+                                        verbose_name="Thumbnail image",
+                                        help_text='МОЖНО НЕ ЗАПОЛНЯТЬ, генирируеться автоматически из '
+                                                  '"Главное изображение ЖК" с высотой картинки 300px.<br>'
+                                                  'Соотношение сторон сохраняеться.')
 
     longitude = models.FloatField(null=True, blank=True, verbose_name='Долгота')
     latitude = models.FloatField(null=True, blank=True, verbose_name='Широта')
@@ -344,9 +371,10 @@ class ResidentialComplex(models.Model):
             extension = str(self.main_image.path).rsplit('.', 1)[1]  # получаем расширение загруженного файла
             # получаем имя загруженного файла (без пути к нему и расширения)
             filename = str(self.main_image.path).rsplit(os.sep, 1)[1].rsplit('.', 1)[0]
+            print(filename)
             # получаем путь к файлу (без имени и расширения)
             fullpath = str(self.main_image.path).rsplit(os.sep, 1)[0]
-            # print(str(self.main_image.path))
+            print(fullpath)
 
             if extension in ['jpg', 'jpeg', 'png']:  # если расширение входит в разрешенный список
                 im = Image.open(str(self.main_image.path))  # открываем изображение
@@ -452,7 +480,7 @@ class ResidentialPremise(models.Model):
                                    blank=True)
 
     def __str__(self):
-        return f'{self.number_rooms}'
+        return f'{self.res_complex} - {self.number_rooms}'
 
     class Meta:
         verbose_name = 'Жилое помещение'
@@ -466,8 +494,18 @@ class ImagesResidentialComplex(models.Model):
     image = models.FileField(upload_to=generate_url_for_image,
                              null=True,
                              blank=True,
-                             verbose_name="Изображение")
-    image_thumb = models.CharField('Thumbnail image', max_length=255, blank=True)
+                             verbose_name="Изображение",
+                             help_text='После сохранения автоматически меняет высоту картинки на 500px.<br>'
+                                       'Соотношение сторон сохраняеться.'
+                             )
+    image_thumb = models.FileField(upload_to=generate_url_for_image,
+                                   null=True,
+                                   blank=True,
+                                   verbose_name="Thumbnail image",
+                                   help_text='МОЖНО НЕ ЗАПОЛНЯТЬ, генирируеться автоматически из '
+                                             '"Главное изображение ЖК" с высотой картинки 300px.<br>'
+                                             'Соотношение сторон сохраняеться.'
+                                   )
     residential_complex = models.ForeignKey(ResidentialComplex,
                                             verbose_name="Жилой Комплекс",
                                             related_name='images_residential_complex',
@@ -556,7 +594,7 @@ class ImagesResidentialComplex(models.Model):
 class FloorPlansResidentialPremise(models.Model):
     """Модель Планировка Жилого помещения"""
     alt_attr = models.CharField(max_length=300, blank=True, verbose_name="img alt")
-    image = models.FileField(upload_to=generate_url_for_image,
+    image = models.FileField(upload_to=generate_url_for_floor_plan,
                              null=True,
                              blank=True,
                              verbose_name="Планировка Жилого помещения")

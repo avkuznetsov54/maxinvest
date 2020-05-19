@@ -85,7 +85,9 @@
               v-model="form.changeCities"
               multiple
               size="large"
-              :max-tag-count="maxTagCountOne"
+              :max-tag-count="maxTagCount"
+              class="min-text"
+              :max-tag-placeholder="more"
             >
               <Option
                 v-for="item in cityList"
@@ -150,7 +152,8 @@
               v-model="form.changeDistrict"
               multiple
               size="large"
-              :max-tag-count="maxTagCountDistrict"
+              :max-tag-count="maxTagCount"
+              :max-tag-placeholder="more"
             >
               <Option
                 v-for="item in districtList"
@@ -162,16 +165,17 @@
           </FormItem>
         </i-col>
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
-          <FormItem label="Жилой комплекс" prop="changeResComplex">
+          <FormItem label="Улица" prop="changeStreet">
             <Select
-              v-model="form.changeResComplex"
+              v-model="form.changeStreet"
               multiple
               size="large"
               filterable
               :max-tag-count="maxTagCount"
+              :max-tag-placeholder="more"
             >
               <Option
-                v-for="item in resComplexList"
+                v-for="item in streetList"
                 :key="item.value"
                 :value="item.value"
                 >{{ item.label }}</Option
@@ -182,16 +186,24 @@
       </Row>
       <Row>
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
-          <div class="form-input-row">
-            <!--          <FormItem prop="saleCheck">-->
-            <!--            <Checkbox v-model="form.saleCheck" size="large">Продажа</Checkbox>-->
-            <!--          </FormItem>-->
-            <FormItem prop="rentCheck">
-              <Checkbox v-model="form.rentCheck" size="large"
-                >Возможность арендовать</Checkbox
+          <FormItem prop="changeResComplex">
+            <Select
+              v-model="form.changeResComplex"
+              multiple
+              size="large"
+              filterable
+              :max-tag-count="maxTagCount"
+              :max-tag-placeholder="more"
+              placeholder="Жилой комплекс"
+            >
+              <Option
+                v-for="item in resComplexList"
+                :key="item.value"
+                :value="item.value"
+                >{{ item.label }}</Option
               >
-            </FormItem>
-          </div>
+            </Select>
+          </FormItem>
         </i-col>
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <FormItem prop="changePurpose">
@@ -199,7 +211,8 @@
               v-model="form.changePurpose"
               multiple
               size="large"
-              :max-tag-count="maxTagCountOne"
+              :max-tag-count="maxTagCount"
+              :max-tag-placeholder="more"
               placeholder="Назначение помещения"
             >
               <Option
@@ -217,7 +230,8 @@
               v-model="form.changeCatBusiness"
               multiple
               size="large"
-              :max-tag-count="maxTagCountOne"
+              :max-tag-count="maxTagCount"
+              :max-tag-placeholder="more"
               placeholder="Категория бизнеса"
             >
               <Option
@@ -257,7 +271,15 @@
       :class="{ hidden: isExtendedFilter }"
     >
       <Row>
-        werwerwererwrwe
+        <i-col :xs="24" :sm="8" :md="6" :lg="5">
+          <div class="form-input-row">
+            <FormItem prop="rentCheck">
+              <Checkbox v-model="form.rentCheck" size="large"
+                >Возможность арендовать</Checkbox
+              >
+            </FormItem>
+          </div>
+        </i-col>
       </Row>
     </div>
   </Form>
@@ -310,6 +332,24 @@ export default {
         {
           value: 'Калининский',
           label: 'Калининский'
+        }
+      ],
+      streetList: [
+        {
+          value: 'Большевистская>',
+          label: 'Большевистская'
+        },
+        {
+          value: 'Димитрова пр-т',
+          label: 'Димитрова пр-т'
+        },
+        {
+          value: 'Родникова 1-я',
+          label: 'Родникова 1-я'
+        },
+        {
+          value: 'Днепрогэсовская',
+          label: 'Днепрогэсовская'
         }
       ],
       resComplexList: [
@@ -383,6 +423,7 @@ export default {
         maxSquare: '',
 
         changeDistrict: [],
+        changeStreet: [],
 
         changeResComplex: [],
         saleCheck: true,
@@ -443,6 +484,9 @@ export default {
         // 46 is dot
         $event.preventDefault()
       }
+    },
+    more(num) {
+      return 'Выбрано: ' + num
     }
   }
 }
