@@ -128,7 +128,9 @@ dmypy.json
 ##########
 pgdata/
 backend/venv/
+backend_2/venv/
 backend/.idea
+backend_2/.idea
 
 .DS_Store
 

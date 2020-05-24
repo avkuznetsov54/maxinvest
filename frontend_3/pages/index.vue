@@ -1,12 +1,17 @@
 <template>
-  <app-main-view />
+  <div>
+    <app-main-view />
+    <app-main-page-content />
+  </div>
 </template>
 
 <script>
 import AppMainView from '@/components/front/content/main-page/MainView'
+import AppMainPageContent from '@/components/front/content/main-page/MainPageContent'
 export default {
   components: {
-    AppMainView
+    AppMainView,
+    AppMainPageContent
   }
 }
 </script>

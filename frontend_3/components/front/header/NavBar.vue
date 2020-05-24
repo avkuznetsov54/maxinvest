@@ -28,24 +28,27 @@
       <!--      </MenuItem>-->
 
       <MenuItem name="2">
-        <Dropdown
-          class="top-line-dropdown"
-          trigger="custom"
-          :visible="visible"
-          style="margin-left: 20px"
+        <!--        <Dropdown-->
+        <!--          class="top-line-dropdown"-->
+        <!--          trigger="custom"-->
+        <!--          :visible="visible"-->
+        <!--          style="margin-left: 20px"-->
+        <!--        >-->
+        <!--          <span @click="handleToggeleOpen">-->
+        <!--            Коммерческая-->
+        <!--            &lt;!&ndash;            <Icon type="ios-arrow-down"></Icon>&ndash;&gt;-->
+        <!--          </span>-->
+        <!--          &lt;!&ndash;        <DropdownMenu slot="list" @mouseleave.native="handleClose">&ndash;&gt;-->
+        <!--          <DropdownMenu slot="list" @mouseleave.native="handleClose">-->
+        <!--            <p>Коммерческая в жилых комплексах</p>-->
+        <!--            <div style="text-align: right;margin:10px; width: 500px">-->
+        <!--              <Button type="primary" @click="handleClose">OK</Button>-->
+        <!--            </div>-->
+        <!--          </DropdownMenu>-->
+        <!--        </Dropdown>-->
+        <nuxt-link to="/commerce" :style="{ color: 'white' }"
+          >Коммерческая</nuxt-link
         >
-          <span @click="handleToggeleOpen">
-            Коммерческая
-            <!--            <Icon type="ios-arrow-down"></Icon>-->
-          </span>
-          <!--        <DropdownMenu slot="list" @mouseleave.native="handleClose">-->
-          <DropdownMenu slot="list" @mouseleave.native="handleClose">
-            <p>Коммерческая в жилых комплексах</p>
-            <div style="text-align: right;margin:10px; width: 500px">
-              <Button type="primary" @click="handleClose">OK</Button>
-            </div>
-          </DropdownMenu>
-        </Dropdown>
       </MenuItem>
       <MenuItem name="3">
         <!--        <Icon type="ios-paper" />-->
