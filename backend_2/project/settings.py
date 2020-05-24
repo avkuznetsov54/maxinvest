@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     'profile_user',
     'geo_location',
+    'residential_real_estate',
 
     'silk',  # TODO: delet on propd
 ]

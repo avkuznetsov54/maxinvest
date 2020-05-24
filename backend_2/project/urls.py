@@ -23,6 +23,8 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
+
+    path('api/v1/residential/', include('residential_real_estate.urls')),
 ]
 
 if settings.DEBUG:

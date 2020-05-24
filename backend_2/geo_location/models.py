@@ -33,7 +33,7 @@ class Region(models.Model):
 
 
 class City(models.Model):
-    """Модель Город"""
+    """Модель Город / Населенный пункт"""
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
     region = models.ForeignKey(Region,
                                on_delete=models.SET_NULL,
@@ -57,8 +57,8 @@ class City(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Город'
-        verbose_name_plural = 'Города'
+        verbose_name = 'Город / Населенный пункт'
+        verbose_name_plural = 'Города / Населенные пункты'
         ordering = ['name']
 
 
