@@ -10,12 +10,14 @@ from .models import User
 class UserRegistrationSerializer(BaseUserRegistrationSerializer):
 
     class Meta(BaseUserRegistrationSerializer.Meta):
-        fields = ('email', 'password', 'full_name')
+        fields = ('id', 'email', 'password')
 
     # переопределяем метод, так как username поменяли на email
     def create(self, validated_data):
         try:
+
             email = self.perform_create(validated_data)
+
         except IntegrityError:
             self.fail("cannot_create_user")
 

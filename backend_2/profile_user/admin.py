@@ -1,12 +1,17 @@
 from django.contrib import admin
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
+from .models import Specialization, SocialNetwork
 from .forms import UserAdminCreationForm, UserAdminChangeForm
 
 User = get_user_model()
+
+
+class SocialNetworkInline(admin.TabularInline):
+    model = SocialNetwork
+    extra = 1
 
 
 class UserAdmin(BaseUserAdmin):
@@ -22,7 +27,6 @@ class UserAdmin(BaseUserAdmin):
     readonly_fields = ('update_date',)
     fieldsets = (
         (None, {'fields': ('full_name', 'email', 'password')}),
-       # ('Full name', {'fields': ()}),
         ('Permissions', {'fields': ('is_superuser', 'is_staff', 'is_active', 'groups', 'user_permissions')}),
         (None, {'fields': ('date_joined', 'update_date', 'last_login')}),
     )
@@ -44,3 +48,14 @@ admin.site.register(User, UserAdmin)
 admin.site.site_title = "BROKERNSK.PRO"
 admin.site.site_header = "BROKERNSK.PRO"
 
+
+@admin.register(Specialization)
+class SpecializationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'short_name')
+    list_display_links = ('id', 'name',)
+
+
+@admin.register(SocialNetwork)
+class SocialNetworkAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'user', 'link_on_socnet')
+    list_display_links = ('id', 'name',)
