@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from .models import CommercialEstate, VideoCommercialEstate, ImagesCommercialEstate, FloorPlansCommercialEstate
+from .models import (CommercialEstate,
+                     VideoCommercialEstate, ImagesCommercialEstate, FloorPlansCommercialEstate)
 
 
 class ImagesCommercialEstateListSerializer(serializers.ModelSerializer):
@@ -38,6 +39,7 @@ class CommercialEstateListSerializer(serializers.ModelSerializer):
     communication_systems = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     type_entrance = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     finishing_property = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
+    metro_stations = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
 
     images_commercial_estate = ImagesCommercialEstateListSerializer(many=True, read_only=True)
     floorplans_commercial_estate = FloorPlansCommercialEstateListSerializer(many=True, read_only=True)
@@ -65,6 +67,7 @@ class CommercialEstateDetailSerializer(serializers.ModelSerializer):
     communication_systems = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     type_entrance = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     finishing_property = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
+    metro_stations = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
 
     images_commercial_estate = ImagesCommercialEstateListSerializer(many=True, read_only=True)
     floorplans_commercial_estate = FloorPlansCommercialEstateListSerializer(many=True, read_only=True)

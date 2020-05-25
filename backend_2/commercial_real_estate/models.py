@@ -8,7 +8,7 @@ from PIL import Image  # для обработки изображения нам
 
 from project import settings
 from geo_location.models import Region, City, District, Address
-from residential_real_estate.models import FloorInBuilding, ResidentialComplex
+from residential_real_estate.models import FloorInBuilding, ResidentialComplex, NamesOfMetroStations
 
 User = settings.AUTH_USER_MODEL
 
@@ -200,6 +200,13 @@ class CommercialEstate(models.Model):
                                 default=None,
                                 null=True,
                                 blank=False)
+
+    distance_to_metro = models.IntegerField(db_index=True, null=True, blank=True, verbose_name='Растояние до метро, м')
+    metro_stations = models.ManyToManyField(NamesOfMetroStations,
+                                            verbose_name='Название ближайщего метро',
+                                            related_name='comestate_metrostations',
+                                            default=None,
+                                            blank=True)
 
     relative_location = models.ManyToManyField(RelativeLocation,
                                                verbose_name='Расположение, линия',

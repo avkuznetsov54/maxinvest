@@ -12,6 +12,21 @@ export default {
   components: {
     AppMainView,
     AppMainPageContent
+  },
+  async fetch({ store, error }) {
+    try {
+      if (
+        Object.keys(
+          store.getters['value-for-filters/GET_VALUE_FILTERS'].length === 0
+        )
+      ) {
+        await store.dispatch('value-for-filters/FETCH_VALUE_FILTERS')
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('error => ' + e)
+      error(e)
+    }
   }
 }
 </script>

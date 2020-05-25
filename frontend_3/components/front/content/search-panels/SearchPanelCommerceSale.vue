@@ -1,103 +1,25 @@
 <template>
-  <!--
-  <Row>
-    <i-col :xs="24" :sm="8" :md="6" :lg="5">
-      <div class="desktop-filter-titles">
-        <span>Город</span>
-      </div>
-      <div>
-        <Select
-          v-model="changeCities"
-          multiple
-          :max-tag-count="maxTagCountCities"
-        >
-          <Option
-            v-for="item in cityList"
-            :key="item.value"
-            :value="item.value"
-            >{{ item.label }}</Option
-          >
-        </Select>
-      </div>
-    </i-col>
-    <i-col :xs="24" :sm="8" :md="6" :lg="5">
-      <div class="desktop-filter-titles">
-        <span>Стоимость, руб.</span>
-      </div>
-      <div>
-        <Input v-model="minCost" placeholder="От" clearable />
-        <Input v-model="maxCost" placeholder="До" clearable />
-      </div>
-    </i-col>
-    <i-col :xs="24" :sm="8" :md="6" :lg="5">
-      <div class="desktop-filter-titles">
-        <span>Площадь, кв.м.</span>
-      </div>
-      <div>
-        <Input v-model="minSquare" placeholder="От" clearable />
-        <Input v-model="maxSquare" placeholder="До" clearable />
-      </div>
-    </i-col>
-    <i-col :xs="24" :sm="8" :md="6" :lg="4">
-      <div class="desktop-filter-titles">
-        <span>Район</span>
-      </div>
-      <div>
-        <Select v-model="changeDistrict" multiple>
-          <Option
-            v-for="item in districtList"
-            :key="item.value"
-            :value="item.value"
-            >{{ item.label }}</Option
-          >
-        </Select>
-      </div>
-    </i-col>
-    <i-col :xs="24" :sm="8" :md="6" :lg="4">
-      <div class="desktop-filter-titles">
-        <span>Жилой комплекс</span>
-      </div>
-      <div>
-        <Select
-          v-model="changeResComplex"
-          multiple
-          filterable
-          :max-tag-count="maxTagCount"
-        >
-          <Option
-            v-for="item in resComplexList"
-            :key="item.value"
-            :value="item.value"
-            >{{ item.label }}</Option
-          >
-        </Select>
-      </div>
-    </i-col>
-  </Row>
-  -->
-
   <Form ref="form" :model="form">
     <div>
       <Row>
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap">
             <div class="desktop-filter-titles">
-              <span>Город</span>
+              <span>Тип недвижимости</span>
             </div>
-            <FormItem prop="changeCities">
+            <FormItem prop="typeComEstate">
               <Select
-                v-model="form.changeCities"
+                v-model="form.typeComEstate"
                 multiple
                 size="large"
                 :max-tag-count="maxTagCount"
-                class="min-text"
                 :max-tag-placeholder="more"
               >
                 <Option
-                  v-for="item in cityList"
-                  :key="item.value"
-                  :value="item.value"
-                  >{{ item.label }}</Option
+                  v-for="item in valueFilters.type_commercial_estate"
+                  :key="item.id"
+                  :value="item.name"
+                  >{{ item.name }}</Option
                 >
               </Select>
             </FormItem>
@@ -164,8 +86,56 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap">
             <div class="desktop-filter-titles">
-              <span>Район</span>
+              <span>Категория бизнеса</span>
+              <Tooltip placement="top" content="Описание что это такое.">
+                <Icon type="md-help" class="icon-class" />
+              </Tooltip>
             </div>
+            <FormItem prop="businessCategory">
+              <Select
+                v-model="form.businessCategory"
+                multiple
+                size="large"
+                :max-tag-count="maxTagCount"
+                :max-tag-placeholder="more"
+              >
+                <Option
+                  v-for="item in valueFilters.business_category"
+                  :key="item.id"
+                  :value="item.name"
+                  >{{ item.name }}</Option
+                >
+              </Select>
+            </FormItem>
+          </div>
+        </i-col>
+      </Row>
+      <Row>
+        <i-col :xs="24" :sm="8" :md="6" :lg="5">
+          <div class="form-input-wrap">
+            <FormItem prop="changeCities">
+              <Select
+                v-model="form.changeCities"
+                multiple
+                size="large"
+                :max-tag-count="maxTagCount"
+                class="min-text"
+                :max-tag-placeholder="more"
+                placeholder="Город"
+              >
+                <Option
+                  v-for="item in cityList"
+                  :key="item.value"
+                  :value="item.value"
+                  >{{ item.label }}</Option
+                >
+              </Select>
+            </FormItem>
+          </div>
+        </i-col>
+
+        <i-col :xs="24" :sm="8" :md="6" :lg="5">
+          <div class="form-input-wrap">
             <FormItem prop="changeDistrict">
               <Select
                 v-model="form.changeDistrict"
@@ -173,6 +143,7 @@
                 size="large"
                 :max-tag-count="maxTagCount"
                 :max-tag-placeholder="more"
+                placeholder="Район"
               >
                 <Option
                   v-for="item in districtList"
@@ -186,9 +157,6 @@
         </i-col>
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap">
-            <div class="desktop-filter-titles">
-              <span>Улица</span>
-            </div>
             <FormItem prop="changeStreet">
               <Select
                 v-model="form.changeStreet"
@@ -197,6 +165,7 @@
                 filterable
                 :max-tag-count="maxTagCount"
                 :max-tag-placeholder="more"
+                placeholder="Улица"
               >
                 <Option
                   v-for="item in streetList"
@@ -208,72 +177,7 @@
             </FormItem>
           </div>
         </i-col>
-      </Row>
-      <Row>
-        <i-col :xs="24" :sm="8" :md="6" :lg="5">
-          <div class="form-input-wrap">
-            <FormItem prop="changeResComplex">
-              <Select
-                v-model="form.changeResComplex"
-                multiple
-                size="large"
-                filterable
-                :max-tag-count="maxTagCount"
-                :max-tag-placeholder="more"
-                placeholder="Жилой комплекс"
-              >
-                <Option
-                  v-for="item in resComplexList"
-                  :key="item.value"
-                  :value="item.value"
-                  >{{ item.label }}</Option
-                >
-              </Select>
-            </FormItem>
-          </div>
-        </i-col>
-        <i-col :xs="24" :sm="8" :md="6" :lg="5">
-          <div class="form-input-wrap">
-            <FormItem prop="changePurpose">
-              <Select
-                v-model="form.changePurpose"
-                multiple
-                size="large"
-                :max-tag-count="maxTagCount"
-                :max-tag-placeholder="more"
-                placeholder="Назначение помещения"
-              >
-                <Option
-                  v-for="item in purposeList"
-                  :key="item.value"
-                  :value="item.value"
-                  >{{ item.label }}</Option
-                >
-              </Select>
-            </FormItem>
-          </div>
-        </i-col>
-        <i-col :xs="24" :sm="8" :md="6" :lg="5">
-          <div class="form-input-wrap">
-            <FormItem prop="changeCatBusiness">
-              <Select
-                v-model="form.changeCatBusiness"
-                multiple
-                size="large"
-                :max-tag-count="maxTagCount"
-                :max-tag-placeholder="more"
-                placeholder="Категория бизнеса"
-              >
-                <Option
-                  v-for="item in catBusinessList"
-                  :key="item.value"
-                  :value="item.value"
-                  >{{ item.label }}</Option
-                >
-              </Select>
-            </FormItem>
-          </div>
-        </i-col>
+
         <i-col :xs="24" :sm="8" :md="6" :lg="4">
           <div class="form-input-wrap">
             <Button size="large" long @click="showExtendedFilter">
@@ -336,10 +240,80 @@
           </div>
         </i-col>
 
+        <i-col :xs="24" :sm="8" :md="6" :lg="5">
+          <div class="form-input-wrap-extended-filter">
+            <FormItem prop="rentCheck">
+              <Checkbox v-model="form.rentCheck" size="default"
+                >Возможность арендовать
+              </Checkbox>
+              <Tooltip placement="top" content="Описание что это такое.">
+                <Icon type="md-help" class="icon-class" />
+              </Tooltip>
+            </FormItem>
+          </div>
+        </i-col>
+        <i-col :xs="24" :sm="8" :md="6" :lg="5">
+          <div class="form-input-wrap-extended-filter">
+            <FormItem prop="rentCheck">
+              <Checkbox v-model="form.rentCheck" size="default"
+                >В процессе строительства
+              </Checkbox>
+              <Tooltip placement="top" content="Описание что это такое.">
+                <Icon type="md-help" class="icon-class" />
+              </Tooltip>
+            </FormItem>
+          </div>
+        </i-col>
+        <i-col :xs="24" :sm="8" :md="6" :lg="4">
+          <div class="form-input-wrap-extended-filter">
+            <FormItem prop="rentCheck">
+              <Checkbox v-model="form.rentCheck" size="default"
+                >Готовое
+              </Checkbox>
+              <Tooltip placement="top" content="Описание что это такое.">
+                <Icon type="md-help" class="icon-class" />
+              </Tooltip>
+            </FormItem>
+          </div>
+        </i-col>
+      </Row>
+
+      <Row>
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
             <div class="form-input-title">
               <span>Этаж</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="minSquare">
+                <Input
+                  v-model="form.minSquare"
+                  placeholder="От"
+                  :maxlength="10"
+                  size="large"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+              <FormItem prop="maxSquare">
+                <Input
+                  v-model="form.maxSquare"
+                  placeholder="До"
+                  :maxlength="10"
+                  size="large"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
+
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
+              <span>Этажность</span>
+              <Tooltip placement="top" content="Описание что это такое.">
+                <Icon type="md-help" class="icon-class" />
+              </Tooltip>
             </div>
             <div class="form-input-field">
               <FormItem prop="minSquare">
@@ -530,7 +504,39 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
             <div class="form-input-title">
-              <span>Класс жилого<br />комплекса</span>
+              <span>Расстояние до<br />метро, м.</span>
+              <Tooltip placement="top" content="Текст что это такое.">
+                <Icon type="md-help" class="icon-class" />
+              </Tooltip>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="minSquare">
+                <Input
+                  v-model="form.minSquare"
+                  placeholder="От"
+                  :maxlength="10"
+                  size="large"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+              <FormItem prop="maxSquare">
+                <Input
+                  v-model="form.maxSquare"
+                  placeholder="До"
+                  :maxlength="10"
+                  size="large"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
+      </Row>
+      <Row>
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
+              <span>Отделка</span>
             </div>
             <div class="form-input-field">
               <FormItem prop="changeCities">
@@ -553,8 +559,6 @@
             </div>
           </div>
         </i-col>
-      </Row>
-      <Row>
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
             <div class="form-input-title">
@@ -607,6 +611,62 @@
             </div>
           </div>
         </i-col>
+      </Row>
+      <Row>
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
+              <span>Мощность, кВт</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="minSquare">
+                <Input
+                  v-model="form.minSquare"
+                  placeholder="От"
+                  :maxlength="10"
+                  size="large"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+              <FormItem prop="maxSquare">
+                <Input
+                  v-model="form.maxSquare"
+                  placeholder="До"
+                  :maxlength="10"
+                  size="large"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
+              <span>Высота потолков, м.</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="minSquare">
+                <Input
+                  v-model="form.minSquare"
+                  placeholder="От"
+                  :maxlength="10"
+                  size="large"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+              <FormItem prop="maxSquare">
+                <Input
+                  v-model="form.maxSquare"
+                  placeholder="До"
+                  :maxlength="10"
+                  size="large"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
             <div class="form-input-title">
@@ -638,7 +698,34 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
             <div class="form-input-title">
-              <span>Мощность, кВт</span>
+              <span>Год постройки</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="minSquare">
+                <Input
+                  v-model="form.minSquare"
+                  placeholder="От"
+                  :maxlength="4"
+                  size="large"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+              <FormItem prop="maxSquare">
+                <Input
+                  v-model="form.maxSquare"
+                  placeholder="До"
+                  :maxlength="4"
+                  size="large"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
+              <span>Количество парковок</span>
             </div>
             <div class="form-input-field">
               <FormItem prop="minSquare">
@@ -663,32 +750,58 @@
           </div>
         </i-col>
       </Row>
+
       <Row>
-        <i-col :xs="24" :sm="8" :md="6" :lg="4">
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
-            <FormItem prop="rentCheck">
-              <Checkbox v-model="form.rentCheck" size="default"
-                >Возможность арендовать</Checkbox
-              >
-            </FormItem>
+            <div class="form-input-title">
+              <span>Жилой комплекс</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="changeResComplex">
+                <Select
+                  v-model="form.changeResComplex"
+                  multiple
+                  size="large"
+                  filterable
+                  :max-tag-count="maxTagCount"
+                  :max-tag-placeholder="more"
+                >
+                  <Option
+                    v-for="item in resComplexList"
+                    :key="item.value"
+                    :value="item.value"
+                    >{{ item.label }}</Option
+                  >
+                </Select>
+              </FormItem>
+            </div>
           </div>
         </i-col>
-        <i-col :xs="24" :sm="8" :md="6" :lg="4">
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
-            <FormItem prop="rentCheck">
-              <Checkbox v-model="form.rentCheck" size="default"
-                >В процессе строительства</Checkbox
-              >
-            </FormItem>
-          </div>
-        </i-col>
-        <i-col :xs="24" :sm="8" :md="6" :lg="4">
-          <div class="form-input-wrap-extended-filter">
-            <FormItem prop="rentCheck">
-              <Checkbox v-model="form.rentCheck" size="default"
-                >Готовое</Checkbox
-              >
-            </FormItem>
+            <div class="form-input-title">
+              <span>Класс жилого<br />комплекса</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="changeCities">
+                <Select
+                  v-model="form.changeCities"
+                  multiple
+                  size="large"
+                  :max-tag-count="maxTagCount"
+                  class="min-text"
+                  :max-tag-placeholder="more"
+                >
+                  <Option
+                    v-for="item in cityList"
+                    :key="item.value"
+                    :value="item.value"
+                    >{{ item.label }}</Option
+                  >
+                </Select>
+              </FormItem>
+            </div>
           </div>
         </i-col>
       </Row>
@@ -781,24 +894,6 @@ export default {
           label: 'Октябрьский квартал'
         }
       ],
-      purposeList: [
-        {
-          value: 'Свободного назначения',
-          label: 'Свободного назначения'
-        },
-        {
-          value: 'Офисные',
-          label: 'Офисные'
-        },
-        {
-          value: 'Складские',
-          label: 'Складские'
-        },
-        {
-          value: 'Торговые',
-          label: 'Торговые'
-        }
-      ],
       catBusinessList: [
         {
           value: 'Общепит',
@@ -827,21 +922,27 @@ export default {
       ],
 
       form: {
-        changeCities: [],
+        typeComEstate: [],
         minCost: '',
         maxCost: '',
         minSquare: '',
         maxSquare: '',
+        businessCategory: [],
 
+        changeCities: [],
         changeDistrict: [],
         changeStreet: [],
-
         changeResComplex: [],
         saleCheck: true,
         rentCheck: false,
         changePurpose: [],
         changeCatBusiness: []
       }
+    }
+  },
+  computed: {
+    valueFilters() {
+      return this.$store.getters['value-for-filters/GET_VALUE_FILTERS']
     }
   },
   watch: {

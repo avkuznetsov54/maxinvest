@@ -18,11 +18,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from .views import FiltersView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
+
+    path('api/v1/filters/', FiltersView.as_view()),
 
     path('api/v1/residential/', include('residential_real_estate.urls')),
     path('api/v1/commerc/', include('commercial_real_estate.urls')),

@@ -123,6 +123,8 @@ class CommercialPremisesAdmin(admin.ModelAdmin):
                        'city',
                        'district',
                        'address',
+                       'distance_to_metro',
+                       'metro_stations',
                        'relative_location',
                        'residential_complex',
                        'building_commercial_estate',
