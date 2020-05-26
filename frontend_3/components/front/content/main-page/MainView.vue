@@ -2,19 +2,39 @@
   <div class="hero-image">
     <div class="container">
       <div class="title text-center">
-        <h1>Вся коммерческая недвижимость на brokernsk.pro</h1>
+        <h1>Вся недвижимость на brokernsk.pro</h1>
       </div>
-      <app-main-search-panel />
+      <div class="text-center">
+        <RadioGroup v-model="selectMode" type="button" class="select-mode">
+          <Radio label="Новостройки" class="select-mode-radio"></Radio>
+          <Radio label="Коммерческая" class="select-mode-radio"></Radio>
+          <Radio label="Загородная" class="select-mode-radio"></Radio>
+          <Radio label="Ипотека онлайн" class="select-mode-radio"></Radio>
+        </RadioGroup>
+      </div>
+      <div v-show="selectMode === 'Коммерческая' ? true : false">
+        <app-main-search-panel-commerce />
+      </div>
+      <div v-show="selectMode === 'Новостройки' ? true : false">
+        <app-search-panel-new-building />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import AppMainSearchPanel from './MainSearchPanel'
+import AppMainSearchPanelCommerce from '@/components/front/content/search-panels-commerce/MainSearchPanelCommerce'
+import AppSearchPanelNewBuilding from '@/components/front/content/search-panels-residential/SearchPanelNewBuilding'
 export default {
   name: 'MainView',
   components: {
-    AppMainSearchPanel
+    AppMainSearchPanelCommerce,
+    AppSearchPanelNewBuilding
+  },
+  data() {
+    return {
+      selectMode: 'Новостройки'
+    }
   }
 }
 </script>
@@ -43,7 +63,7 @@ export default {
   left: 0;
   right: 0;
   z-index: 1;
-  height: 220px;
+  height: 140px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -55,5 +75,33 @@ export default {
 .title h1 {
   font-size: 48px;
   line-height: 47px;
+}
+.select-mode {
+  .select-mode-radio {
+    height: 50px !important;
+    line-height: 48px;
+    padding: 0 35px;
+    margin: 0 3px;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    /*border-color: rgba(0, 0, 0, 0.25);*/
+    border: none;
+    /*background: none;*/
+  }
+  .ivu-radio-wrapper-checked {
+    border-color: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.65);
+    box-shadow: none;
+    &:before {
+      background: rgba(0, 0, 0, 0.65);
+      /*opacity: 0.1;*/
+    }
+  }
+
+  .ivu-radio-wrapper:before {
+    content: none;
+  }
 }
 </style>

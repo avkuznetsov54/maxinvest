@@ -12,8 +12,8 @@
 
 <script>
 // import { hydrateWhenVisible } from 'vue-lazy-hydration'
-import AppSearchPanelCommerceSale from '@/components/front/content/search-panels/SearchPanelCommerceSale'
-import AppSearchPanelCommerceRent from '@/components/front/content/search-panels/SearchPanelCommerceRent'
+import AppSearchPanelCommerceSale from './SearchPanelCommerceSale'
+import AppSearchPanelCommerceRent from './SearchPanelCommerceRent'
 export default {
   name: 'MainSearchPanel',
   components: {

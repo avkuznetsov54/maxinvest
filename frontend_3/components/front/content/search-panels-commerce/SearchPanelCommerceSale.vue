@@ -124,10 +124,10 @@
                 placeholder="Город"
               >
                 <Option
-                  v-for="item in cityList"
-                  :key="item.value"
-                  :value="item.value"
-                  >{{ item.label }}</Option
+                  v-for="item in valueFilters.city"
+                  :key="item.id"
+                  :value="item.name"
+                  >{{ item.name }}</Option
                 >
               </Select>
             </FormItem>
@@ -146,10 +146,10 @@
                 placeholder="Район"
               >
                 <Option
-                  v-for="item in districtList"
-                  :key="item.value"
-                  :value="item.value"
-                  >{{ item.label }}</Option
+                  v-for="item in valueFilters.district"
+                  :key="item.id"
+                  :value="item.name"
+                  >{{ item.name }}</Option
                 >
               </Select>
             </FormItem>
@@ -168,10 +168,10 @@
                 placeholder="Улица"
               >
                 <Option
-                  v-for="item in streetList"
-                  :key="item.value"
-                  :value="item.value"
-                  >{{ item.label }}</Option
+                  v-for="item in valueFilters.street"
+                  :key="item.id"
+                  :value="item.name"
+                  >{{ item.name }}</Option
                 >
               </Select>
             </FormItem>
@@ -218,18 +218,18 @@
               <span>Стоимость за м2</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minCostSquare">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minCostSquare"
                   placeholder="От"
                   :maxlength="10"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxCostSquare">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxCostSquare"
                   placeholder="До"
                   :maxlength="10"
                   size="large"
@@ -254,8 +254,8 @@
         </i-col>
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap-extended-filter">
-            <FormItem prop="rentCheck">
-              <Checkbox v-model="form.rentCheck" size="default"
+            <FormItem prop="buildingCommercialEstate">
+              <Checkbox v-model="form.buildingCommercialEstate" size="default"
                 >В процессе строительства
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
@@ -266,8 +266,8 @@
         </i-col>
         <i-col :xs="24" :sm="8" :md="6" :lg="4">
           <div class="form-input-wrap-extended-filter">
-            <FormItem prop="rentCheck">
-              <Checkbox v-model="form.rentCheck" size="default"
+            <FormItem prop="finishedCommercialEstate">
+              <Checkbox v-model="form.finishedCommercialEstate" size="default"
                 >Готовое
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
@@ -277,7 +277,6 @@
           </div>
         </i-col>
       </Row>
-
       <Row>
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
@@ -285,20 +284,20 @@
               <span>Этаж</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minFloor">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minFloor"
                   placeholder="От"
-                  :maxlength="10"
+                  :maxlength="3"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxFloor">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxFloor"
                   placeholder="До"
-                  :maxlength="10"
+                  :maxlength="3"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
@@ -316,20 +315,20 @@
               </Tooltip>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minNumberStoreys">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minNumberStoreys"
                   placeholder="От"
-                  :maxlength="10"
+                  :maxlength="3"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxNumberStoreys">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxNumberStoreys"
                   placeholder="До"
-                  :maxlength="10"
+                  :maxlength="3"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
@@ -340,8 +339,8 @@
 
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
-            <FormItem prop="rentCheck">
-              <Checkbox v-model="form.rentCheck" size="default"
+            <FormItem prop="severalFloors">
+              <Checkbox v-model="form.severalFloors" size="default"
                 >Помещение с несколькими этажами</Checkbox
               >
             </FormItem>
@@ -358,18 +357,18 @@
               </Tooltip>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minPossibleIncome">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minPossibleIncome"
                   placeholder="От"
                   :maxlength="10"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxPossibleIncome">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxPossibleIncome"
                   placeholder="До"
                   :maxlength="10"
                   size="large"
@@ -389,18 +388,18 @@
               </Tooltip>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minPayback">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minPayback"
                   placeholder="От"
                   :maxlength="10"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxPayback">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxPayback"
                   placeholder="До"
                   :maxlength="10"
                   size="large"
@@ -423,18 +422,18 @@
               </Tooltip>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minAverageRentalRate">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minAverageRentalRate"
                   placeholder="От"
                   :maxlength="10"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxAverageRentalRate">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxAverageRentalRate"
                   placeholder="До"
                   :maxlength="10"
                   size="large"
@@ -455,9 +454,9 @@
               </Tooltip>
             </div>
             <div class="form-input-field">
-              <FormItem prop="changeCities">
+              <FormItem prop="relativeLocation">
                 <Select
-                  v-model="form.changeCities"
+                  v-model="form.relativeLocation"
                   multiple
                   size="large"
                   :max-tag-count="maxTagCount"
@@ -465,10 +464,10 @@
                   :max-tag-placeholder="more"
                 >
                   <Option
-                    v-for="item in cityList"
-                    :key="item.value"
-                    :value="item.value"
-                    >{{ item.label }}</Option
+                    v-for="item in valueFilters.relative_location"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
                   >
                 </Select>
               </FormItem>
@@ -481,9 +480,9 @@
               <span>Станция метро</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="changeCities">
+              <FormItem prop="metroStations">
                 <Select
-                  v-model="form.changeCities"
+                  v-model="form.metroStations"
                   multiple
                   size="large"
                   :max-tag-count="maxTagCount"
@@ -491,10 +490,10 @@
                   :max-tag-placeholder="more"
                 >
                   <Option
-                    v-for="item in cityList"
-                    :key="item.value"
-                    :value="item.value"
-                    >{{ item.label }}</Option
+                    v-for="item in valueFilters.metro_stations"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
                   >
                 </Select>
               </FormItem>
@@ -510,20 +509,20 @@
               </Tooltip>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minDistanceToMetro">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minDistanceToMetro"
                   placeholder="От"
-                  :maxlength="10"
+                  :maxlength="4"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxDistanceToMetro">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxDistanceToMetro"
                   placeholder="До"
-                  :maxlength="10"
+                  :maxlength="4"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
@@ -539,9 +538,9 @@
               <span>Отделка</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="changeCities">
+              <FormItem prop="finishingProperty">
                 <Select
-                  v-model="form.changeCities"
+                  v-model="form.finishingProperty"
                   multiple
                   size="large"
                   :max-tag-count="maxTagCount"
@@ -549,10 +548,10 @@
                   :max-tag-placeholder="more"
                 >
                   <Option
-                    v-for="item in cityList"
-                    :key="item.value"
-                    :value="item.value"
-                    >{{ item.label }}</Option
+                    v-for="item in valueFilters.finishing_property"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
                   >
                 </Select>
               </FormItem>
@@ -565,9 +564,9 @@
               <span>Системы коммуникаций</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="changeCities">
+              <FormItem prop="communicationSystems">
                 <Select
-                  v-model="form.changeCities"
+                  v-model="form.communicationSystems"
                   multiple
                   size="large"
                   :max-tag-count="maxTagCount"
@@ -575,10 +574,10 @@
                   :max-tag-placeholder="more"
                 >
                   <Option
-                    v-for="item in cityList"
-                    :key="item.value"
-                    :value="item.value"
-                    >{{ item.label }}</Option
+                    v-for="item in valueFilters.communication_systems"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
                   >
                 </Select>
               </FormItem>
@@ -591,9 +590,9 @@
               <span>Вытяжка</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="changeCities">
+              <FormItem prop="cookerHood">
                 <Select
-                  v-model="form.changeCities"
+                  v-model="form.cookerHood"
                   multiple
                   size="large"
                   :max-tag-count="maxTagCount"
@@ -601,10 +600,10 @@
                   :max-tag-placeholder="more"
                 >
                   <Option
-                    v-for="item in cityList"
-                    :key="item.value"
-                    :value="item.value"
-                    >{{ item.label }}</Option
+                    v-for="item in valueFilters.cooker_hood"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
                   >
                 </Select>
               </FormItem>
@@ -619,20 +618,20 @@
               <span>Мощность, кВт</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minKw">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minKw"
                   placeholder="От"
-                  :maxlength="10"
+                  :maxlength="5"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxKw">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxKw"
                   placeholder="До"
-                  :maxlength="10"
+                  :maxlength="5"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
@@ -646,18 +645,18 @@
               <span>Высота потолков, м.</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minCeilingHeight">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minCeilingHeight"
                   placeholder="От"
                   :maxlength="10"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxCeilingHeight">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxCeilingHeight"
                   placeholder="До"
                   :maxlength="10"
                   size="large"
@@ -673,9 +672,9 @@
               <span>Вход</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="changeCities">
+              <FormItem prop="typeEntrance">
                 <Select
-                  v-model="form.changeCities"
+                  v-model="form.typeEntrance"
                   multiple
                   size="large"
                   :max-tag-count="maxTagCount"
@@ -683,10 +682,10 @@
                   :max-tag-placeholder="more"
                 >
                   <Option
-                    v-for="item in cityList"
-                    :key="item.value"
-                    :value="item.value"
-                    >{{ item.label }}</Option
+                    v-for="item in valueFilters.type_entrance"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
                   >
                 </Select>
               </FormItem>
@@ -701,18 +700,18 @@
               <span>Год постройки</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minYearConstruction">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minYearConstruction"
                   placeholder="От"
                   :maxlength="4"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxYearConstruction">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxYearConstruction"
                   placeholder="До"
                   :maxlength="4"
                   size="large"
@@ -728,20 +727,20 @@
               <span>Количество парковок</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="minSquare">
+              <FormItem prop="minParking">
                 <Input
-                  v-model="form.minSquare"
+                  v-model="form.minParking"
                   placeholder="От"
-                  :maxlength="10"
+                  :maxlength="5"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
-              <FormItem prop="maxSquare">
+              <FormItem prop="maxParking">
                 <Input
-                  v-model="form.maxSquare"
+                  v-model="form.maxParking"
                   placeholder="До"
-                  :maxlength="10"
+                  :maxlength="5"
                   size="large"
                   @keypress.native="onlyNumber"
                 />
@@ -750,7 +749,6 @@
           </div>
         </i-col>
       </Row>
-
       <Row>
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
@@ -768,10 +766,10 @@
                   :max-tag-placeholder="more"
                 >
                   <Option
-                    v-for="item in resComplexList"
-                    :key="item.value"
-                    :value="item.value"
-                    >{{ item.label }}</Option
+                    v-for="item in valueFilters.residential_complex"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
                   >
                 </Select>
               </FormItem>
@@ -784,9 +782,9 @@
               <span>Класс жилого<br />комплекса</span>
             </div>
             <div class="form-input-field">
-              <FormItem prop="changeCities">
+              <FormItem prop="classOfHousing">
                 <Select
-                  v-model="form.changeCities"
+                  v-model="form.classOfHousing"
                   multiple
                   size="large"
                   :max-tag-count="maxTagCount"
@@ -794,10 +792,10 @@
                   :max-tag-placeholder="more"
                 >
                   <Option
-                    v-for="item in cityList"
-                    :key="item.value"
-                    :value="item.value"
-                    >{{ item.label }}</Option
+                    v-for="item in valueFilters.class_of_housing"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
                   >
                 </Select>
               </FormItem>
@@ -822,121 +820,53 @@ export default {
       isExtendedFilter: true,
       anyFilters: 'ios-arrow-down',
 
-      cityList: [
-        {
-          value: 'Новосибирск',
-          label: 'Новосибирск'
-        },
-        {
-          value: 'Бердск',
-          label: 'Бердск'
-        },
-        {
-          value: 'р.п. Кольцово',
-          label: 'р.п. Кольцово'
-        },
-        {
-          value: 'р.п. Краснообск',
-          label: 'р.п. Краснообск'
-        }
-      ],
-      districtList: [
-        {
-          value: 'Дзержинский',
-          label: 'Дзержинский'
-        },
-        {
-          value: 'Железнодорожный',
-          label: 'Железнодорожный'
-        },
-        {
-          value: 'Заельцовский',
-          label: 'Заельцовский'
-        },
-        {
-          value: 'Калининский',
-          label: 'Калининский'
-        }
-      ],
-      streetList: [
-        {
-          value: 'Большевистская>',
-          label: 'Большевистская'
-        },
-        {
-          value: 'Димитрова пр-т',
-          label: 'Димитрова пр-т'
-        },
-        {
-          value: 'Родникова 1-я',
-          label: 'Родникова 1-я'
-        },
-        {
-          value: 'Днепрогэсовская',
-          label: 'Днепрогэсовская'
-        }
-      ],
-      resComplexList: [
-        {
-          value: 'Ясный Берег',
-          label: 'Ясный Берег'
-        },
-        {
-          value: 'Европейский берег',
-          label: 'Европейский бере'
-        },
-        {
-          value: 'Академия',
-          label: 'Академия'
-        },
-        {
-          value: 'Октябрьский квартал',
-          label: 'Октябрьский квартал'
-        }
-      ],
-      catBusinessList: [
-        {
-          value: 'Общепит',
-          label: 'Общепит'
-        },
-        {
-          value: 'Красота',
-          label: 'Красота'
-        },
-        {
-          value: 'Здоровье',
-          label: 'Здоровье'
-        },
-        {
-          value: 'Услуги',
-          label: 'Услуги'
-        },
-        {
-          value: 'Офис',
-          label: 'Офис'
-        },
-        {
-          value: 'Производство',
-          label: 'Производство'
-        }
-      ],
-
       form: {
+        saleCheck: true,
+
         typeComEstate: [],
         minCost: '',
         maxCost: '',
         minSquare: '',
         maxSquare: '',
         businessCategory: [],
-
         changeCities: [],
         changeDistrict: [],
         changeStreet: [],
-        changeResComplex: [],
-        saleCheck: true,
+        minCostSquare: '',
+        maxCostSquare: '',
         rentCheck: false,
-        changePurpose: [],
-        changeCatBusiness: []
+        buildingCommercialEstate: false,
+        finishedCommercialEstate: false,
+        minFloor: '',
+        maxFloor: '',
+        minNumberStoreys: '',
+        maxNumberStoreys: '',
+        severalFloors: false,
+        minPossibleIncome: '',
+        maxPossibleIncome: '',
+        minPayback: '',
+        maxPayback: '',
+        minAverageRentalRate: '',
+        maxAverageRentalRate: '',
+        relativeLocation: [],
+        metroStations: [],
+        minDistanceToMetro: '',
+        maxDistanceToMetro: '',
+        finishingProperty: [],
+        communicationSystems: [],
+        cookerHood: [],
+        minKw: '',
+        maxKw: '',
+        minCeilingHeight: '',
+        maxCeilingHeight: '',
+        typeEntrance: [],
+        minYearConstruction: '',
+        maxYearConstruction: '',
+        minParking: '',
+        maxParking: '',
+
+        changeResComplex: [],
+        classOfHousing: []
       }
     }
   },
@@ -984,7 +914,7 @@ export default {
     },
     handleSubmit(name) {
       // eslint-disable-next-line no-console
-      console.log(name)
+      console.log(this.form)
     },
     showExtendedFilter() {
       this.isExtendedFilter = !this.isExtendedFilter
