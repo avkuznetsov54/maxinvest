@@ -28,6 +28,29 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap">
             <div class="desktop-filter-titles">
+              <span>Способ покупки</span>
+            </div>
+            <FormItem prop="purchaseMethod">
+              <Select
+                v-model="form.purchaseMethod"
+                multiple
+                size="large"
+                :max-tag-count="maxTagCount"
+                :max-tag-placeholder="more"
+              >
+                <Option
+                  v-for="item in valueFilters.purchase_method"
+                  :key="item.id"
+                  :value="item.name"
+                  >{{ item.name }}</Option
+                >
+              </Select>
+            </FormItem>
+          </div>
+        </i-col>
+        <i-col :xs="24" :sm="8" :md="6" :lg="5">
+          <div class="form-input-wrap">
+            <div class="desktop-filter-titles">
               <span>Стоимость, руб.</span>
             </div>
             <FormItem>
@@ -824,6 +847,7 @@ export default {
         saleCheck: true,
 
         typeComEstate: [],
+        purchaseMethod: [],
         minCost: '',
         maxCost: '',
         minSquare: '',

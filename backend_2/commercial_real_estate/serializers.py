@@ -40,6 +40,7 @@ class CommercialEstateListSerializer(serializers.ModelSerializer):
     type_entrance = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     finishing_property = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     metro_stations = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
+    purchase_method = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
 
     images_commercial_estate = ImagesCommercialEstateListSerializer(many=True, read_only=True)
     floorplans_commercial_estate = FloorPlansCommercialEstateListSerializer(many=True, read_only=True)
@@ -68,6 +69,7 @@ class CommercialEstateDetailSerializer(serializers.ModelSerializer):
     type_entrance = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     finishing_property = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
     metro_stations = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
+    purchase_method = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
 
     images_commercial_estate = ImagesCommercialEstateListSerializer(many=True, read_only=True)
     floorplans_commercial_estate = FloorPlansCommercialEstateListSerializer(many=True, read_only=True)

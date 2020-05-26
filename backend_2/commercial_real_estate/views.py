@@ -12,7 +12,7 @@ class CommercialEstateListView(APIView):
             .select_related('region', 'city', 'district', 'address', 'residential_complex') \
             .prefetch_related('metro_stations', 'cooker_hood', 'fixed_agent', 'floor', 'relative_location',
                               'type_commercial_estate', 'business_category', 'communication_systems', 'type_entrance',
-                              'finishing_property') \
+                              'finishing_property', 'purchase_method') \
             .prefetch_related('images_commercial_estate', 'floorplans_commercial_estate',
                               'video_commercial_estate')
 

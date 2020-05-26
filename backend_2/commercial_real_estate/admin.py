@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from .models import (BusinessCategory, TypeCommercialEstate, CookerHood, TypeEntranceToCommercialEstate,
-                     CommunicationSystems, RelativeLocation, CommercialEstate, FinishingProperty,
+                     CommunicationSystems, RelativeLocation, CommercialEstate, FinishingProperty, PurchaseMethod,
                      ImagesCommercialEstate, FloorPlansCommercialEstate, VideoCommercialEstate)
 
 
@@ -87,6 +87,12 @@ class FinishingPropertyAdmin(admin.ModelAdmin):
     list_display_links = ('name',)
 
 
+@admin.register(PurchaseMethod)
+class PurchaseMethodAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'description')
+    list_display_links = ('name',)
+
+
 @admin.register(CommercialEstate)
 class CommercialPremisesAdmin(admin.ModelAdmin):
     list_display = ('id', 'address', 'district', 'area', 'is_sale', 'is_rent', 'is_active')
@@ -131,6 +137,7 @@ class CommercialPremisesAdmin(admin.ModelAdmin):
                        'finished_commercial_estate',
                        'type_commercial_estate',
                        'business_category',
+                       'purchase_method',
                        ),
         }),
         (None, {

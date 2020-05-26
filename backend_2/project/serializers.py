@@ -3,7 +3,8 @@ from rest_framework import serializers
 from geo_location.models import City, District, Street
 from residential_real_estate.models import NamesOfMetroStations, ResidentialComplex, ClassOfHousing
 from commercial_real_estate.models import (TypeCommercialEstate, BusinessCategory, RelativeLocation, FinishingProperty,
-                                           CommunicationSystems, CookerHood, TypeEntranceToCommercialEstate)
+                                           CommunicationSystems, CookerHood, TypeEntranceToCommercialEstate,
+                                           PurchaseMethod)
 
 
 class CityListSerializer(serializers.ModelSerializer):
@@ -84,6 +85,12 @@ class ClassOfHousingListSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+class PurchaseMethodListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PurchaseMethod
+        fields = ('id', 'name')
+
+
 class FiltersSerializers(serializers.Serializer):
     city = CityListSerializer(read_only=True, many=True)
     district = DistrictListSerializer(read_only=True, many=True)
@@ -98,5 +105,6 @@ class FiltersSerializers(serializers.Serializer):
     type_entrance = TypeEntranceToCommercialEstateListSerializer(read_only=True, many=True)
     residential_complex = ResidentialComplexListSerializer(read_only=True, many=True)
     class_of_housing = ClassOfHousingListSerializer(read_only=True, many=True)
+    purchase_method = PurchaseMethodListSerializer(read_only=True, many=True)
 
 

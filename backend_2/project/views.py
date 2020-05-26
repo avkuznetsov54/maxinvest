@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 from geo_location.models import City, District, Street
 from residential_real_estate.models import NamesOfMetroStations, ResidentialComplex, ClassOfHousing
 from commercial_real_estate.models import (TypeCommercialEstate, BusinessCategory, RelativeLocation, FinishingProperty,
-                                           CommunicationSystems, CookerHood, TypeEntranceToCommercialEstate)
+                                           CommunicationSystems, CookerHood, TypeEntranceToCommercialEstate,
+                                           PurchaseMethod)
 from .serializers import FiltersSerializers
 
 
@@ -24,6 +25,7 @@ class FiltersView(APIView):
         filters['type_entrance'] = TypeEntranceToCommercialEstate.objects.all()
         filters['residential_complex'] = ResidentialComplex.objects.all()
         filters['class_of_housing'] = ClassOfHousing.objects.all()
+        filters['purchase_method'] = PurchaseMethod.objects.all()
 
         serializer = FiltersSerializers(filters)
         return Response(serializer.data)

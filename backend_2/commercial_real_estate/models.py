@@ -138,6 +138,20 @@ class FinishingProperty(models.Model):
         ordering = ['name']
 
 
+class PurchaseMethod(models.Model):
+    """Модель Способы покупки"""
+    name = models.CharField(max_length=150, unique=True, verbose_name='Название')
+    description = models.TextField(blank=True, verbose_name='Описание')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Способ покупки'
+        verbose_name_plural = 'Способы покупки'
+        ordering = ['name']
+
+
 class CommercialEstate(models.Model):
     """Модель Коммерческого помещения"""
     is_active = models.BooleanField(default=True, verbose_name='Отображать')
@@ -238,6 +252,11 @@ class CommercialEstate(models.Model):
                                                related_name='comestate_businesscategory',
                                                default=None,
                                                blank=True)
+    purchase_method = models.ManyToManyField(PurchaseMethod,
+                                             verbose_name='Способы покупки',
+                                             related_name='comestate_purchasemethod',
+                                             default=None,
+                                             blank=True)
 
     rent_price_sq_m = models.IntegerField(db_index=True, null=True, blank=True,
                                           verbose_name='Стоимость аренды, руб/кв.м.')
