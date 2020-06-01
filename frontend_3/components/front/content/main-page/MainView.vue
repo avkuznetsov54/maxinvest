@@ -12,22 +12,41 @@
           <Radio label="Ипотека онлайн" class="select-mode-radio"></Radio>
         </RadioGroup>
       </div>
-      <div v-show="selectMode === 'Коммерческая' ? true : false">
-        <app-main-search-panel-commerce />
-      </div>
-      <div v-show="selectMode === 'Новостройки' ? true : false">
-        <app-search-panel-new-building />
-      </div>
+      <!--      <div v-show="selectMode === 'Коммерческая' ? true : false">-->
+      <!--        <div class="search-panel">-->
+      <!--          &lt;!&ndash;          <LazyHydrate when-visible>&ndash;&gt;-->
+      <!--          <app-main-search-panel-commerce />-->
+      <!--          &lt;!&ndash;          </LazyHydrate>&ndash;&gt;-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--      <div v-show="selectMode === 'Новостройки' ? true : false">-->
+      <!--        <app-search-panel-new-building />-->
+      <!--      </div>-->
+      <!--      <client-only>-->
+      <keep-alive>
+        <div v-if="selectMode === 'Новостройки'">
+          <app-search-panel-new-building />
+        </div>
+        <div v-else-if="selectMode === 'Коммерческая'">
+          <div class="search-panel">
+            <app-main-search-panel-commerce />
+          </div>
+        </div>
+        <!--          <component :is="SearchPanelBuilding"></component>-->
+      </keep-alive>
+      <!--      </client-only>-->
     </div>
   </div>
 </template>
 
 <script>
+// import LazyHydrate from 'vue-lazy-hydration'
 import AppMainSearchPanelCommerce from '@/components/front/content/search-panels-commerce/MainSearchPanelCommerce'
 import AppSearchPanelNewBuilding from '@/components/front/content/search-panels-residential/SearchPanelNewBuilding'
 export default {
   name: 'MainView',
   components: {
+    // LazyHydrate,
     AppMainSearchPanelCommerce,
     AppSearchPanelNewBuilding
   },
@@ -103,5 +122,13 @@ export default {
   .ivu-radio-wrapper:before {
     content: none;
   }
+}
+.search-panel {
+  height: 254px;
+  max-height: 254px;
+  background: #fff;
+  padding: 15px;
+  margin: 20px auto 0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
 }
 </style>

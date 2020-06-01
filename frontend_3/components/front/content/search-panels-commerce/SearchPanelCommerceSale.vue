@@ -157,27 +157,58 @@
           </div>
         </i-col>
 
+        <!--        <i-col :xs="24" :sm="8" :md="6" :lg="5">-->
+        <!--          <div class="form-input-wrap">-->
+        <!--            <FormItem prop="changeDistrict">-->
+        <!--              <Select-->
+        <!--                v-model="form.changeDistrict"-->
+        <!--                multiple-->
+        <!--                size="large"-->
+        <!--                :max-tag-count="maxTagCount"-->
+        <!--                :max-tag-placeholder="more"-->
+        <!--                placeholder="Район"-->
+        <!--              >-->
+        <!--                <Option-->
+        <!--                  v-for="item in valueFilters.district"-->
+        <!--                  :key="item.id"-->
+        <!--                  :value="item.name"-->
+        <!--                  >{{ item.name }}</Option-->
+        <!--                >-->
+        <!--              </Select>-->
+        <!--            </FormItem>-->
+        <!--          </div>-->
+        <!--        </i-col>-->
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap">
-            <FormItem prop="changeDistrict">
-              <Select
-                v-model="form.changeDistrict"
-                multiple
-                size="large"
-                :max-tag-count="maxTagCount"
-                :max-tag-placeholder="more"
-                placeholder="Район"
-              >
-                <Option
-                  v-for="item in valueFilters.district"
-                  :key="item.id"
-                  :value="item.name"
-                  >{{ item.name }}</Option
+            <client-only>
+              <FormItem prop="changeDistrict">
+                <Select
+                  v-model="form.changeDistrict"
+                  multiple
+                  filterable
+                  size="large"
+                  :max-tag-count="maxTagCount"
+                  :max-tag-placeholder="more"
+                  placeholder="Район"
                 >
-              </Select>
-            </FormItem>
+                  <OptionGroup
+                    v-for="item in valueFilters.city"
+                    :key="item.id"
+                    :label="item.name"
+                  >
+                    <Option
+                      v-for="itemCh in item.district_city"
+                      :key="itemCh.id"
+                      :value="itemCh.name"
+                      >{{ itemCh.name }}</Option
+                    >
+                  </OptionGroup>
+                </Select>
+              </FormItem>
+            </client-only>
           </div>
         </i-col>
+
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap">
             <FormItem prop="changeStreet">
@@ -215,7 +246,7 @@
         </i-col>
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <Button size="large" long type="success" @click="handleSubmit('form')"
-            ><b>Показать</b></Button
+            ><b>Показать {{ countObj }}</b></Button
           >
         </i-col>
       </Row>
@@ -844,59 +875,62 @@ export default {
       anyFilters: 'ios-arrow-down',
 
       form: {
-        saleCheck: true,
-
-        typeComEstate: [],
-        purchaseMethod: [],
-        minCost: '',
-        maxCost: '',
-        minSquare: '',
-        maxSquare: '',
-        businessCategory: [],
-        changeCities: [],
-        changeDistrict: [],
-        changeStreet: [],
-        minCostSquare: '',
-        maxCostSquare: '',
-        rentCheck: false,
-        buildingCommercialEstate: false,
-        finishedCommercialEstate: false,
-        minFloor: '',
-        maxFloor: '',
-        minNumberStoreys: '',
-        maxNumberStoreys: '',
-        severalFloors: false,
-        minPossibleIncome: '',
-        maxPossibleIncome: '',
-        minPayback: '',
-        maxPayback: '',
-        minAverageRentalRate: '',
-        maxAverageRentalRate: '',
-        relativeLocation: [],
-        metroStations: [],
-        minDistanceToMetro: '',
-        maxDistanceToMetro: '',
-        finishingProperty: [],
-        communicationSystems: [],
-        cookerHood: [],
-        minKw: '',
-        maxKw: '',
-        minCeilingHeight: '',
-        maxCeilingHeight: '',
-        typeEntrance: [],
-        minYearConstruction: '',
-        maxYearConstruction: '',
-        minParking: '',
-        maxParking: '',
-
-        changeResComplex: [],
-        classOfHousing: []
+        // saleCheck: true,
+        //
+        // typeComEstate: [],
+        // purchaseMethod: [],
+        // minCost: '',
+        // maxCost: '',
+        // minSquare: '',
+        // maxSquare: '',
+        // businessCategory: [],
+        // changeCities: [],
+        // changeDistrict: [],
+        // changeStreet: [],
+        // minCostSquare: '',
+        // maxCostSquare: '',
+        // rentCheck: false,
+        // buildingCommercialEstate: false,
+        // finishedCommercialEstate: false,
+        // minFloor: '',
+        // maxFloor: '',
+        // minNumberStoreys: '',
+        // maxNumberStoreys: '',
+        // severalFloors: false,
+        // minPossibleIncome: '',
+        // maxPossibleIncome: '',
+        // minPayback: '',
+        // maxPayback: '',
+        // minAverageRentalRate: '',
+        // maxAverageRentalRate: '',
+        // relativeLocation: [],
+        // metroStations: [],
+        // minDistanceToMetro: '',
+        // maxDistanceToMetro: '',
+        // finishingProperty: [],
+        // communicationSystems: [],
+        // cookerHood: [],
+        // minKw: '',
+        // maxKw: '',
+        // minCeilingHeight: '',
+        // maxCeilingHeight: '',
+        // typeEntrance: [],
+        // minYearConstruction: '',
+        // maxYearConstruction: '',
+        // minParking: '',
+        // maxParking: '',
+        //
+        // changeResComplex: [],
+        // classOfHousing: []
       }
     }
   },
   computed: {
     valueFilters() {
       return this.$store.getters['value-for-filters/GET_VALUE_FILTERS']
+    },
+    countObj() {
+      return this.$store.getters['value-for-filters/GET_COUNT_OBJ']
     }
   },
   watch: {
@@ -921,24 +955,51 @@ export default {
       }
     }
   },
+  async mounted() {
+    if (Object.keys(this.$route.query).length !== 0) {
+      this.form = { ...this.form, ...this.$route.query }
+    }
+    if (this.$store.getters['value-for-filters/GET_COUNT_OBJ'] == null) {
+      await this.fetchCount()
+    }
+  },
   methods: {
+    async fetchCount() {
+      await this.$store.dispatch('value-for-filters/FETCH_COUNT_OBJ')
+      // eslint-disable-next-line no-console
+      // console.log('wewew')
+    },
+    // async search() {
+    //   await this.$store.dispatch('value-for-filters/FETCH_COUNT_OBJ')
+    //   // eslint-disable-next-line no-console
+    //   console.log('wewew')
+    // },
     change: (value) => {
       // eslint-disable-next-line no-console
       console.log('wwwwwwww')
     },
     thousandSeparator(newValue) {
-      const value = newValue
-        .replace(/\D/g, '')
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-      // console.log("thousandSeparator => " + v);
-      return value
+      if (newValue !== undefined) {
+        const value = newValue
+          .replace(/\D/g, '')
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+        // console.log("thousandSeparator => " + v);
+        return value
+      }
+      return newValue
     },
     handleReset(name) {
       this.$refs[name].resetFields()
+      this.form = {}
+      // eslint-disable-next-line no-console
+      console.log('очистка формы')
     },
     handleSubmit(name) {
-      // eslint-disable-next-line no-console
-      console.log(this.form)
+      if (this.$route.path !== '/commerce') {
+        this.$router.push({ path: '/commerce', query: this.form })
+        // eslint-disable-next-line no-console
+        console.log('переход на /commerce')
+      }
     },
     showExtendedFilter() {
       this.isExtendedFilter = !this.isExtendedFilter
@@ -984,8 +1045,8 @@ export default {
 }
 .desktop-extended-filter-modal-block {
   position: absolute !important;
-  max-width: 100%;
-  width: 100%;
+  /*max-width: 100%;*/
+  width: 1200px;
   /*margin: -5px auto 0px !important;*/
   padding: 30px 20px 0;
   /*border-top: 1px solid #dcdee2;*/

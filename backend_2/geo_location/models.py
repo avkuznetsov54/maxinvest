@@ -59,7 +59,7 @@ class City(models.Model):
     class Meta:
         verbose_name = 'Город / Населенный пункт'
         verbose_name_plural = 'Города / Населенные пункты'
-        ordering = ['name']
+        ordering = ['id']
 
 
 class District(models.Model):

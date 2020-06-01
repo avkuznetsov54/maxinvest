@@ -21,7 +21,10 @@ export const mutations = {
 export const actions = {
   async FETCH_RESIDENTIAL_COMPLEXES({ commit }) {
     try {
-      const { data } = await this.$axios.get('api/v1/residential/complex/all/')
+      // const data = await this.$http.$get('api/v1/residential/complex/all/')
+      const data = await this.$apiMain.getAllComplex()
+      // eslint-disable-next-line no-console
+      // console.log(data)
       commit('SET_RESIDENTIAL_COMPLEXES', data)
     } catch (e) {
       // eslint-disable-next-line no-console

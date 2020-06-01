@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/globals'],
+  plugins: ['@/plugins/globals', '@/plugins/api-main'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -39,8 +39,9 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+    // // Doc: https://axios.nuxtjs.org/usage
+    // '@nuxtjs/axios',
+    '@nuxt/http',
     '@nuxtjs/proxy',
     [
       'nuxt-lazy-load',
@@ -55,14 +56,18 @@ export default {
     ]
   ],
 
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: {
-    // baseURL: process.env.BASE_URL || 'http://localhost:8000'
-    baseURL: 'http://localhost:8000'
-  },
+  // /*
+  //  ** Axios module configuration
+  //  ** See https://axios.nuxtjs.org/options
+  //  */
+  // axios: {
+  //   // baseURL: process.env.BASE_URL || 'http://localhost:8000'
+  //   baseURL: 'http://localhost:8000'
+  // },
+  // http: {
+  //   // HTTP options here
+  //   baseURL: 'http://localhost:8000'
+  // },
   proxy: {
     '/media': {
       target: 'http://localhost:8000',
@@ -94,7 +99,8 @@ export default {
           }
         }
       }
-    }
+    },
     // END extractCSS
+    transpile: ['vue-lazy-hydration', 'intersection-observer']
   }
 }

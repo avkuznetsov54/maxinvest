@@ -12,22 +12,18 @@ export default {
   components: {
     AppMainView,
     AppMainPageContent
-  },
-  async fetch({ store, error }) {
-    try {
-      if (
-        Object.keys(
-          store.getters['value-for-filters/GET_VALUE_FILTERS'].length === 0
-        )
-      ) {
-        await store.dispatch('value-for-filters/FETCH_VALUE_FILTERS')
-      }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log('error => ' + e)
-      error(e)
-    }
   }
+  // async fetch({ store, error }) {
+  //   try {
+  //     // if (store.getters['users/users'].length === 0) {
+  //     await store.dispatch['value-for-filters/FETCH_COUNT_OBJ']
+  //     // }
+  //     // eslint-disable-next-line no-console
+  //     console.log('eeee')
+  //   } catch (e) {
+  //     error(e)
+  //   }
+  // }
 }
 </script>
 

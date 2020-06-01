@@ -1,3 +1,5 @@
+from rest_framework import generics
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -5,8 +7,8 @@ from geo_location.models import City, District, Street
 from residential_real_estate.models import NamesOfMetroStations, ResidentialComplex, ClassOfHousing
 from commercial_real_estate.models import (TypeCommercialEstate, BusinessCategory, RelativeLocation, FinishingProperty,
                                            CommunicationSystems, CookerHood, TypeEntranceToCommercialEstate,
-                                           PurchaseMethod)
-from .serializers import FiltersSerializers
+                                           PurchaseMethod, CommercialEstate)
+from .serializers import FiltersSerializers, CountSerializer
 
 
 class FiltersView(APIView):
@@ -14,7 +16,7 @@ class FiltersView(APIView):
         filters = {}
         filters['type_commercial_estate'] = TypeCommercialEstate.objects.all()
         filters['business_category'] = BusinessCategory.objects.all()
-        filters['city'] = City.objects.all()
+        filters['city'] = City.objects.all().prefetch_related('district_city')
         filters['district'] = District.objects.all()
         filters['street'] = Street.objects.all()
         filters['relative_location'] = RelativeLocation.objects.all()
@@ -29,3 +31,15 @@ class FiltersView(APIView):
 
         serializer = FiltersSerializers(filters)
         return Response(serializer.data)
+
+
+class CountView(APIView):
+    """
+    Кол-во коммерческих объектов
+    """
+    renderer_classes = (JSONRenderer, )
+
+    def get(self, request, format=None):
+        count = CommercialEstate.objects.count()
+        content = {'count': count}
+        return Response(content)

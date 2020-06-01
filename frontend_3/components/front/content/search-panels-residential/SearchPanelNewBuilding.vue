@@ -1,10 +1,10 @@
 <template>
   <Tabs :animated="false" class="search-panel">
-    <TabPane label="Покупка" name="name1">
+    <TabPane label="По квартирам" name="name1">
       <!--      <div class="desktop-filter-row"></div>-->
       ewqeqw
     </TabPane>
-    <TabPane label="Аренда" name="name2">
+    <TabPane label="По жилым комплексам" name="name2">
       ewqeqwe
     </TabPane>
   </Tabs>
@@ -22,6 +22,7 @@ export default {
 
 <style lang="scss" scoped>
 .search-panel {
+  height: 254px;
   max-height: 254px;
   background: #fff;
   padding: 15px;
