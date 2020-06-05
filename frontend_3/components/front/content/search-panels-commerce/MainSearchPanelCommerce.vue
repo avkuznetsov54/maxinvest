@@ -1,15 +1,33 @@
 <template>
-  <client-only>
-    <Tabs :animated="false" class="search-panel-tabs">
-      <TabPane label="Продажа" name="name1">
-        <!--      <div class="desktop-filter-row"></div>-->
-        <app-search-panel-commerce-sale />
-      </TabPane>
-      <TabPane label="Аренда" name="name2">
-        <app-search-panel-commerce-rent />
-      </TabPane>
-    </Tabs>
-  </client-only>
+  <div>
+    <client-only>
+      <!--      <Tabs :animated="false" class="search-panel-tabs">-->
+      <!--        <TabPane label="Продажа" name="name1">-->
+      <!--          &lt;!&ndash;      <div class="desktop-filter-row"></div>&ndash;&gt;-->
+      <!--          <app-search-panel-commerce-sale />-->
+      <!--        </TabPane>-->
+      <!--        <TabPane label="Аренда" name="name2">-->
+      <!--          <app-search-panel-commerce-rent />-->
+      <!--        </TabPane>-->
+      <!--      </Tabs>-->
+      <div>
+        <RadioGroup v-model="select" type="button" class="select-mode">
+          <Radio label="Продажа" class="select-mode-radio"></Radio>
+          <Radio label="Аренда" class="select-mode-radio"></Radio>
+        </RadioGroup>
+      </div>
+      <div class="select-tab">
+        <div v-if="select === 'Продажа'">
+          <app-search-panel-commerce-sale />
+        </div>
+        <div v-else-if="select === 'Аренда'">
+          <div class="search-panel">
+            <app-search-panel-commerce-rent />
+          </div>
+        </div>
+      </div>
+    </client-only>
+  </div>
 </template>
 
 <script>
@@ -20,8 +38,15 @@ export default {
   name: 'MainSearchPanel',
   components: {
     // LazyHydrate,
+    // eslint-disable-next-line vue/no-unused-components
     AppSearchPanelCommerceSale: () => import('./SearchPanelCommerceSale'),
+    // eslint-disable-next-line vue/no-unused-components
     AppSearchPanelCommerceRent
+  },
+  data() {
+    return {
+      select: 'Продажа'
+    }
   }
 }
 </script>
@@ -40,5 +65,12 @@ export default {
 }
 .ivu-tabs {
   overflow: visible;
+}
+.select-mode {
+  color: #515a6e;
+}
+.select-tab {
+  color: #515a6e;
+  margin-top: 16px;
 }
 </style>

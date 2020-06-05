@@ -761,6 +761,7 @@ export default {
   background-color: #fff;
   /*box-shadow: 0px 16px 38px rgba(0, 0, 0, 0.12);*/
   margin-left: -15px;
+  z-index: 2;
 
   .form-input-field {
     width: 60%;

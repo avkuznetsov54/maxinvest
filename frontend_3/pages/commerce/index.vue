@@ -1,8 +1,15 @@
 <template>
-  <div class="search-panel-wrap">
-    <div class="container">
-      <div class="search-panel-page">
-        <app-main-search-panel-commerce />
+  <div>
+    <div class="search-panel-wrap">
+      <div class="container">
+        <div class="search-panel-page">
+          <app-main-search-panel-commerce />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="container">
+        <app-commerce-list-card />
       </div>
     </div>
   </div>
@@ -10,10 +17,12 @@
 
 <script>
 import AppMainSearchPanelCommerce from '@/components/front/content/search-panels-commerce/MainSearchPanelCommerce'
+import AppCommerceListCard from '@/components/front/content/commerce-page/CommerceListCard'
 
 export default {
   components: {
-    AppMainSearchPanelCommerce
+    AppMainSearchPanelCommerce,
+    AppCommerceListCard
   },
   mounted() {
     // eslint-disable-next-line no-console

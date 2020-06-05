@@ -190,6 +190,7 @@
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
                   placeholder="Район"
+                  label-in-value
                 >
                   <OptionGroup
                     v-for="item in valueFilters.city"
@@ -927,10 +928,10 @@ export default {
   },
   computed: {
     valueFilters() {
-      return this.$store.getters['value-for-filters/GET_VALUE_FILTERS']
+      return this.$store.getters['commerce/GET_VALUE_FILTERS']
     },
     countObj() {
-      return this.$store.getters['value-for-filters/GET_COUNT_OBJ']
+      return this.$store.getters['commerce/GET_COUNT_OBJ']
     }
   },
   watch: {
@@ -959,16 +960,17 @@ export default {
     if (Object.keys(this.$route.query).length !== 0) {
       this.form = { ...this.form, ...this.$route.query }
     }
-    if (this.$store.getters['value-for-filters/GET_COUNT_OBJ'] == null) {
-      await this.fetchCount()
+    if (
+      Object.keys(this.$store.getters['commerce/GET_VALUE_FILTERS']).length ===
+      0
+    ) {
+      await this.$store.dispatch('commerce/FETCH_VALUE_FILTERS')
+    }
+    if (this.$store.getters['commerce/GET_COUNT_OBJ'] == null) {
+      await this.$store.dispatch('commerce/FETCH_COUNT_OBJ')
     }
   },
   methods: {
-    async fetchCount() {
-      await this.$store.dispatch('value-for-filters/FETCH_COUNT_OBJ')
-      // eslint-disable-next-line no-console
-      // console.log('wewew')
-    },
     // async search() {
     //   await this.$store.dispatch('value-for-filters/FETCH_COUNT_OBJ')
     //   // eslint-disable-next-line no-console
@@ -995,8 +997,11 @@ export default {
       console.log('очистка формы')
     },
     handleSubmit(name) {
+      // eslint-disable-next-line no-console
+      console.log(this.form)
       if (this.$route.path !== '/commerce') {
         this.$router.push({ path: '/commerce', query: this.form })
+
         // eslint-disable-next-line no-console
         console.log('переход на /commerce')
       }
@@ -1014,6 +1019,11 @@ export default {
     },
     more(num) {
       return 'Выбрано: ' + num
+    },
+    changeSelect(e) {
+      // this.$Message.success('true')
+      // eslint-disable-next-line no-console
+      console.log(e)
     }
   }
 }
@@ -1054,6 +1064,7 @@ export default {
   background-color: #fff;
   /*box-shadow: 0px 16px 38px rgba(0, 0, 0, 0.12);*/
   margin-left: -15px;
+  z-index: 2;
 
   .form-input-field {
     width: 60%;

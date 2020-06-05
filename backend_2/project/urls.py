@@ -30,7 +30,7 @@ urlpatterns = [
     path('api/v1/count/', CountView.as_view()),
 
     path('api/v1/residential/', include('residential_real_estate.urls')),
-    path('api/v1/commerc/', include('commercial_real_estate.urls')),
+    path('api/v1/commerce/', include('commercial_real_estate.urls')),
 ]
 
 if settings.DEBUG:

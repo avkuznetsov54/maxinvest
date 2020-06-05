@@ -27,7 +27,11 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/globals', '@/plugins/api-main'],
+  plugins: [
+    '@/plugins/globals',
+    '@/plugins/api-main',
+    '@/plugins/api-commerce'
+  ],
   /*
    ** Nuxt.js dev-modules
    */

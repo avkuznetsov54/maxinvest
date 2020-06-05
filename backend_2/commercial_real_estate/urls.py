@@ -4,6 +4,7 @@ from .views import CommercialEstateListView, CommercialEstateDetailView
 
 
 urlpatterns = [
-    path('estate/all/', CommercialEstateListView.as_view()),
-    path('estate/<int:pk>/', CommercialEstateDetailView.as_view()),
+
+    path('all/', CommercialEstateListView.as_view()),
+    path('<int:pk>/', CommercialEstateDetailView.as_view()),
 ]

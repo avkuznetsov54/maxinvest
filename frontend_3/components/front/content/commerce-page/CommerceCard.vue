@@ -2,12 +2,12 @@
   <div class="card">
     <div class="card-image">
       <div class="card-obj-badge">
-        <Tag class="card-obj-badge-tag" color="primary">{{
-          resComplex.class_of_housing
-        }}</Tag>
+        <!--        <Tag class="card-obj-badge-tag" color="primary">{{-->
+        <!--          resComplex.class_of_housing-->
+        <!--        }}</Tag>-->
       </div>
 
-      <div v-if="resComplex.images_residential_complex.length === 0">
+      <div v-if="resComplex.images_commercial_estate.length === 0">
         <div class="card-wrap-image" @click="openCard">
           <img
             v-lazy-load
@@ -63,7 +63,7 @@
           </swiper-slide>
 
           <swiper-slide
-            v-for="img in resComplex.images_residential_complex"
+            v-for="img in resComplex.images_commercial_estate"
             :key="img.id"
           >
             <div class="card-wrap-image" @click="openCard">
@@ -80,21 +80,22 @@
     </div>
     <div class="card-content" @click="openCard">
       <div class="card-content-title">
-        <p>{{ resComplex.name }}</p>
+        <p>{{ resComplex.cost_of_sale | numCredit }} руб.</p>
+        <span>{{ resComplex.area }} м²</span> |
       </div>
       <div class="card-content-address">
         <span>{{ resComplex.city }},</span>
         <span>{{ resComplex.district }},</span>
       </div>
       <div>
-        <!--        <span>{{ resComplex.address }}</span>-->
+        <span>{{ resComplex.address }}</span>
 
-        <span v-for="(item, index) in resComplex.address" :key="item">
-          {{ item }}{{ resComplex.address.length !== index + 1 ? ',' : '' }}
-        </span>
+        <!--              <span v-for="(item, index) in resComplex.address" :key="item">-->
+        <!--                {{ item }}{{ resComplex.address.length !== index + 1 ? ',' : '' }}-->
+        <!--              </span>-->
       </div>
 
-      <small>Срок сдачи: {{ resComplex.house_completed ? 'Сдан' : '' }}</small>
+      <!--            <small>Срок сдачи: {{ resComplex.house_completed ? 'Сдан' : '' }}</small>-->
     </div>
   </div>
 </template>
@@ -104,7 +105,7 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 
 export default {
-  name: 'ResidentialComplexCard',
+  name: 'CommerceCard',
   components: {
     Swiper,
     SwiperSlide
@@ -112,6 +113,11 @@ export default {
   // directives: {
   //   swiper: directive
   // },
+  filters: {
+    numCredit(value) {
+      return new Intl.NumberFormat().format(value)
+    }
+  },
   props: {
     resComplex: {
       type: Object,
@@ -137,7 +143,7 @@ export default {
   methods: {
     openCard() {
       // const id = 'test-id'
-      this.$router.push(`/novostroyki/${this.resComplex.url_name}`)
+      this.$router.push(`/commerce/${this.resComplex.id}`)
     }
   }
 }
@@ -181,9 +187,9 @@ export default {
 .swiper-button-next {
   background-color: rgba(0, 0, 0, 0.5) !important;
   border-radius: 26px;
-  width: 32px;
-  height: 32px;
-  opacity: 0;
+  width: 28px;
+  height: 28px;
+  opacity: 0.2;
   &:hover {
     /*background-color: rgba(0, 0, 0, 0.5) !important;*/
     /*opacity: 0.85;*/

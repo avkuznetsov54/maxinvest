@@ -1,4 +1,4 @@
-export default class ApiMain {
+export default class ApiCommerce {
   constructor(ctx) {
     this.$http = ctx.$http
   }
@@ -15,8 +15,18 @@ export default class ApiMain {
     return await res.json()
   }
 
-  getAllComplex = async () => {
-    const res = await this.getResource(`api/v1/residential/complex/all/`)
+  getFilters = async () => {
+    const res = await this.getResource(`api/v1/filters/`)
+    return await res
+  }
+
+  getCommerceCount = async () => {
+    const res = await this.getResource(`api/v1/count/`)
+    return await res
+  }
+
+  getAllCommerce = async () => {
+    const res = await this.getResource(`api/v1/commerce/all/`)
     return await res
   }
 }
