@@ -181,6 +181,32 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap">
             <client-only>
+              <!--              <FormItem prop="changeDistrict">-->
+              <!--                <Select-->
+              <!--                  v-model="form.changeDistrict"-->
+              <!--                  multiple-->
+              <!--                  filterable-->
+              <!--                  size="large"-->
+              <!--                  :max-tag-count="maxTagCount"-->
+              <!--                  :max-tag-placeholder="more"-->
+              <!--                  placeholder="Район"-->
+              <!--                  label-in-value-->
+              <!--                >-->
+              <!--                  <OptionGroup-->
+              <!--                    v-for="item in valueFilters.city"-->
+              <!--                    :key="item.id"-->
+              <!--                    :label="item.name"-->
+              <!--                  >-->
+              <!--                    <Option-->
+              <!--                      v-for="itemCh in item.district_city"-->
+              <!--                      :key="itemCh.id"-->
+              <!--                      :value="itemCh.name"-->
+              <!--                      >{{ itemCh.name }}</Option-->
+              <!--                    >-->
+              <!--                  </OptionGroup>-->
+              <!--                </Select>-->
+              <!--              </FormItem>-->
+
               <FormItem prop="changeDistrict">
                 <Select
                   v-model="form.changeDistrict"
@@ -191,6 +217,7 @@
                   :max-tag-placeholder="more"
                   placeholder="Район"
                   label-in-value
+                  @on-change="changeSelect"
                 >
                   <OptionGroup
                     v-for="item in valueFilters.city"
@@ -201,6 +228,17 @@
                       v-for="itemCh in item.district_city"
                       :key="itemCh.id"
                       :value="itemCh.name"
+                      label="district"
+                      >{{ itemCh.name }}
+                    </Option>
+                  </OptionGroup>
+
+                  <OptionGroup label="Города">
+                    <Option
+                      v-for="itemCh in valueFilters.city"
+                      :key="itemCh.id"
+                      :value="itemCh.name"
+                      label="city"
                       >{{ itemCh.name }}</Option
                     >
                   </OptionGroup>
@@ -1023,7 +1061,30 @@ export default {
     changeSelect(e) {
       // this.$Message.success('true')
       // eslint-disable-next-line no-console
-      console.log(e)
+      // console.log(e)
+
+      // https://issue.life/questions/53138769/
+      const output = e.reduce((result, item) => {
+        const i = result.findIndex(
+          (resultItem) => resultItem.label === item.label
+        )
+
+        if (i === -1) {
+          // No item in current result array found that matches the date of item
+          // so add item to result array
+          result.push(item)
+        } else {
+          // An item found with date matching item in current result so combine
+          // the two into a new object and assign this back into our result
+          // array
+          // eslint-disable-next-line no-console
+          // console.log(item)
+          result[i] = { ...result[i], ...item }
+        }
+        return result
+      }, [])
+      // eslint-disable-next-line no-console
+      console.log(output)
     }
   }
 }
