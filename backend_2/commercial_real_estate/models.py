@@ -152,6 +152,20 @@ class PurchaseMethod(models.Model):
         ordering = ['name']
 
 
+class BusinessCenter(models.Model):
+    """Модель Бизнес центр"""
+    name = models.CharField(max_length=150, unique=True, verbose_name='Название')
+    description = models.TextField(blank=True, verbose_name='Описание')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Бизнес центр'
+        verbose_name_plural = 'Бизнес центры'
+        ordering = ['name']
+
+
 class CommercialEstate(models.Model):
     """Модель Коммерческого помещения"""
     is_active = models.BooleanField(default=True, verbose_name='Отображать')
@@ -176,6 +190,8 @@ class CommercialEstate(models.Model):
     min_area = models.FloatField(db_index=True, null=True, blank=True, verbose_name='Площадь от, м')
     max_area = models.FloatField(db_index=True, null=True, blank=True, verbose_name='Площадь до, м')
 
+    ground_floor = models.BooleanField(default=False, verbose_name='Цоколь')
+    basement = models.BooleanField(default=False, verbose_name='Подвал')
     floor = models.ManyToManyField(FloorInBuilding,
                                    verbose_name='Этаж',
                                    related_name='comestate_floor',
@@ -227,6 +243,14 @@ class CommercialEstate(models.Model):
                                                related_name='comestate_relativelocation',
                                                default=None,
                                                blank=True)
+
+    business_center = models.ForeignKey(BusinessCenter,
+                                        on_delete=models.SET_NULL,
+                                        verbose_name='Бизнес центр',
+                                        related_name='comestate_buscenter',
+                                        default=None,
+                                        null=True,
+                                        blank=True)
 
     residential_complex = models.ForeignKey(ResidentialComplex,
                                             on_delete=models.SET_NULL,

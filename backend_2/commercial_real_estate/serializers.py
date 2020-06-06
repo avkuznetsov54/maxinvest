@@ -27,6 +27,7 @@ class CommercialEstateListSerializer(serializers.ModelSerializer):
     city = serializers.SlugRelatedField(slug_field='name', read_only=True)
     district = serializers.SlugRelatedField(slug_field='name', read_only=True)
     address = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    business_center = serializers.SlugRelatedField(slug_field='name', read_only=True)
     residential_complex = serializers.SlugRelatedField(slug_field='name', read_only=True)
 
     cooker_hood = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
@@ -56,6 +57,7 @@ class CommercialEstateDetailSerializer(serializers.ModelSerializer):
     city = serializers.SlugRelatedField(slug_field='name', read_only=True)
     district = serializers.SlugRelatedField(slug_field='name', read_only=True)
     address = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    business_center = serializers.SlugRelatedField(slug_field='name', read_only=True)
     residential_complex = serializers.SlugRelatedField(slug_field='name', read_only=True)
 
     cooker_hood = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)

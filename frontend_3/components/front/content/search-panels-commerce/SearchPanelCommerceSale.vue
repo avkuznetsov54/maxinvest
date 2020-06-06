@@ -181,32 +181,6 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap">
             <client-only>
-              <!--              <FormItem prop="changeDistrict">-->
-              <!--                <Select-->
-              <!--                  v-model="form.changeDistrict"-->
-              <!--                  multiple-->
-              <!--                  filterable-->
-              <!--                  size="large"-->
-              <!--                  :max-tag-count="maxTagCount"-->
-              <!--                  :max-tag-placeholder="more"-->
-              <!--                  placeholder="Район"-->
-              <!--                  label-in-value-->
-              <!--                >-->
-              <!--                  <OptionGroup-->
-              <!--                    v-for="item in valueFilters.city"-->
-              <!--                    :key="item.id"-->
-              <!--                    :label="item.name"-->
-              <!--                  >-->
-              <!--                    <Option-->
-              <!--                      v-for="itemCh in item.district_city"-->
-              <!--                      :key="itemCh.id"-->
-              <!--                      :value="itemCh.name"-->
-              <!--                      >{{ itemCh.name }}</Option-->
-              <!--                    >-->
-              <!--                  </OptionGroup>-->
-              <!--                </Select>-->
-              <!--              </FormItem>-->
-
               <FormItem prop="changeDistrict">
                 <Select
                   v-model="form.changeDistrict"
@@ -217,7 +191,6 @@
                   :max-tag-placeholder="more"
                   placeholder="Район"
                   label-in-value
-                  @on-change="changeSelect"
                 >
                   <OptionGroup
                     v-for="item in valueFilters.city"
@@ -228,22 +201,49 @@
                       v-for="itemCh in item.district_city"
                       :key="itemCh.id"
                       :value="itemCh.name"
-                      label="district"
-                      >{{ itemCh.name }}
-                    </Option>
-                  </OptionGroup>
-
-                  <OptionGroup label="Города">
-                    <Option
-                      v-for="itemCh in valueFilters.city"
-                      :key="itemCh.id"
-                      :value="itemCh.name"
-                      label="city"
                       >{{ itemCh.name }}</Option
                     >
                   </OptionGroup>
                 </Select>
               </FormItem>
+
+              <!--              <FormItem prop="changeDistrict">-->
+              <!--                <Select-->
+              <!--                  v-model="form.changeDistrict"-->
+              <!--                  multiple-->
+              <!--                  filterable-->
+              <!--                  size="large"-->
+              <!--                  :max-tag-count="maxTagCount"-->
+              <!--                  :max-tag-placeholder="more"-->
+              <!--                  placeholder="Район"-->
+              <!--                  label-in-value-->
+              <!--                  @on-change="changeSelect"-->
+              <!--                >-->
+              <!--                  <OptionGroup-->
+              <!--                    v-for="item in valueFilters.city"-->
+              <!--                    :key="item.id"-->
+              <!--                    :label="item.name"-->
+              <!--                  >-->
+              <!--                    <Option-->
+              <!--                      v-for="itemCh in item.district_city"-->
+              <!--                      :key="itemCh.id"-->
+              <!--                      :value="itemCh.name"-->
+              <!--                      label="district"-->
+              <!--                      >{{ itemCh.name }}-->
+              <!--                    </Option>-->
+              <!--                  </OptionGroup>-->
+
+              <!--                  <OptionGroup label="Города">-->
+              <!--                    <Option-->
+              <!--                      v-for="itemCh in valueFilters.city"-->
+              <!--                      :key="itemCh.id"-->
+              <!--                      :value="itemCh.name"-->
+              <!--                      label="city"-->
+              <!--                      >{{ itemCh.name }}</Option-->
+              <!--                    >-->
+              <!--                  </OptionGroup>-->
+              <!--                </Select>-->
+              <!--              </FormItem>-->
             </client-only>
           </div>
         </i-col>
@@ -336,7 +336,11 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap-extended-filter">
             <FormItem prop="rentCheck">
-              <Checkbox v-model="form.rentCheck" size="default"
+              <Checkbox
+                v-model="form.rentCheck"
+                size="default"
+                true-value="true"
+                false-value="false"
                 >Возможность арендовать
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
@@ -348,7 +352,11 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap-extended-filter">
             <FormItem prop="buildingCommercialEstate">
-              <Checkbox v-model="form.buildingCommercialEstate" size="default"
+              <Checkbox
+                v-model="form.buildingCommercialEstate"
+                size="default"
+                true-value="true"
+                false-value="false"
                 >В процессе строительства
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
@@ -360,12 +368,59 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="4">
           <div class="form-input-wrap-extended-filter">
             <FormItem prop="finishedCommercialEstate">
-              <Checkbox v-model="form.finishedCommercialEstate" size="default"
+              <Checkbox
+                v-model="form.finishedCommercialEstate"
+                size="default"
+                true-value="true"
+                false-value="false"
                 >Готовое
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
                 <Icon type="md-help" class="icon-class" />
               </Tooltip>
+            </FormItem>
+          </div>
+        </i-col>
+      </Row>
+      <Row>
+        <i-col :xs="24" :sm="8" :md="6" :lg="4">
+          <div class="form-input-wrap-extended-filter">
+            <FormItem prop="groundFloor">
+              <Checkbox
+                v-model="form.groundFloor"
+                size="default"
+                true-value="true"
+                false-value="false"
+                >Цоколь</Checkbox
+              >
+            </FormItem>
+          </div>
+        </i-col>
+
+        <i-col :xs="24" :sm="8" :md="6" :lg="4">
+          <div class="form-input-wrap-extended-filter">
+            <FormItem prop="basement">
+              <Checkbox
+                v-model="form.basement"
+                size="default"
+                true-value="true"
+                false-value="false"
+                >Подвал</Checkbox
+              >
+            </FormItem>
+          </div>
+        </i-col>
+
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <FormItem prop="severalFloors">
+              <Checkbox
+                v-model="form.severalFloors"
+                size="default"
+                true-value="true"
+                false-value="false"
+                >Помещение с несколькими этажами</Checkbox
+              >
             </FormItem>
           </div>
         </i-col>
@@ -427,16 +482,6 @@
                 />
               </FormItem>
             </div>
-          </div>
-        </i-col>
-
-        <i-col :xs="24" :sm="8" :md="6" :lg="8">
-          <div class="form-input-wrap-extended-filter">
-            <FormItem prop="severalFloors">
-              <Checkbox v-model="form.severalFloors" size="default"
-                >Помещение с несколькими этажами</Checkbox
-              >
-            </FormItem>
           </div>
         </i-col>
       </Row>
@@ -846,6 +891,33 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
             <div class="form-input-title">
+              <span>Бизнес центр</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="businessCenter">
+                <Select
+                  v-model="form.businessCenter"
+                  multiple
+                  size="large"
+                  filterable
+                  :max-tag-count="maxTagCount"
+                  :max-tag-placeholder="more"
+                >
+                  <Option
+                    v-for="item in valueFilters.business_center"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
+                  >
+                </Select>
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
+
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
               <span>Жилой комплекс</span>
             </div>
             <div class="form-input-field">
@@ -995,6 +1067,8 @@ export default {
     }
   },
   async mounted() {
+    // eslint-disable-next-line no-console
+    console.log(this.$route.query)
     if (Object.keys(this.$route.query).length !== 0) {
       this.form = { ...this.form, ...this.$route.query }
     }
@@ -1029,8 +1103,12 @@ export default {
       return newValue
     },
     handleReset(name) {
+      // eslint-disable-next-line no-console
+      // console.log(Object.values(this.form))
+
       this.$refs[name].resetFields()
       this.form = {}
+
       // eslint-disable-next-line no-console
       console.log('очистка формы')
     },

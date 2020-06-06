@@ -4,7 +4,7 @@ from geo_location.models import City, District, Street
 from residential_real_estate.models import NamesOfMetroStations, ResidentialComplex, ClassOfHousing
 from commercial_real_estate.models import (TypeCommercialEstate, BusinessCategory, RelativeLocation, FinishingProperty,
                                            CommunicationSystems, CookerHood, TypeEntranceToCommercialEstate,
-                                           PurchaseMethod, CommercialEstate)
+                                           PurchaseMethod, CommercialEstate, BusinessCenter)
 
 
 class DistrictListSerializer(serializers.ModelSerializer):
@@ -98,6 +98,12 @@ class PurchaseMethodListSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+class BusinessCenterListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BusinessCenter
+        fields = ('id', 'name')
+
+
 class FiltersSerializers(serializers.Serializer):
     city = CityListSerializer(read_only=True, many=True)
     district = DistrictListSerializer(read_only=True, many=True)
@@ -113,6 +119,7 @@ class FiltersSerializers(serializers.Serializer):
     residential_complex = ResidentialComplexListSerializer(read_only=True, many=True)
     class_of_housing = ClassOfHousingListSerializer(read_only=True, many=True)
     purchase_method = PurchaseMethodListSerializer(read_only=True, many=True)
+    business_center = BusinessCenterListSerializer(read_only=True, many=True)
 
 
 class CountSerializer(serializers.ModelSerializer):

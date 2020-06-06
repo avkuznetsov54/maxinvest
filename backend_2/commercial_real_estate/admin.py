@@ -3,7 +3,7 @@ from django.utils.safestring import mark_safe
 
 from .models import (BusinessCategory, TypeCommercialEstate, CookerHood, TypeEntranceToCommercialEstate,
                      CommunicationSystems, RelativeLocation, CommercialEstate, FinishingProperty, PurchaseMethod,
-                     ImagesCommercialEstate, FloorPlansCommercialEstate, VideoCommercialEstate)
+                     BusinessCenter, ImagesCommercialEstate, FloorPlansCommercialEstate, VideoCommercialEstate)
 
 
 class ImagesCommercialPremisesInline(admin.TabularInline):
@@ -93,6 +93,12 @@ class PurchaseMethodAdmin(admin.ModelAdmin):
     list_display_links = ('name',)
 
 
+@admin.register(BusinessCenter)
+class BusinessCenterAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'description')
+    list_display_links = ('name',)
+
+
 @admin.register(CommercialEstate)
 class CommercialPremisesAdmin(admin.ModelAdmin):
     list_display = ('id', 'address', 'district', 'area', 'is_sale', 'is_rent', 'is_active')
@@ -123,6 +129,8 @@ class CommercialPremisesAdmin(admin.ModelAdmin):
                        'min_area',
                        'max_area',
                        'several_floors',
+                       'ground_floor',
+                       'basement',
                        'floor',
                        'number_of_storeys',
                        'region',
@@ -132,6 +140,7 @@ class CommercialPremisesAdmin(admin.ModelAdmin):
                        'distance_to_metro',
                        'metro_stations',
                        'relative_location',
+                       'business_center',
                        'residential_complex',
                        'building_commercial_estate',
                        'finished_commercial_estate',

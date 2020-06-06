@@ -7,7 +7,7 @@ from geo_location.models import City, District, Street
 from residential_real_estate.models import NamesOfMetroStations, ResidentialComplex, ClassOfHousing
 from commercial_real_estate.models import (TypeCommercialEstate, BusinessCategory, RelativeLocation, FinishingProperty,
                                            CommunicationSystems, CookerHood, TypeEntranceToCommercialEstate,
-                                           PurchaseMethod, CommercialEstate)
+                                           PurchaseMethod, CommercialEstate, BusinessCenter)
 from .serializers import FiltersSerializers, CountSerializer
 
 
@@ -28,6 +28,7 @@ class FiltersView(APIView):
         filters['residential_complex'] = ResidentialComplex.objects.all()
         filters['class_of_housing'] = ClassOfHousing.objects.all()
         filters['purchase_method'] = PurchaseMethod.objects.all()
+        filters['business_center'] = BusinessCenter.objects.all()
 
         serializer = FiltersSerializers(filters)
         return Response(serializer.data)
