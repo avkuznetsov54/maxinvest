@@ -190,7 +190,6 @@
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
                   placeholder="Район"
-                  label-in-value
                 >
                   <OptionGroup
                     v-for="item in valueFilters.city"
@@ -336,11 +335,7 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap-extended-filter">
             <FormItem prop="rentCheck">
-              <Checkbox
-                v-model="form.rentCheck"
-                size="default"
-                true-value="true"
-                false-value="false"
+              <Checkbox v-model="form.rentCheck" size="default"
                 >Возможность арендовать
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
@@ -352,11 +347,7 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
           <div class="form-input-wrap-extended-filter">
             <FormItem prop="buildingCommercialEstate">
-              <Checkbox
-                v-model="form.buildingCommercialEstate"
-                size="default"
-                true-value="true"
-                false-value="false"
+              <Checkbox v-model="form.buildingCommercialEstate" size="default"
                 >В процессе строительства
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
@@ -368,11 +359,7 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="4">
           <div class="form-input-wrap-extended-filter">
             <FormItem prop="finishedCommercialEstate">
-              <Checkbox
-                v-model="form.finishedCommercialEstate"
-                size="default"
-                true-value="true"
-                false-value="false"
+              <Checkbox v-model="form.finishedCommercialEstate" size="default"
                 >Готовое
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
@@ -386,11 +373,7 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="4">
           <div class="form-input-wrap-extended-filter">
             <FormItem prop="groundFloor">
-              <Checkbox
-                v-model="form.groundFloor"
-                size="default"
-                true-value="true"
-                false-value="false"
+              <Checkbox v-model="form.groundFloor" size="default"
                 >Цоколь</Checkbox
               >
             </FormItem>
@@ -400,13 +383,7 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="4">
           <div class="form-input-wrap-extended-filter">
             <FormItem prop="basement">
-              <Checkbox
-                v-model="form.basement"
-                size="default"
-                true-value="true"
-                false-value="false"
-                >Подвал</Checkbox
-              >
+              <Checkbox v-model="form.basement" size="default">Подвал</Checkbox>
             </FormItem>
           </div>
         </i-col>
@@ -414,11 +391,7 @@
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
             <FormItem prop="severalFloors">
-              <Checkbox
-                v-model="form.severalFloors"
-                size="default"
-                true-value="true"
-                false-value="false"
+              <Checkbox v-model="form.severalFloors" size="default"
                 >Помещение с несколькими этажами</Checkbox
               >
             </FormItem>
@@ -1000,7 +973,7 @@ export default {
         // changeStreet: [],
         // minCostSquare: '',
         // maxCostSquare: '',
-        // rentCheck: false,
+        // rentCheck: false
         // buildingCommercialEstate: false,
         // finishedCommercialEstate: false,
         // minFloor: '',
@@ -1033,6 +1006,14 @@ export default {
         //
         // changeResComplex: [],
         // classOfHousing: []
+      },
+      resetForm: {
+        rentCheck: ''
+        // buildingCommercialEstate: false,
+        // finishedCommercialEstate: false,
+        // groundFloor: false,
+        // basement: false,
+        // severalFloors: false
       }
     }
   },
@@ -1067,10 +1048,22 @@ export default {
     }
   },
   async mounted() {
-    // eslint-disable-next-line no-console
-    console.log(this.$route.query)
     if (Object.keys(this.$route.query).length !== 0) {
-      this.form = { ...this.form, ...this.$route.query }
+      const qp = {}
+      const query = this.$route.query
+      for (const item in query) {
+        if (query[item] === 'true') {
+          // eslint-disable-next-line no-console
+          // console.log('1')
+          query[item] = true
+        } else if (query[item] === 'false') {
+          continue
+        }
+        qp[item] = query[item]
+      }
+      // eslint-disable-next-line no-console
+      console.log(qp)
+      this.form = { ...this.form, ...qp }
     }
     if (
       Object.keys(this.$store.getters['commerce/GET_VALUE_FILTERS']).length ===
@@ -1106,15 +1099,16 @@ export default {
       // eslint-disable-next-line no-console
       // console.log(Object.values(this.form))
 
-      this.$refs[name].resetFields()
+      // this.$refs[name].resetFields()
       this.form = {}
+      // this.form = this.resetForm
 
       // eslint-disable-next-line no-console
       console.log('очистка формы')
     },
     handleSubmit(name) {
       // eslint-disable-next-line no-console
-      console.log(this.form)
+      // console.log(this.form)
       if (this.$route.path !== '/commerce') {
         this.$router.push({ path: '/commerce', query: this.form })
 
