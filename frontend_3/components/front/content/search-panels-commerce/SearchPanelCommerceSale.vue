@@ -1006,14 +1006,6 @@ export default {
         //
         // changeResComplex: [],
         // classOfHousing: []
-      },
-      resetForm: {
-        rentCheck: ''
-        // buildingCommercialEstate: false,
-        // finishedCommercialEstate: false,
-        // groundFloor: false,
-        // basement: false,
-        // severalFloors: false
       }
     }
   },
@@ -1062,7 +1054,7 @@ export default {
         qp[item] = query[item]
       }
       // eslint-disable-next-line no-console
-      console.log(qp)
+      // console.log(qp)
       this.form = { ...this.form, ...qp }
     }
     if (
@@ -1104,7 +1096,11 @@ export default {
       // this.form = this.resetForm
 
       // eslint-disable-next-line no-console
-      console.log('очистка формы')
+      // console.log('очистка формы')
+      // eslint-disable-next-line no-console
+      // console.log(this.$route)
+      // this.$route.fullPath = this.$route.path
+      this.$router.push({ query: {} })
     },
     handleSubmit(name) {
       // eslint-disable-next-line no-console
