@@ -52,5 +52,13 @@ export const actions = {
       // eslint-disable-next-line no-console
       console.log('catch FETCH_COMMERCE_OBJ => ' + e)
     }
+  },
+  async FETCH_COMMERCE_DETAIL({ commit }, id) {
+    try {
+      return await this.$apiCommerce.getCommerceDetail(id)
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('catch FETCH_COMMERCE_DETAIL => ' + e)
+    }
   }
 }

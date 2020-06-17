@@ -29,4 +29,9 @@ export default class ApiCommerce {
     const res = await this.getResource(`api/v1/commerce/all/`)
     return await res
   }
+
+  getCommerceDetail = async (id) => {
+    const res = await this.getResource(`api/v1/commerce/${id}/`)
+    return await res
+  }
 }

@@ -1,31 +1,37 @@
 <template>
   <div class="thumb-example">
-    <v-gallery
-      :images="images"
+    <!--    <v-gallery-->
+    <!--      :images="imageObj"-->
+    <!--      :index="index"-->
+    <!--      @close="index = null"-->
+    <!--    ></v-gallery>-->
+
+    <CoolLightBox
+      :items="imageObj"
       :index="index"
+      loop="true"
       @close="index = null"
-    ></v-gallery>
+    >
+    </CoolLightBox>
     <!-- swiper1 -->
     <swiper
       ref="swiperTop"
       class="swiper gallery-top"
       :options="swiperOptionTop"
     >
-      <!--        <img-->
-      <!--          v-img:name-->
-      <!--          src="https://avatarko.ru/img/kartinka/33/multfilm_lyagushka_32117.jpg"-->
-      <!--        />-->
       <swiper-slide
-        v-for="(image, imageIndex) in images"
+        v-for="(image, imageIndex) in thumbImageObj"
         :key="imageIndex"
         class="image"
-        :style="{
-          width: '300px',
-          height: '200px'
-        }"
         @click.native="index = imageIndex"
       >
-        <img :src="image" alt="eqwew" />
+        <div
+          class="image-gallery-blur"
+          :style="{
+            backgroundImage: `url(${image})`
+          }"
+        ></div>
+        <img :src="image" alt="eqwew" class="image-gallery" />
       </swiper-slide>
       <div
         slot="button-next"
@@ -42,11 +48,18 @@
       class="swiper gallery-thumbs"
       :options="swiperOptionThumbs"
     >
-      <swiper-slide class="slide-1"></swiper-slide>
-      <swiper-slide class="slide-2"></swiper-slide>
-      <swiper-slide class="slide-3"></swiper-slide>
-      <swiper-slide class="slide-4"></swiper-slide>
-      <swiper-slide class="slide-5"></swiper-slide>
+      <swiper-slide
+        v-for="(image, imageIndex) in thumbImageObj"
+        :key="imageIndex"
+        :style="{
+          backgroundImage: `url(${image})`
+        }"
+      >
+        <!--        <img :src="image" alt="eqwew" />-->
+      </swiper-slide>
+      <!--      <swiper-slide class="slide-1"></swiper-slide>-->
+      <!--      <swiper-slide class="slide-2"></swiper-slide>-->
+      <!--      <swiper-slide class="slide-3"></swiper-slide>-->
     </swiper>
   </div>
 </template>
@@ -56,40 +69,75 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 
 export default {
-  title: 'Thumbs gallery with Two-way control',
   components: {
     Swiper,
     SwiperSlide
   },
+  props: {
+    imagesObj: {
+      type: Object,
+      required: true
+    }
+  },
+  title: 'Thumbs gallery with Two-way control',
+
   data() {
     return {
       swiperOptionTop: {
         loop: true,
-        loopedSlides: 5, // looped slides should be the same
-        spaceBetween: 10,
+        // loopedSlides: 5, // looped slides should be the same
+        spaceBetween: 30,
+        slidesPerView: 1,
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev'
         }
       },
       swiperOptionThumbs: {
-        loop: true,
-        loopedSlides: 5, // looped slides should be the same
+        slideToClickedSlide: true,
+        // grabCursor: true,
+        // loop: true,
+        // loopedSlides: 5, // looped slides should be the same
         spaceBetween: 10,
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        touchRatio: 0.2,
-        slideToClickedSlide: true
+        // centeredSlides: true,
+        slidesPerView: 6,
+        touchRatio: 0.2
       },
 
       images: [
-        'https://avatarko.ru/img/kartinka/33/multfilm_lyagushka_32117.jpg',
+        '/media/images/realestate/2020/5/25/85347-724859-kukukuk-chychychy_511x500.jpg',
         'https://static8.depositphotos.com/1145675/836/i/450/depositphotos_8369327-stock-photo-networks-internet-and-here-wireless.jpg',
         'https://klike.net/uploads/posts/2019-03/1551516106_1.jpg',
         'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR867rZj08uvTILL_IhBgNiMpug4sLfphXnDVlTgff7QJlIB7LV&usqp=CAU',
         'https://avatars.mds.yandex.net/get-pdb/1649258/d7747967-9aa8-410a-9dbd-8fbbf199e8e5/s600'
       ],
+      thumb: [
+        '/media/images/realestate/2020/5/25/85347-724859-kukukuk-chychychy_307x300.jpg'
+      ],
       index: null
+    }
+  },
+  computed: {
+    imageObj() {
+      const iimages = []
+      iimages.push(this.imagesObj.main_image)
+      // eslint-disable-next-line no-console
+      // console.log(iimages)
+      this.imagesObj.images_commercial_estate.forEach((item) => {
+        iimages.push(item.image)
+      })
+      return iimages
+    },
+    thumbImageObj() {
+      const tthumb = []
+      tthumb.push(this.imagesObj.main_image_thumb)
+      // eslint-disable-next-line no-console
+      // console.log(this.imagesObj.images_commercial_estate)
+
+      this.imagesObj.images_commercial_estate.forEach((item) => {
+        tthumb.push(item.image_thumb)
+      })
+      return tthumb
     }
   },
   mounted() {
@@ -99,36 +147,35 @@ export default {
       swiperTop.controller.control = swiperThumbs
       swiperThumbs.controller.control = swiperTop
     })
+    // eslint-disable-next-line no-console
+    console.log(this.imagesObj)
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .thumb-example {
-  height: 480px;
+  height: 380px;
   /*background-color: #000;*/
+}
+.image-gallery-blur {
+  filter: blur(20px);
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
 }
 
 .swiper {
   .swiper-slide {
     background-size: cover;
     background-position: center;
-
-    &.slide-1 {
-      background-image: url('https://avatarko.ru/img/kartinka/33/multfilm_lyagushka_32117.jpg');
-    }
-    &.slide-2 {
-      background-image: url('https://static8.depositphotos.com/1145675/836/i/450/depositphotos_8369327-stock-photo-networks-internet-and-here-wireless.jpg');
-    }
-    &.slide-3 {
-      background-image: url('https://klike.net/uploads/posts/2019-03/1551516106_1.jpg');
-    }
-    &.slide-4 {
-      background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR867rZj08uvTILL_IhBgNiMpug4sLfphXnDVlTgff7QJlIB7LV&usqp=CAU');
-    }
-    &.slide-5 {
-      background-image: url('https://avatars.mds.yandex.net/get-pdb/1649258/d7747967-9aa8-410a-9dbd-8fbbf199e8e5/s600');
-    }
+    /*filter: blur(20px);*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   &.gallery-top {
@@ -142,7 +189,8 @@ export default {
   }
   &.gallery-thumbs .swiper-slide {
     width: 15%;
-    height: 100%;
+    /*height: 100%;*/
+    height: 76px;
     opacity: 0.4;
   }
   &.gallery-thumbs .swiper-slide-active {
