@@ -24,19 +24,19 @@ export default {
   },
   head() {
     return {
-      title: '33333', // Other meta information
-      script: [
-        {
-          hid: 'jquery',
-          src: '/js//jquery-1.12.4/jquery.min.js',
-          defer: true
-        },
-        {
-          hid: 'fotorama',
-          src: '/js/fotorama-4.6.4/fotorama.js',
-          defer: true
-        }
-      ]
+      title: '33333' // Other meta information
+      // script: [
+      //   {
+      //     hid: 'jquery',
+      //     src: '/js//jquery-1.12.4/jquery.min.js'
+      //     // defer: true
+      //   },
+      //   {
+      //     hid: 'fotorama',
+      //     src: '/js/fotorama-4.6.4/fotorama.js'
+      //     // defer: true
+      //   }
+      // ]
     }
   }
 }
