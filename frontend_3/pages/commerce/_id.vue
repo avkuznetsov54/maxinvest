@@ -28,13 +28,13 @@ export default {
       // script: [
       //   {
       //     hid: 'jquery',
-      //     src: '/js//jquery-1.12.4/jquery.min.js'
-      //     // defer: true
+      //     src: '/js//jquery-1.12.4/jquery.min.js',
+      //     defer: true
       //   },
       //   {
       //     hid: 'fotorama',
-      //     src: '/js/fotorama-4.6.4/fotorama.js'
-      //     // defer: true
+      //     src: '/js/fotorama-4.6.4/fotorama.js',
+      //     defer: true
       //   }
       // ]
     }

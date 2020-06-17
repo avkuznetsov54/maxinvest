@@ -94,31 +94,56 @@ export default {
     }
   },
   created() {
-    this.loadJquery()
-    this.loadFotorama()
+    // this.loadJquery()
+    // this.loadFotorama()
+
+    this.getFotorama()
+
+    // this.getJquery().then((r) => {
+    //   // делаем что-то с содержимым html
+    //   return this.getFotorama()
+    // })
   },
   mounted() {
     // eslint-disable-next-line no-console
     // console.log(this.imagesObj)
   },
   methods: {
-    // https://fotorama.io/
-    // add script tags to head
-    loadFotorama() {
-      const script = document.createElement('script')
-      // script.src =
-      //   'https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js'
-      script.src = '/js/fotorama-4.6.4/fotorama.js'
-      document.documentElement.firstChild.appendChild(script)
+    // // https://fotorama.io/
+    // // add script tags to head
+    // loadFotorama() {
+    //   const script = document.createElement('script')
+    //   // script.src =
+    //   //   'https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js'
+    //   script.src = '/js/fotorama-4.6.4/fotorama.js'
+    //   document.documentElement.firstChild.appendChild(script)
+    // },
+    // loadJquery() {
+    //   const script = document.createElement('script')
+    //   // script.src =
+    //   //   'https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
+    //   // script.src =
+    //   //   'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'
+    //   script.src = '/js//jquery-1.12.4/jquery.min.js'
+    //   document.documentElement.firstChild.appendChild(script)
+    // }
+
+    getJquery() {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = '/js//jquery-1.12.4/jquery.min.js'
+        document.documentElement.firstChild.appendChild(script)
+        resolve(script)
+      })
     },
-    loadJquery() {
-      const script = document.createElement('script')
-      // script.src =
-      //   'https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
-      // script.src =
-      //   'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'
-      script.src = '/js//jquery-1.12.4/jquery.min.js'
-      document.documentElement.firstChild.appendChild(script)
+
+    getFotorama() {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = '/js/fotorama-4.6.4/fotorama.js'
+        document.documentElement.firstChild.appendChild(script)
+        resolve(script)
+      })
     }
   }
 }
