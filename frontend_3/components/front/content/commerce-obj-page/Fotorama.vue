@@ -5,12 +5,15 @@
     data-allowfullscreen="true"
     data-loop="true"
     data-width="100%"
-    data-ratio="16/9"
     data-height="360"
   >
-    <!--    <a v-for="(image, imageIndex) in imageObj" :key="imageIndex" :href="image">-->
+    <!--    <a-->
+    <!--      v-for="(image, imageIndex) in imagesObj"-->
+    <!--      :key="imageIndex"-->
+    <!--      :href="image.image"-->
+    <!--    >-->
     <!--      <div class="1111">-->
-    <!--        <img :src="image" width="144" height="96" />-->
+    <!--        <img :src="image.image" width="144" height="96" />-->
     <!--      </div>-->
     <!--    </a>-->
 
@@ -18,7 +21,6 @@
       v-for="(image, imageIndex) in imagesObj"
       :key="imageIndex"
       :data-thumb="image.image_thumb"
-      data-thumbratio="144/96"
       class="panel"
     >
       <div class="image-wrap">
@@ -123,8 +125,6 @@ export default {
 </script>
 
 <style scoped>
-@import 'https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css';
-
 .image-gallery-blur {
   filter: blur(70px);
   background-size: cover;

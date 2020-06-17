@@ -2357,13 +2357,11 @@
             i = Ec.height() - (Nd ? ye.height() : 0)
           return (
             q(d) &&
-              (qe
-                .addClass(ub)
-                .css({
-                  width: d,
-                  minWidth: Le.minwidth || 0,
-                  maxWidth: Le.maxwidth || ad
-                }),
+              (qe.addClass(ub).css({
+                width: d,
+                minWidth: Le.minwidth || 0,
+                maxWidth: Le.maxwidth || ad
+              }),
               (d = Le.W = Le.w = qe.width()),
               (Le.nw = (Nd && p(e.navwidth, d)) || d),
               e.glimpse && (Le.w -= Math.round(2 * (p(e.glimpse, d) || 0))),

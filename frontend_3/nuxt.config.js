@@ -23,7 +23,11 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['iview/dist/styles/iview.css', '@/theme/index.sass'],
+  css: [
+    'iview/dist/styles/iview.css',
+    '@/theme/index.sass',
+    '@/static/js/fotorama-4.6.4/fotorama.css'
+  ],
   /*
    ** Plugins to load before mounting the App
    */
