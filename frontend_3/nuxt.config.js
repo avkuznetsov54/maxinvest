@@ -31,7 +31,8 @@ export default {
    ** Global CSS
    */
   css: [
-    'iview/dist/styles/iview.css',
+    // 'iview/dist/styles/iview.css',
+    'view-design/dist/styles/iview.css',
     '@/theme/index.sass',
     '@/static/js/fotorama-4.6.4/fotorama.css'
   ],

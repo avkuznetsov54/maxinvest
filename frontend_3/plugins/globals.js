@@ -1,6 +1,7 @@
 import Vue from 'vue'
-import iView from 'iview'
-import locale from 'iview/dist/locale/ru-RU' // Change locale, check node_modules/iview/dist/locale
+// import iView from 'iview'
+import iView from 'view-design'
+import locale from 'view-design/dist/locale/ru-RU' // Change locale, check node_modules/iview/dist/locale
 
 // import VueLazyload from 'vue-lazyload'
 
