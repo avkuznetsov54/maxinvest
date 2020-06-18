@@ -38,6 +38,7 @@ export default {
   background: #fff;
   padding: 20px 0;
   height: 300px;
+  border-bottom: 1px solid #d1d5d8;
 }
 .search-panel-page {
   height: 254px;

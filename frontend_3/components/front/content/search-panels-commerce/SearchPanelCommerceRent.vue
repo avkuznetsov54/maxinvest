@@ -11,7 +11,6 @@
               <Select
                 v-model="form.changeCities"
                 multiple
-                size="large"
                 :max-tag-count="maxTagCount"
                 class="min-text"
                 :max-tag-placeholder="more"
@@ -38,7 +37,6 @@
                     v-model="form.minCost"
                     placeholder="От"
                     :maxlength="14"
-                    size="large"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
@@ -47,7 +45,6 @@
                     v-model="form.maxCost"
                     placeholder="До"
                     :maxlength="14"
-                    size="large"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
@@ -67,7 +64,6 @@
                     v-model="form.minSquare"
                     placeholder="От"
                     :maxlength="10"
-                    size="large"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
@@ -76,7 +72,6 @@
                     v-model="form.maxSquare"
                     placeholder="До"
                     :maxlength="10"
-                    size="large"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
@@ -93,7 +88,6 @@
               <Select
                 v-model="form.changeDistrict"
                 multiple
-                size="large"
                 :max-tag-count="maxTagCount"
                 :max-tag-placeholder="more"
               >
@@ -116,7 +110,6 @@
               <Select
                 v-model="form.changeStreet"
                 multiple
-                size="large"
                 filterable
                 :max-tag-count="maxTagCount"
                 :max-tag-placeholder="more"
@@ -139,7 +132,6 @@
               <Select
                 v-model="form.changeResComplex"
                 multiple
-                size="large"
                 filterable
                 :max-tag-count="maxTagCount"
                 :max-tag-placeholder="more"
@@ -161,7 +153,6 @@
               <Select
                 v-model="form.changePurpose"
                 multiple
-                size="large"
                 :max-tag-count="maxTagCount"
                 :max-tag-placeholder="more"
                 placeholder="Назначение помещения"
@@ -182,7 +173,6 @@
               <Select
                 v-model="form.changeCatBusiness"
                 multiple
-                size="large"
                 :max-tag-count="maxTagCount"
                 :max-tag-placeholder="more"
                 placeholder="Категория бизнеса"
@@ -199,7 +189,7 @@
         </i-col>
         <i-col :xs="24" :sm="8" :md="6" :lg="4">
           <div class="form-input-wrap">
-            <Button size="large" long @click="showExtendedFilter">
+            <Button long @click="showExtendedFilter">
               Ещё фильтры
               <Icon
                 :type="isExtendedFilter ? 'ios-arrow-down' : 'ios-arrow-up'"
@@ -210,7 +200,7 @@
           </div>
         </i-col>
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
-          <Button size="large" long type="success" @click="handleSubmit('form')"
+          <Button long type="success" @click="handleSubmit('form')"
             ><b>Показать</b></Button
           >
         </i-col>
@@ -242,7 +232,6 @@
                   v-model="form.minSquare"
                   placeholder="От"
                   :maxlength="10"
-                  size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
@@ -251,7 +240,6 @@
                   v-model="form.maxSquare"
                   placeholder="До"
                   :maxlength="10"
-                  size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
@@ -270,7 +258,6 @@
                   v-model="form.minSquare"
                   placeholder="От"
                   :maxlength="10"
-                  size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
@@ -279,7 +266,6 @@
                   v-model="form.maxSquare"
                   placeholder="До"
                   :maxlength="10"
-                  size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
@@ -308,7 +294,6 @@
                 <Select
                   v-model="form.changeCities"
                   multiple
-                  size="large"
                   :max-tag-count="maxTagCount"
                   class="min-text"
                   :max-tag-placeholder="more"
@@ -334,7 +319,6 @@
                 <Select
                   v-model="form.changeCities"
                   multiple
-                  size="large"
                   :max-tag-count="maxTagCount"
                   class="min-text"
                   :max-tag-placeholder="more"
@@ -360,7 +344,6 @@
                 <Select
                   v-model="form.changeCities"
                   multiple
-                  size="large"
                   :max-tag-count="maxTagCount"
                   class="min-text"
                   :max-tag-placeholder="more"
@@ -388,7 +371,6 @@
                 <Select
                   v-model="form.changeCities"
                   multiple
-                  size="large"
                   :max-tag-count="maxTagCount"
                   class="min-text"
                   :max-tag-placeholder="more"
@@ -414,7 +396,6 @@
                 <Select
                   v-model="form.changeCities"
                   multiple
-                  size="large"
                   :max-tag-count="maxTagCount"
                   class="min-text"
                   :max-tag-placeholder="more"
@@ -440,7 +421,6 @@
                 <Select
                   v-model="form.changeCities"
                   multiple
-                  size="large"
                   :max-tag-count="maxTagCount"
                   class="min-text"
                   :max-tag-placeholder="more"
@@ -469,7 +449,6 @@
                   v-model="form.minSquare"
                   placeholder="От"
                   :maxlength="10"
-                  size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>
@@ -478,7 +457,6 @@
                   v-model="form.maxSquare"
                   placeholder="До"
                   :maxlength="10"
-                  size="large"
                   @keypress.native="onlyNumber"
                 />
               </FormItem>

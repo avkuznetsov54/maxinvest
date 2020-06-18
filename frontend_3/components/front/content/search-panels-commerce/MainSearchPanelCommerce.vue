@@ -47,6 +47,11 @@ export default {
     return {
       select: 'Продажа'
     }
+  },
+  watch: {
+    select(newValue) {
+      this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', newValue)
+    }
   }
 }
 </script>

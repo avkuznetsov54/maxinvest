@@ -1,18 +1,23 @@
 <template>
   <div class="card">
     <div class="card-image">
+      <div class="tags-sale-rent">
+        <span v-if="comObj.is_sale" class="tag-card">продажа</span>
+        <span v-if="comObj.is_rent" class="tag-card">аренда</span>
+      </div>
+
       <div class="card-obj-badge">
         <!--        <Tag class="card-obj-badge-tag" color="primary">{{-->
-        <!--          resComplex.class_of_housing-->
+        <!--          comObj.class_of_housing-->
         <!--        }}</Tag>-->
       </div>
 
-      <div v-if="resComplex.images_commercial_estate.length === 0">
+      <div v-if="comObj.images_commercial_estate.length === 0">
         <div class="card-wrap-image" @click="openCard">
           <img
             v-lazy-load
             class="card-image"
-            :data-src="resComplex.main_image_thumb"
+            :data-src="comObj.main_image_thumb"
           />
         </div>
       </div>
@@ -25,13 +30,13 @@
         <!--                <img-->
         <!--                  v-lazy-load-->
         <!--                  class="card-image"-->
-        <!--                  :data-src="resComplex.main_image"-->
-        <!--                  :alt="resComplex.name"-->
+        <!--                  :data-src="comObj.main_image"-->
+        <!--                  :alt="comObj.name"-->
         <!--                />-->
         <!--              </div>-->
         <!--            </div>-->
         <!--            <div-->
-        <!--              v-for="img in resComplex.images_residential_complex"-->
+        <!--              v-for="img in comObj.images_residential_complex"-->
         <!--              :key="img.id"-->
         <!--              class="swiper-slide"-->
         <!--            >-->
@@ -56,14 +61,14 @@
               <img
                 v-lazy-load
                 class="card-image"
-                :data-src="resComplex.main_image_thumb"
+                :data-src="comObj.main_image_thumb"
               />
               <!--              <div class="swiper-lazy-preloader"></div>-->
             </div>
           </swiper-slide>
 
           <swiper-slide
-            v-for="img in resComplex.images_commercial_estate"
+            v-for="img in comObj.images_commercial_estate"
             :key="img.id"
           >
             <div class="card-wrap-image" @click="openCard">
@@ -80,22 +85,91 @@
     </div>
     <div class="card-content" @click="openCard">
       <div class="card-content-title">
-        <p>{{ resComplex.cost_of_sale | numCredit }} руб.</p>
-        <span>{{ resComplex.area }} м²</span> |
-      </div>
-      <div class="card-content-address">
-        <span>{{ resComplex.city }},</span>
-        <span>{{ resComplex.district }},</span>
-      </div>
-      <div>
-        <span>{{ resComplex.address }}</span>
+        <!--        <p>{{ comObj.cost_of_sale | numCredit }} руб.</p>-->
+        <div v-if="switchSaleRent === 'Продажа'">
+          <template v-if="!comObj.is_group_multiple_objs">
+            <p>{{ comObj.cost_of_sale | numCredit }} руб.</p>
+          </template>
+          <template v-else>
+            <p>
+              {{ comObj.min_cost_of_sale | numCredit }} -
+              {{ comObj.max_cost_of_sale | numCredit }} руб.
+            </p>
+          </template>
+        </div>
+        <div v-else>
+          <p>{{ comObj.rent_price_month | numCredit }} руб/мес.</p>
+        </div>
 
-        <!--              <span v-for="(item, index) in resComplex.address" :key="item">-->
-        <!--                {{ item }}{{ resComplex.address.length !== index + 1 ? ',' : '' }}-->
-        <!--              </span>-->
+        <!--        <span>{{ comObj.area }} м²</span>-->
+        <template v-if="!comObj.is_group_multiple_objs">
+          <span>{{ comObj.area | numCredit }} м²</span>
+        </template>
+        <template v-else>
+          <span
+            >{{ comObj.min_area | numCredit }} -
+            {{ comObj.max_area | numCredit }} м²</span
+          >
+        </template>
       </div>
 
-      <!--            <small>Срок сдачи: {{ resComplex.house_completed ? 'Сдан' : '' }}</small>-->
+      <div class="type-obj fz-12 ">
+        <template v-if="comObj.type_commercial_estate.length < 3">
+          <span
+            v-for="(item, index) in comObj.type_commercial_estate"
+            :key="index"
+          >
+            {{ item
+            }}{{
+              comObj.type_commercial_estate.length !== index + 1 ? ',' : ''
+            }}
+          </span>
+        </template>
+        <template v-else>
+          <span
+            v-for="(item, index) in comObj.type_commercial_estate"
+            :key="index"
+          >
+            <template v-if="index + 1 < 4">
+              {{ item }}{{ index + 1 !== 3 ? ',' : ' ...' }}
+            </template>
+          </span>
+        </template>
+      </div>
+
+      <div class="fz-12 ">
+        Этаж:
+        <span v-if="comObj.basement"
+          >Подвал{{ comObj.ground_floor ? ', ' : '' }}</span
+        >
+        <span v-if="comObj.ground_floor"
+          >Цоколь{{ comObj.floor.length > 1 ? ', ' : '' }}</span
+        >
+
+        <template v-if="comObj.floor.length < 6">
+          <span v-for="(item, index) in comObj.floor" :key="index">
+            {{ item }}{{ comObj.floor.length !== index + 1 ? ',' : '' }}
+          </span>
+        </template>
+        <template v-else>
+          <span v-for="(item, index) in comObj.floor" :key="index">
+            <template v-if="index + 1 < 7">
+              {{ item }}{{ index + 1 !== 6 ? ',' : ' ...' }}
+            </template>
+          </span>
+        </template>
+      </div>
+
+      <div class="card-footer">
+        <Divider class="my-1" />
+        <div class="card-content-address">
+          <span>{{ comObj.city }},</span>
+          <span>{{ comObj.district }},</span>
+          <div>
+            <span>{{ comObj.address }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -119,8 +193,12 @@ export default {
     }
   },
   props: {
-    resComplex: {
+    comObj: {
       type: Object,
+      required: true
+    },
+    switchSaleRent: {
+      type: String,
       required: true
     }
   },
@@ -140,10 +218,12 @@ export default {
     }
   },
 
+  mounted() {},
+
   methods: {
     openCard() {
       // const id = 'test-id'
-      this.$router.push(`/commerce/${this.resComplex.id}`)
+      this.$router.push(`/commerce/${this.comObj.id}`)
     }
   }
 }
@@ -166,6 +246,22 @@ export default {
     height: 200px;
     position: relative;
   }
+}
+
+.tags-sale-rent {
+  position: absolute;
+  z-index: 2;
+  right: 8px;
+  top: 6px;
+}
+.tag-card {
+  color: #ffffff;
+  /*font-weight: bold;*/
+  font-size: 12px;
+  background: rgba(51, 51, 51, 0.75);
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 .card-wrap-image {
   cursor: pointer;
@@ -250,7 +346,7 @@ export default {
   }
 }
 .card-content {
-  /*height: 100%;*/
+  height: 200px;
   padding: 14px;
   display: flex;
   flex-grow: 1;
@@ -263,11 +359,17 @@ export default {
   font-weight: bold;
   margin-bottom: 10px;
 }
+.type-obj {
+  height: 35px;
+}
 .card-content-address {
   font-size: 14px;
   line-height: 1.4;
   span {
     white-space: nowrap;
   }
+}
+.card-footer {
+  width: 100%;
 }
 </style>

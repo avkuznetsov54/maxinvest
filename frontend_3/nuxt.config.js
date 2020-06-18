@@ -57,8 +57,8 @@ export default {
    */
   modules: [
     // // Doc: https://axios.nuxtjs.org/usage
-    // '@nuxtjs/axios',
-    '@nuxt/http',
+    '@nuxtjs/axios',
+    // '@nuxt/http',
     '@nuxtjs/proxy',
     [
       'nuxt-lazy-load',
