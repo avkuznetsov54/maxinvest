@@ -60,7 +60,7 @@ export const actions = {
         }
       )
       // eslint-disable-next-line no-console
-      console.log(data)
+      // console.log(data)
       commit('SET_COMMERCE_OBJ', data)
       commit('SET_COUNT_OBJ', data.count)
     } catch (e) {

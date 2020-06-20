@@ -52,13 +52,17 @@
       </MenuItem>
       <MenuItem name="3">
         <!--        <Icon type="ios-paper" />-->
-        <nuxt-link to="/" :style="{ color: 'white' }">Ипотека</nuxt-link>
+        <nuxt-link to="/" :style="{ color: 'white' }">Услуги</nuxt-link>
       </MenuItem>
       <MenuItem name="4">
         <!--        <Icon type="ios-paper" />-->
-        <nuxt-link to="/" :style="{ color: 'white' }">Инвестиции</nuxt-link>
+        <nuxt-link to="/" :style="{ color: 'white' }">Ипотека</nuxt-link>
       </MenuItem>
       <MenuItem name="5">
+        <!--        <Icon type="ios-paper" />-->
+        <nuxt-link to="/" :style="{ color: 'white' }">Инвестиции</nuxt-link>
+      </MenuItem>
+      <MenuItem name="6">
         <!--        <Icon type="ios-paper" />-->
         <nuxt-link to="/" :style="{ color: 'white' }">Акции и скидки</nuxt-link>
       </MenuItem>

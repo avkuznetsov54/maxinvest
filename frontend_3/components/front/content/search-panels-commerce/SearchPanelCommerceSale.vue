@@ -1,8 +1,19 @@
 <template>
-  <Form ref="form" :model="form">
+  <Form ref="form" :model="form" class="form-sale">
     <div>
       <Row>
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
+          <div class="hidden">
+            <FormItem prop="is_sale">
+              <Checkbox
+                v-model="form.is_sale"
+                size="default"
+                @input="changeForm"
+              >
+              </Checkbox>
+            </FormItem>
+          </div>
+
           <div class="form-input-wrap">
             <div class="desktop-filter-titles">
               <span>Тип недвижимости</span>
@@ -13,6 +24,7 @@
                 multiple
                 :max-tag-count="maxTagCount"
                 :max-tag-placeholder="more"
+                @input="changeForm"
               >
                 <Option
                   v-for="item in valueFilters.type_commercial_estate"
@@ -35,6 +47,7 @@
                 multiple
                 :max-tag-count="maxTagCount"
                 :max-tag-placeholder="more"
+                @input="changeForm"
               >
                 <Option
                   v-for="item in valueFilters.purchase_method"
@@ -59,6 +72,7 @@
                     placeholder="От"
                     :maxlength="14"
                     @keypress.native="onlyNumber"
+                    @input="changeForm"
                   />
                 </FormItem>
                 <FormItem prop="maxCost">
@@ -67,6 +81,7 @@
                     placeholder="До"
                     :maxlength="14"
                     @keypress.native="onlyNumber"
+                    @input="changeForm"
                   />
                 </FormItem>
               </div>
@@ -105,7 +120,10 @@
             <div class="desktop-filter-titles">
               <span>Категория бизнеса</span>
               <Tooltip placement="top" content="Описание что это такое.">
-                <Icon type="md-help" class="icon-class" />
+                <Icon
+                  type="ios-information-circle-outline"
+                  class="icon-class"
+                />
               </Tooltip>
             </div>
             <FormItem prop="businessCategory">
@@ -327,7 +345,10 @@
                 >Возможность арендовать
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
-                <Icon type="md-help" class="icon-class" />
+                <Icon
+                  type="ios-information-circle-outline"
+                  class="icon-class"
+                />
               </Tooltip>
             </FormItem>
           </div>
@@ -339,7 +360,10 @@
                 >В процессе строительства
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
-                <Icon type="md-help" class="icon-class" />
+                <Icon
+                  type="ios-information-circle-outline"
+                  class="icon-class"
+                />
               </Tooltip>
             </FormItem>
           </div>
@@ -351,104 +375,25 @@
                 >Готовое
               </Checkbox>
               <Tooltip placement="top" content="Описание что это такое.">
-                <Icon type="md-help" class="icon-class" />
+                <Icon
+                  type="ios-information-circle-outline"
+                  class="icon-class"
+                />
               </Tooltip>
             </FormItem>
           </div>
         </i-col>
       </Row>
-      <Row>
-        <i-col :xs="24" :sm="8" :md="6" :lg="4">
-          <div class="form-input-wrap-extended-filter">
-            <FormItem prop="groundFloor">
-              <Checkbox v-model="form.groundFloor" size="default"
-                >Цоколь</Checkbox
-              >
-            </FormItem>
-          </div>
-        </i-col>
-
-        <i-col :xs="24" :sm="8" :md="6" :lg="4">
-          <div class="form-input-wrap-extended-filter">
-            <FormItem prop="basement">
-              <Checkbox v-model="form.basement" size="default">Подвал</Checkbox>
-            </FormItem>
-          </div>
-        </i-col>
-
-        <i-col :xs="24" :sm="8" :md="6" :lg="8">
-          <div class="form-input-wrap-extended-filter">
-            <FormItem prop="severalFloors">
-              <Checkbox v-model="form.severalFloors" size="default"
-                >Помещение с несколькими этажами</Checkbox
-              >
-            </FormItem>
-          </div>
-        </i-col>
-      </Row>
-      <Row>
-        <i-col :xs="24" :sm="8" :md="6" :lg="8">
-          <div class="form-input-wrap-extended-filter">
-            <div class="form-input-title">
-              <span>Этаж</span>
-            </div>
-            <div class="form-input-field">
-              <FormItem prop="minFloor">
-                <Input
-                  v-model="form.minFloor"
-                  placeholder="От"
-                  :maxlength="3"
-                  @keypress.native="onlyNumber"
-                />
-              </FormItem>
-              <FormItem prop="maxFloor">
-                <Input
-                  v-model="form.maxFloor"
-                  placeholder="До"
-                  :maxlength="3"
-                  @keypress.native="onlyNumber"
-                />
-              </FormItem>
-            </div>
-          </div>
-        </i-col>
-
-        <i-col :xs="24" :sm="8" :md="6" :lg="8">
-          <div class="form-input-wrap-extended-filter">
-            <div class="form-input-title">
-              <span>Этажность</span>
-              <Tooltip placement="top" content="Описание что это такое.">
-                <Icon type="md-help" class="icon-class" />
-              </Tooltip>
-            </div>
-            <div class="form-input-field">
-              <FormItem prop="minNumberStoreys">
-                <Input
-                  v-model="form.minNumberStoreys"
-                  placeholder="От"
-                  :maxlength="3"
-                  @keypress.native="onlyNumber"
-                />
-              </FormItem>
-              <FormItem prop="maxNumberStoreys">
-                <Input
-                  v-model="form.maxNumberStoreys"
-                  placeholder="До"
-                  :maxlength="3"
-                  @keypress.native="onlyNumber"
-                />
-              </FormItem>
-            </div>
-          </div>
-        </i-col>
-      </Row>
-      <Row>
+      <Row class="mb-25">
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
             <div class="form-input-title">
               <span>Возможный доход в<br />месяц</span>
               <Tooltip placement="top" content="Описание что это такое.">
-                <Icon type="md-help" class="icon-class" />
+                <Icon
+                  type="ios-information-circle-outline"
+                  class="icon-class"
+                />
               </Tooltip>
             </div>
             <div class="form-input-field">
@@ -477,7 +422,10 @@
             <div class="form-input-title">
               <span>Окупаемость</span>
               <Tooltip placement="top" content="Описание что это такое.">
-                <Icon type="md-help" class="icon-class" />
+                <Icon
+                  type="ios-information-circle-outline"
+                  class="icon-class"
+                />
               </Tooltip>
             </div>
             <div class="form-input-field">
@@ -509,7 +457,10 @@
                 placement="top"
                 content="При сдаче в аренду после покупки."
               >
-                <Icon type="md-help" class="icon-class" />
+                <Icon
+                  type="ios-information-circle-outline"
+                  class="icon-class"
+                />
               </Tooltip>
             </div>
             <div class="form-input-field">
@@ -536,10 +487,104 @@
       <Row>
         <i-col :xs="24" :sm="8" :md="6" :lg="8">
           <div class="form-input-wrap-extended-filter">
+            <FormItem prop="severalFloors">
+              <Checkbox v-model="form.severalFloors" size="default">
+                <!--                <span>Помещение с несколькими этажами</span>-->
+                <span>Помещение имеет несколько этажей</span>
+                <!--                Несколько этажей-->
+              </Checkbox>
+            </FormItem>
+          </div>
+        </i-col>
+
+        <i-col :xs="24" :sm="8" :md="6" :lg="3">
+          <div class="form-input-wrap-extended-filter">
+            <FormItem prop="groundFloor">
+              <Checkbox v-model="form.groundFloor" size="default"
+                >Цоколь</Checkbox
+              >
+            </FormItem>
+          </div>
+        </i-col>
+
+        <i-col :xs="24" :sm="8" :md="6" :lg="3">
+          <div class="form-input-wrap-extended-filter">
+            <FormItem prop="basement">
+              <Checkbox v-model="form.basement" size="default">Подвал</Checkbox>
+            </FormItem>
+          </div>
+        </i-col>
+      </Row>
+      <Row class="mb-25">
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
             <div class="form-input-title">
-              <span>Расположение, линия</span>
+              <span>Этаж</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="minFloor">
+                <Input
+                  v-model="form.minFloor"
+                  placeholder="От"
+                  :maxlength="3"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+              <FormItem prop="maxFloor">
+                <Input
+                  v-model="form.maxFloor"
+                  placeholder="До"
+                  :maxlength="3"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
+
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
+              <span>Этажность</span>
               <Tooltip placement="top" content="Описание что это такое.">
-                <Icon type="md-help" class="icon-class" />
+                <Icon
+                  type="ios-information-circle-outline"
+                  class="icon-class"
+                />
+              </Tooltip>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="minNumberStoreys">
+                <Input
+                  v-model="form.minNumberStoreys"
+                  placeholder="От"
+                  :maxlength="3"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+              <FormItem prop="maxNumberStoreys">
+                <Input
+                  v-model="form.maxNumberStoreys"
+                  placeholder="До"
+                  :maxlength="3"
+                  @keypress.native="onlyNumber"
+                />
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
+      </Row>
+
+      <Row>
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
+              <span>Расположение,<br />линия</span>
+              <Tooltip placement="top" content="Описание что это такое.">
+                <Icon
+                  type="ios-information-circle-outline"
+                  class="icon-class"
+                />
               </Tooltip>
             </div>
             <div class="form-input-field">
@@ -592,7 +637,10 @@
             <div class="form-input-title">
               <span>Расстояние до<br />метро, м.</span>
               <Tooltip placement="top" content="Текст что это такое.">
-                <Icon type="md-help" class="icon-class" />
+                <Icon
+                  type="ios-information-circle-outline"
+                  class="icon-class"
+                />
               </Tooltip>
             </div>
             <div class="form-input-field">
@@ -611,6 +659,84 @@
                   :maxlength="4"
                   @keypress.native="onlyNumber"
                 />
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
+      </Row>
+      <Row class="mb-25">
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
+              <span>Бизнес центр</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="businessCenter">
+                <Select
+                  v-model="form.businessCenter"
+                  multiple
+                  filterable
+                  :max-tag-count="maxTagCount"
+                  :max-tag-placeholder="more"
+                >
+                  <Option
+                    v-for="item in valueFilters.business_center"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
+                  >
+                </Select>
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
+
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
+              <span>Жилой комплекс</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="changeResComplex">
+                <Select
+                  v-model="form.changeResComplex"
+                  multiple
+                  filterable
+                  :max-tag-count="maxTagCount"
+                  :max-tag-placeholder="more"
+                >
+                  <Option
+                    v-for="item in valueFilters.residential_complex"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
+                  >
+                </Select>
+              </FormItem>
+            </div>
+          </div>
+        </i-col>
+        <i-col :xs="24" :sm="8" :md="6" :lg="8">
+          <div class="form-input-wrap-extended-filter">
+            <div class="form-input-title">
+              <span>Класс жилого<br />комплекса</span>
+            </div>
+            <div class="form-input-field">
+              <FormItem prop="classOfHousing">
+                <Select
+                  v-model="form.classOfHousing"
+                  multiple
+                  :max-tag-count="maxTagCount"
+                  class="min-text"
+                  :max-tag-placeholder="more"
+                >
+                  <Option
+                    v-for="item in valueFilters.class_of_housing"
+                    :key="item.id"
+                    :value="item.name"
+                    >{{ item.name }}</Option
+                  >
+                </Select>
               </FormItem>
             </div>
           </div>
@@ -822,84 +948,6 @@
           </div>
         </i-col>
       </Row>
-      <Row>
-        <i-col :xs="24" :sm="8" :md="6" :lg="8">
-          <div class="form-input-wrap-extended-filter">
-            <div class="form-input-title">
-              <span>Бизнес центр</span>
-            </div>
-            <div class="form-input-field">
-              <FormItem prop="businessCenter">
-                <Select
-                  v-model="form.businessCenter"
-                  multiple
-                  filterable
-                  :max-tag-count="maxTagCount"
-                  :max-tag-placeholder="more"
-                >
-                  <Option
-                    v-for="item in valueFilters.business_center"
-                    :key="item.id"
-                    :value="item.name"
-                    >{{ item.name }}</Option
-                  >
-                </Select>
-              </FormItem>
-            </div>
-          </div>
-        </i-col>
-
-        <i-col :xs="24" :sm="8" :md="6" :lg="8">
-          <div class="form-input-wrap-extended-filter">
-            <div class="form-input-title">
-              <span>Жилой комплекс</span>
-            </div>
-            <div class="form-input-field">
-              <FormItem prop="changeResComplex">
-                <Select
-                  v-model="form.changeResComplex"
-                  multiple
-                  filterable
-                  :max-tag-count="maxTagCount"
-                  :max-tag-placeholder="more"
-                >
-                  <Option
-                    v-for="item in valueFilters.residential_complex"
-                    :key="item.id"
-                    :value="item.name"
-                    >{{ item.name }}</Option
-                  >
-                </Select>
-              </FormItem>
-            </div>
-          </div>
-        </i-col>
-        <i-col :xs="24" :sm="8" :md="6" :lg="8">
-          <div class="form-input-wrap-extended-filter">
-            <div class="form-input-title">
-              <span>Класс жилого<br />комплекса</span>
-            </div>
-            <div class="form-input-field">
-              <FormItem prop="classOfHousing">
-                <Select
-                  v-model="form.classOfHousing"
-                  multiple
-                  :max-tag-count="maxTagCount"
-                  class="min-text"
-                  :max-tag-placeholder="more"
-                >
-                  <Option
-                    v-for="item in valueFilters.class_of_housing"
-                    :key="item.id"
-                    :value="item.name"
-                    >{{ item.name }}</Option
-                  >
-                </Select>
-              </FormItem>
-            </div>
-          </div>
-        </i-col>
-      </Row>
     </div>
   </Form>
 </template>
@@ -918,6 +966,7 @@ export default {
       anyFilters: 'ios-arrow-down',
 
       form: {
+        is_sale: true
         // saleCheck: true,
         //
         // typeComEstate: [],
@@ -1000,6 +1049,7 @@ export default {
   },
   async mounted() {
     if (Object.keys(this.$route.query).length !== 0) {
+      // если query-параметры есть, то выбираес их в панели фильтров
       const qp = {}
       const query = this.$route.query
       for (const item in query) {
@@ -1015,15 +1065,21 @@ export default {
       // eslint-disable-next-line no-console
       // console.log(qp)
       this.form = { ...this.form, ...qp }
+    } else if (Object.keys(this.$route.query).length === 0) {
+      // если query-параметры пусты, то получаем из api объекты
+      if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
+        await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
+          is_sale: true
+        })
+        // eslint-disable-next-line no-console
+        console.log('mounted, length === 0')
+      }
     }
     if (
       Object.keys(this.$store.getters['commerce/GET_VALUE_FILTERS']).length ===
       0
     ) {
       await this.$store.dispatch('commerce/FETCH_VALUE_FILTERS')
-    }
-    if (this.$store.getters['commerce/GET_COUNT_OBJ'] == null) {
-      await this.$store.dispatch('commerce/FETCH_COUNT_OBJ')
     }
   },
   methods: {
@@ -1051,7 +1107,7 @@ export default {
       // console.log(Object.values(this.form))
 
       // this.$refs[name].resetFields()
-      this.form = {}
+      this.form = { is_sale: true }
       // this.form = this.resetForm
 
       // eslint-disable-next-line no-console
@@ -1059,16 +1115,13 @@ export default {
       // eslint-disable-next-line no-console
       // console.log(this.$route)
       // this.$route.fullPath = this.$route.path
-      this.$router.push({ query: {} })
+      this.$router.push({ query: { is_sale: true } })
     },
     handleSubmit(name) {
       // eslint-disable-next-line no-console
       // console.log(this.form)
       if (this.$route.path !== '/commerce') {
         this.$router.push({ path: '/commerce', query: this.form })
-
-        // eslint-disable-next-line no-console
-        console.log('переход на /commerce')
       }
     },
     showExtendedFilter() {
@@ -1112,12 +1165,40 @@ export default {
       }, [])
       // eslint-disable-next-line no-console
       console.log(output)
+    },
+    async changeForm() {
+      // при изменении в панели фильтров делаем запрос к api
+
+      // eslint-disable-next-line no-console
+      // console.log(this.form)
+
+      const params = new URLSearchParams()
+      for (const item in this.form) {
+        if (this.form[item] !== '' && this.form[item] !== null) {
+          params.append(item, this.form[item])
+        }
+        // eslint-disable-next-line no-console
+        // console.log(this.form[item])
+      }
+
+      await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', params)
+      // eslint-disable-next-line no-console
+      console.log('changeForm')
+
+      if (this.$route.path === '/commerce') {
+        this.$router.push({ query: this.form })
+        // eslint-disable-next-line no-console
+        // console.log(this.$router)
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.form-sale {
+  font-size: 12px;
+}
 .form-input-wrap {
   margin-bottom: 24px;
 }
@@ -1137,6 +1218,9 @@ export default {
 .ivu-form-item {
   width: 100%;
   margin-bottom: 0 !important;
+}
+.ivu-checkbox-wrapper {
+  font-size: 12px !important;
 }
 .form-input-field {
   display: flex;
@@ -1159,9 +1243,10 @@ export default {
   }
 }
 .icon-class {
-  border: 1px solid #c5c5c5;
-  border-radius: 10px;
-  color: #c5c5c5;
+  /*border: 1px solid #c5c5c5;*/
+  /*border-radius: 10px;*/
+  color: #7b7b7b;
+  font-size: 15px;
 }
 .form-input-wrap-extended-filter {
   display: flex;

@@ -2,6 +2,13 @@ from rest_framework import serializers
 
 from .models import (CommercialEstate,
                      VideoCommercialEstate, ImagesCommercialEstate, FloorPlansCommercialEstate)
+from profile_user.models import User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('full_name', 'phone_number', 'image_thumb')
 
 
 class ImagesCommercialEstateListSerializer(serializers.ModelSerializer):
@@ -76,6 +83,9 @@ class CommercialEstateDetailSerializer(serializers.ModelSerializer):
     images_commercial_estate = ImagesCommercialEstateListSerializer(many=True, read_only=True)
     floorplans_commercial_estate = FloorPlansCommercialEstateListSerializer(many=True, read_only=True)
     video_commercial_estate = VideoCommercialEstateListSerializer(many=True, read_only=True)
+
+    # включаем данные из связанных моделей
+    user = UserSerializer(source='fixed_agent', read_only=True, many=True)
 
     class Meta:
         model = CommercialEstate

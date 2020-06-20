@@ -21,9 +21,9 @@
           <app-search-panel-commerce-sale />
         </div>
         <div v-else-if="select === 'Аренда'">
-          <div class="search-panel">
-            <app-search-panel-commerce-rent />
-          </div>
+          <!--          <div class="search-panel">-->
+          <app-search-panel-commerce-rent />
+          <!--          </div>-->
         </div>
       </div>
     </client-only>
@@ -51,6 +51,7 @@ export default {
   watch: {
     select(newValue) {
       this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', newValue)
+      this.$router.push({ query: {} })
     }
   }
 }

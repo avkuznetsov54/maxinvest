@@ -28,7 +28,7 @@ class CommerceListPagination(PageNumberPagination):
 
 class CommercialEstateListView(generics.ListAPIView):
     serializer_class = CommercialEstateListSerializer
-    queryset = CommercialEstate.objects.all() \
+    queryset = CommercialEstate.objects.filter(is_active=True) \
         .select_related('region', 'city', 'district', 'address', 'business_center', 'residential_complex') \
         .prefetch_related('metro_stations', 'cooker_hood', 'fixed_agent', 'floor', 'relative_location',
                           'type_commercial_estate', 'business_category', 'communication_systems', 'type_entrance',
@@ -38,6 +38,7 @@ class CommercialEstateListView(generics.ListAPIView):
     pagination_class = CommerceListPagination
 
     def filter_queryset(self, queryset):
+        # print(self.request.query_params)
         for k, v in self.request.query_params.items():
             params = {}
             # if k == "cursor":
@@ -52,7 +53,13 @@ class CommercialEstateListView(generics.ListAPIView):
             if k == 'is_rent':
                 if v == 'true':
                     params.update({k: True})
+            if k == 'typeComEstate':
+                k = 'type_commercial_estate__name' + '__in'
+                v = v.split(',')
+                # print(v)
+                params.update({k: v})
 
+            # print(params)
             queryset = queryset.filter(**params)
 
         return queryset.distinct()
