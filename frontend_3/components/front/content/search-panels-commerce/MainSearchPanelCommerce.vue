@@ -1185,7 +1185,7 @@ export default {
       // console.log(qp)
       this.form = { ...qp }
 
-      if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] === null) {
+      if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
         if (
           Object.keys(this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS'])
             .length === 0
