@@ -38,7 +38,7 @@ class CommercialEstateListView(generics.ListAPIView):
     pagination_class = CommerceListPagination
 
     def filter_queryset(self, queryset):
-        # print(self.request.query_params)
+        print(self.request.query_params)
         for k, v in self.request.query_params.items():
             params = {}
             # if k == "cursor":
@@ -59,7 +59,7 @@ class CommercialEstateListView(generics.ListAPIView):
                 # print(v)
                 params.update({k: v})
 
-            # print(params)
+            print(params)
             queryset = queryset.filter(**params)
 
         return queryset.distinct()

@@ -86,7 +86,7 @@
     <div class="card-content" @click="openCard">
       <div class="card-content-title">
         <!--        <p>{{ comObj.cost_of_sale | numCredit }} руб.</p>-->
-        <div v-if="switchSaleRent === 'sale'">
+        <div v-if="switchSaleRent === 'Продажа'">
           <template v-if="!comObj.is_group_multiple_objs">
             <p>{{ comObj.cost_of_sale | numCredit }} руб.</p>
           </template>
@@ -223,10 +223,7 @@ export default {
   methods: {
     openCard() {
       // const id = 'test-id'
-      // this.$router.push(`/commerce/${this.comObj.id}`)
-
-      const newPage = this.$router.resolve(`/commerce/${this.comObj.id}`)
-      window.open(newPage.href, '_blank')
+      this.$router.push(`/commerce/${this.comObj.id}`)
     }
   }
 }

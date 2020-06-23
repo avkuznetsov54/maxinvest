@@ -3,8 +3,7 @@
     <div>
       <Row>
         <i-col :xs="24" :sm="8" :md="6" :lg="5">
-          <!--          <div class="hidden">-->
-          <div>
+          <div class="hidden">
             <FormItem prop="is_sale">
               <Checkbox
                 v-model="form.is_sale"
@@ -966,7 +965,56 @@ export default {
       isExtendedFilter: true,
       anyFilters: 'ios-arrow-down',
 
-      form: {}
+      form: {
+        is_sale: true
+        // saleCheck: true,
+        //
+        // typeComEstate: [],
+        // purchaseMethod: [],
+        // minCost: '',
+        // maxCost: '',
+        // minSquare: '',
+        // maxSquare: '',
+        // businessCategory: [],
+        // changeCities: [],
+        // changeDistrict: [],
+        // changeStreet: [],
+        // minCostSquare: '',
+        // maxCostSquare: '',
+        // rentCheck: false
+        // buildingCommercialEstate: false,
+        // finishedCommercialEstate: false,
+        // minFloor: '',
+        // maxFloor: '',
+        // minNumberStoreys: '',
+        // maxNumberStoreys: '',
+        // severalFloors: false,
+        // minPossibleIncome: '',
+        // maxPossibleIncome: '',
+        // minPayback: '',
+        // maxPayback: '',
+        // minAverageRentalRate: '',
+        // maxAverageRentalRate: '',
+        // relativeLocation: [],
+        // metroStations: [],
+        // minDistanceToMetro: '',
+        // maxDistanceToMetro: '',
+        // finishingProperty: [],
+        // communicationSystems: [],
+        // cookerHood: [],
+        // minKw: '',
+        // maxKw: '',
+        // minCeilingHeight: '',
+        // maxCeilingHeight: '',
+        // typeEntrance: [],
+        // minYearConstruction: '',
+        // maxYearConstruction: '',
+        // minParking: '',
+        // maxParking: '',
+        //
+        // changeResComplex: [],
+        // classOfHousing: []
+      }
     }
   },
   computed: {
@@ -999,8 +1047,51 @@ export default {
       }
     }
   },
-
+  async mounted() {
+    if (Object.keys(this.$route.query).length !== 0) {
+      // если query-параметры есть, то выбираес их в панели фильтров
+      const qp = {}
+      const query = this.$route.query
+      for (const item in query) {
+        if (query[item] === 'true') {
+          // eslint-disable-next-line no-console
+          // console.log('1')
+          query[item] = true
+        } else if (query[item] === 'false') {
+          continue
+        }
+        qp[item] = query[item]
+      }
+      // eslint-disable-next-line no-console
+      // console.log(qp)
+      this.form = { ...this.form, ...qp }
+    } else if (Object.keys(this.$route.query).length === 0) {
+      // если query-параметры пусты, то получаем из api объекты
+      if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
+        await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
+          is_sale: true
+        })
+        // eslint-disable-next-line no-console
+        console.log('mounted, length === 0')
+      }
+    }
+    if (
+      Object.keys(this.$store.getters['commerce/GET_VALUE_FILTERS']).length ===
+      0
+    ) {
+      await this.$store.dispatch('commerce/FETCH_VALUE_FILTERS')
+    }
+  },
   methods: {
+    // async search() {
+    //   await this.$store.dispatch('value-for-filters/FETCH_COUNT_OBJ')
+    //   // eslint-disable-next-line no-console
+    //   console.log('wewew')
+    // },
+    change: (value) => {
+      // eslint-disable-next-line no-console
+      console.log('wwwwwwww')
+    },
     thousandSeparator(newValue) {
       if (newValue !== undefined) {
         const value = newValue
@@ -1012,10 +1103,19 @@ export default {
       return newValue
     },
     handleReset(name) {
-      // this.$refs[name].resetFields()
-      this.form = {}
+      // eslint-disable-next-line no-console
+      // console.log(Object.values(this.form))
 
-      this.$router.push({ query: {} })
+      // this.$refs[name].resetFields()
+      this.form = { is_sale: true }
+      // this.form = this.resetForm
+
+      // eslint-disable-next-line no-console
+      // console.log('очистка формы')
+      // eslint-disable-next-line no-console
+      // console.log(this.$route)
+      // this.$route.fullPath = this.$route.path
+      this.$router.push({ query: { is_sale: true } })
     },
     handleSubmit(name) {
       // eslint-disable-next-line no-console
@@ -1038,38 +1138,58 @@ export default {
     more(num) {
       return 'Выбрано: ' + num
     },
-    // changeSelect(e) {
-    //   // this.$Message.success('true')
-    //   // eslint-disable-next-line no-console
-    //   // console.log(e)
-    //
-    //   // https://issue.life/questions/53138769/
-    //   const output = e.reduce((result, item) => {
-    //     const i = result.findIndex(
-    //       (resultItem) => resultItem.label === item.label
-    //     )
-    //
-    //     if (i === -1) {
-    //       // No item in current result array found that matches the date of item
-    //       // so add item to result array
-    //       result.push(item)
-    //     } else {
-    //       // An item found with date matching item in current result so combine
-    //       // the two into a new object and assign this back into our result
-    //       // array
-    //       // eslint-disable-next-line no-console
-    //       // console.log(item)
-    //       result[i] = { ...result[i], ...item }
-    //     }
-    //     return result
-    //   }, [])
-    //   // eslint-disable-next-line no-console
-    //   console.log(output)
-    // },
+    changeSelect(e) {
+      // this.$Message.success('true')
+      // eslint-disable-next-line no-console
+      // console.log(e)
+
+      // https://issue.life/questions/53138769/
+      const output = e.reduce((result, item) => {
+        const i = result.findIndex(
+          (resultItem) => resultItem.label === item.label
+        )
+
+        if (i === -1) {
+          // No item in current result array found that matches the date of item
+          // so add item to result array
+          result.push(item)
+        } else {
+          // An item found with date matching item in current result so combine
+          // the two into a new object and assign this back into our result
+          // array
+          // eslint-disable-next-line no-console
+          // console.log(item)
+          result[i] = { ...result[i], ...item }
+        }
+        return result
+      }, [])
+      // eslint-disable-next-line no-console
+      console.log(output)
+    },
     async changeForm() {
       // при изменении в панели фильтров делаем запрос к api
+
       // eslint-disable-next-line no-console
       // console.log(this.form)
+
+      const params = new URLSearchParams()
+      for (const item in this.form) {
+        if (this.form[item] !== '' && this.form[item] !== null) {
+          params.append(item, this.form[item])
+        }
+        // eslint-disable-next-line no-console
+        // console.log(this.form[item])
+      }
+
+      await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', params)
+      // eslint-disable-next-line no-console
+      console.log('changeForm')
+
+      if (this.$route.path === '/commerce') {
+        this.$router.push({ query: this.form })
+        // eslint-disable-next-line no-console
+        // console.log(this.$router)
+      }
     }
   }
 }

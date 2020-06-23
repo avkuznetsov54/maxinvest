@@ -52,7 +52,7 @@ export default {
   },
   data() {
     return {
-      selectMode: 'Новостройки'
+      selectMode: 'Коммерческая'
     }
   }
 }
@@ -130,5 +130,6 @@ export default {
   padding: 15px;
   margin: 20px auto 0;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+  color: #515a6e;
 }
 </style>

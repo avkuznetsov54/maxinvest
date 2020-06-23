@@ -3,17 +3,18 @@ import { apiCommerce } from '@/api'
 export const state = () => ({
   DATA_VALUE_FILTERS: {},
   DATA_COUNT_OBJ: null,
-  DATA_COMMERCE_OBJ: null,
-  DATA_SWITCH_SALE_RENT: 'sale',
-  DATA_PARAMS_FOR_FILTERS: {}
+  DATA_COMMERCE_OBJ: [],
+  DATA_SWITCH_SALE_RENT: 'Продажа',
+  DATA_PARAMS_FOR_FILTERS_SALE: {
+    is_sale: true
+  }
 })
 
 export const getters = {
   GET_VALUE_FILTERS: (state) => state.DATA_VALUE_FILTERS,
   GET_COUNT_OBJ: (state) => state.DATA_COUNT_OBJ,
   GET_COMMERCE_OBJ: (state) => state.DATA_COMMERCE_OBJ,
-  GET_SWITCH_SALE_RENT: (state) => state.DATA_SWITCH_SALE_RENT,
-  GET_PARAMS_FOR_FILTERS: (state) => state.DATA_PARAMS_FOR_FILTERS
+  GET_SWITCH_SALE_RENT: (state) => state.DATA_SWITCH_SALE_RENT
 }
 
 export const mutations = {
@@ -28,9 +29,6 @@ export const mutations = {
   },
   SET_SWITCH_SALE_RENT(state, data) {
     state.DATA_SWITCH_SALE_RENT = data
-  },
-  SET_PARAMS_FOR_FILTERS(state, data) {
-    state.DATA_PARAMS_FOR_FILTERS = { ...data }
   }
 }
 
@@ -65,7 +63,7 @@ export const actions = {
         }
       )
       // eslint-disable-next-line no-console
-      // console.log('FETCH_COMMERCE_OBJ =>', data)
+      // console.log(data)
       commit('SET_COMMERCE_OBJ', data)
       commit('SET_COUNT_OBJ', data.count)
     } catch (e) {
@@ -90,16 +88,6 @@ export const actions = {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log('catch FETCH_SWITCH_SALE_RENT => ' + e)
-    }
-  },
-  FETCH_PARAMS_FOR_FILTERS({ commit }, payload) {
-    try {
-      commit('SET_PARAMS_FOR_FILTERS', payload)
-      // eslint-disable-next-line no-console
-      // console.log(payload)
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log('catch FETCH_PARAMS_FOR_FILTERS => ' + e)
     }
   }
 }

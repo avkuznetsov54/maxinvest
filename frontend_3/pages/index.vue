@@ -16,7 +16,7 @@ export default {
   // async fetch({ store, error }) {
   //   try {
   //     // if (store.getters['users/users'].length === 0) {
-  //     await store.dispatch['value-for-filters/FETCH_COUNT_OBJ']
+  //     await store.dispatch['commerce/FETCH_COMMERCE_OBJ']
   //     // }
   //     // eslint-disable-next-line no-console
   //     console.log('eeee')
