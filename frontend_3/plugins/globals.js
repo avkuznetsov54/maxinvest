@@ -8,6 +8,8 @@ import locale from 'view-design/dist/locale/ru-RU' // Change locale, check node_
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 
+import lodash from 'lodash'
+
 Vue.use(iView, {
   locale
 })
@@ -24,3 +26,5 @@ Vue.use(VueAwesomeSwiper /* { default options with global component } */)
 //   observer: true,
 //   throttleWait: 500
 // })
+
+Vue.use(lodash)

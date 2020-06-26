@@ -1,3 +1,6 @@
+import re
+from django.db.models import Q
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics, status
@@ -39,8 +42,58 @@ class CommercialEstateListView(generics.ListAPIView):
 
     def filter_queryset(self, queryset):
         print(self.request.query_params)
+        # for k, v in self.request.query_params.items():
+        #     params = {}
+        #     # if k == "cursor":
+        #     #     continue
+        #
+        #     # если 'v' равно пустой строке то прекращаем итерацию что не занести её в queryset, а то 500 error
+        #     if v == '':
+        #         continue
+        #     if k == 'is_sale':
+        #         if v == 'true':
+        #             params.update({k: True})
+        #     if k == 'is_rent':
+        #         if v == 'true':
+        #             params.update({k: True})
+        #     if k == 'typeComEstate':
+        #         k = 'type_commercial_estate__name' + '__in'
+        #         v = v.split(',')
+        #         params.update({k: v})
+        #     if k == 'purchaseMethod':
+        #         k = 'purchase_method__name' + '__in'
+        #         v = v.split(',')
+        #         params.update({k: v})
+        #     if k == 'minCost':
+        #         v = re.sub("\D", "", v)
+        #         if v == '':
+        #             continue
+        #         k = 'cost_of_sale' + '__gte'
+        #         params.update({k: v})
+        #     if k == 'maxCost':
+        #         v = re.sub("\D", "", v)
+        #         if v == '':
+        #             continue
+        #         k = 'cost_of_sale' + '__lte'
+        #         params.update({k: v})
+        #     if k == 'minRent':
+        #         v = re.sub("\D", "", v)
+        #         if v == '':
+        #             continue
+        #         k = 'rent_price_month' + '__gte'
+        #         params.update({k: v})
+        #     if k == 'maxRent':
+        #         v = re.sub("\D", "", v)
+        #         if v == '':
+        #             continue
+        #         k = 'rent_price_month' + '__lte'
+        #         params.update({k: v})
+        #
+        #     print(params)
+        #     queryset = queryset.filter(**params)
+
+        params = []
         for k, v in self.request.query_params.items():
-            params = {}
             # if k == "cursor":
             #     continue
 
@@ -49,18 +102,33 @@ class CommercialEstateListView(generics.ListAPIView):
                 continue
             if k == 'is_sale':
                 if v == 'true':
-                    params.update({k: True})
+                    params.append(Q(is_sale=True))
             if k == 'is_rent':
                 if v == 'true':
-                    params.update({k: True})
+                    params.append(Q(is_rent=True))
             if k == 'typeComEstate':
-                k = 'type_commercial_estate__name' + '__in'
                 v = v.split(',')
-                # print(v)
-                params.update({k: v})
+                params.append(Q(type_commercial_estate__name__in=v))
+            if k == 'purchaseMethod':
+                v = v.split(',')
+                params.append(Q(purchase_method__name__in=v))
 
-            print(params)
-            queryset = queryset.filter(**params)
+            if k == 'minCost':
+                v = re.sub("\D", "", v)
+                if v == '':
+                    continue
+                params.append(Q(cost_of_sale__gte=v))
+            if k == 'maxCost':
+                v = re.sub("\D", "", v)
+                if v == '':
+                    continue
+                params.append(Q(cost_of_sale__lte=v))
+
+            if k == 'businessCategory':
+                v = v.split(',')
+                params.append(Q(business_category__name__in=v))
+
+        queryset = queryset.filter(*params)
 
         return queryset.distinct()
 

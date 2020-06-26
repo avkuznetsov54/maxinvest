@@ -8,7 +8,7 @@
               v-model="typeDeal"
               type="button"
               class="select-mode"
-              @input="switchSaleRent"
+              @input="changeForm"
             >
               <Radio label="sale" class="select-mode-radio">Продажа</Radio>
               <Radio label="rent" class="select-mode-radio">Аренда</Radio>
@@ -27,13 +27,12 @@
                   multiple
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
-                  @on-select="selectInputToTagsLine"
+                  @on-change="changeForm"
                 >
                   <Option
                     v-for="item in valueFilters.type_commercial_estate"
                     :key="item.id"
                     :value="item.name"
-                    label="typeComEstate"
                     >{{ item.name }}</Option
                   >
                 </Select>
@@ -51,13 +50,12 @@
                   multiple
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
-                  @on-select="selectInputToTagsLine"
+                  @input="changeForm"
                 >
                   <Option
                     v-for="item in valueFilters.purchase_method"
                     :key="item.id"
                     :value="item.name"
-                    label="purchaseMethod"
                     >{{ item.name }}</Option
                   >
                 </Select>
@@ -74,22 +72,21 @@
                   <div class="form-input-field">
                     <FormItem prop="minCost">
                       <Input
-                        v-model="formNum.minCost"
+                        ref="minCost"
+                        v-model="form.minCost"
                         placeholder="От"
                         :maxlength="14"
-                        element-id="minCost"
-                        @on-change="changeInputNumberField"
+                        @on-change="changeForm"
                         @keypress.native="onlyNumber"
                       />
                     </FormItem>
                     <FormItem prop="maxCost">
                       <Input
-                        v-model="formNum.maxCost"
+                        v-model="form.maxCost"
                         placeholder="До"
                         :maxlength="14"
-                        element-id="maxCost"
-                        @on-change="changeInputNumberField"
                         @keypress.native="onlyNumber"
+                        @input="changeForm"
                       />
                     </FormItem>
                   </div>
@@ -105,22 +102,20 @@
                   <div class="form-input-field">
                     <FormItem prop="minRent">
                       <Input
-                        v-model="formNum.minRent"
+                        v-model="form.minRent"
                         placeholder="От"
                         :maxlength="14"
-                        element-id="minRent"
-                        @on-change="changeInputNumberField"
                         @keypress.native="onlyNumber"
+                        @input="changeForm"
                       />
                     </FormItem>
                     <FormItem prop="maxRent">
                       <Input
-                        v-model="formNum.maxRent"
+                        v-model="form.maxRent"
                         placeholder="До"
                         :maxlength="14"
-                        element-id="maxRent"
-                        @on-change="changeInputNumberField"
                         @keypress.native="onlyNumber"
+                        @input="changeForm"
                       />
                     </FormItem>
                   </div>
@@ -137,22 +132,20 @@
                 <div class="form-input-field">
                   <FormItem prop="minSquare">
                     <Input
-                      v-model="formNum.minSquare"
+                      v-model="form.minSquare"
                       placeholder="От"
                       :maxlength="10"
-                      element-id="minSquare"
-                      @on-change="changeInputNumberField"
                       @keypress.native="onlyNumber"
+                      @input="changeForm"
                     />
                   </FormItem>
                   <FormItem prop="maxSquare">
                     <Input
-                      v-model="formNum.maxSquare"
+                      v-model="form.maxSquare"
                       placeholder="До"
                       :maxlength="10"
-                      element-id="maxSquare"
-                      @on-change="changeInputNumberField"
                       @keypress.native="onlyNumber"
+                      @input="changeForm"
                     />
                   </FormItem>
                 </div>
@@ -176,13 +169,12 @@
                   multiple
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
-                  @on-select="selectInputToTagsLine"
+                  @input="changeForm"
                 >
                   <Option
                     v-for="item in valueFilters.business_category"
                     :key="item.id"
                     :value="item.name"
-                    label="businessCategory"
                     >{{ item.name }}</Option
                   >
                 </Select>
@@ -201,19 +193,40 @@
                   class="min-text"
                   :max-tag-placeholder="more"
                   placeholder="Город"
-                  @on-select="selectInputToTagsLine"
+                  @input="changeForm"
                 >
                   <Option
                     v-for="item in valueFilters.city"
                     :key="item.id"
                     :value="item.name"
-                    label="changeCities"
                     >{{ item.name }}</Option
                   >
                 </Select>
               </FormItem>
             </div>
           </i-col>
+
+          <!--        <i-col :xs="24" :sm="8" :md="6" :lg="5">-->
+          <!--          <div class="form-input-wrap">-->
+          <!--            <FormItem prop="changeDistrict">-->
+          <!--              <Select-->
+          <!--                v-model="form.changeDistrict"-->
+          <!--                multiple-->
+          <!--                size="large"-->
+          <!--                :max-tag-count="maxTagCount"-->
+          <!--                :max-tag-placeholder="more"-->
+          <!--                placeholder="Район"-->
+          <!--              >-->
+          <!--                <Option-->
+          <!--                  v-for="item in valueFilters.district"-->
+          <!--                  :key="item.id"-->
+          <!--                  :value="item.name"-->
+          <!--                  >{{ item.name }}</Option-->
+          <!--                >-->
+          <!--              </Select>-->
+          <!--            </FormItem>-->
+          <!--          </div>-->
+          <!--        </i-col>-->
           <i-col :xs="24" :sm="8" :md="6" :lg="5">
             <div class="form-input-wrap">
               <!--              <client-only>-->
@@ -225,7 +238,7 @@
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
                   placeholder="Район"
-                  @on-select="selectInputToTagsLine"
+                  @input="changeForm"
                 >
                   <OptionGroup
                     v-for="item in valueFilters.city"
@@ -236,7 +249,6 @@
                       v-for="itemCh in item.district_city"
                       :key="itemCh.id"
                       :value="itemCh.name"
-                      label="changeDistrict"
                       >{{ itemCh.name }}</Option
                     >
                   </OptionGroup>
@@ -294,13 +306,12 @@
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
                   placeholder="Улица"
-                  @on-select="selectInputToTagsLine"
+                  @input="changeForm"
                 >
                   <Option
                     v-for="item in valueFilters.street"
                     :key="item.id"
                     :value="item.name"
-                    label="changeStreet"
                     >{{ item.name }}</Option
                   >
                 </Select>
@@ -326,22 +337,32 @@
             >
           </i-col>
         </Row>
-        <Row v-if="tagLine.length !== 0">
-          <i-col :xs="24" :sm="8" :md="6" :lg="21">
-            <div class="filter-tag-line">
-              <div v-for="item in tagLine" :key="item.label + item.value">
-                <Tag class="filter-tag">
-                  {{ item.value }}
-                  <Icon
-                    type="ios-close"
-                    @click="handleCloseTag(item.label, item.value, item.tag)"
-                  />
-                </Tag>
-              </div>
-            </div>
-          </i-col>
-          <!--          <i-col :xs="24" :sm="8" :md="6" :lg="{ span: 3, offset: 21 }">-->
-          <i-col :xs="24" :sm="8" :md="6" :lg="3">
+        <Row>
+          <!--          <i-col :xs="24" :sm="8" :md="6" :lg="21">-->
+          <!--            <div class="filter-tag-line">-->
+          <!--              <div v-for="(item, key, i) in tagLine" :key="i">-->
+          <!--                <template v-if="typeof item === 'string'">-->
+          <!--                  <Tag :key="i" :name="key">-->
+          <!--                    {{ item }}-->
+          <!--                    <Icon type="ios-close" @click="handleClose2(key, item)" />-->
+          <!--                  </Tag>-->
+          <!--                </template>-->
+          <!--                <template v-else-if="typeof item === 'number'">-->
+          <!--                  <Tag :key="i" :name="key">-->
+          <!--                    {{ item }}-->
+          <!--                    <Icon type="ios-close" @click="handleClose2(key, item)" />-->
+          <!--                  </Tag>-->
+          <!--                </template>-->
+          <!--                <template v-else-if="typeof item === 'object'">-->
+          <!--                  <Tag v-for="n in item" :key="n" :name="key">-->
+          <!--                    {{ n }}-->
+          <!--                    <Icon type="ios-close" @click="handleClose2(key, n)" />-->
+          <!--                  </Tag>-->
+          <!--                </template>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </i-col>-->
+          <i-col :xs="24" :sm="8" :md="6" :lg="{ span: 3, offset: 21 }">
             <Button
               size="small"
               :style="{ float: 'right' }"
@@ -366,27 +387,25 @@
             <i-col :xs="24" :sm="8" :md="6" :lg="8">
               <div class="form-input-wrap-extended-filter">
                 <div class="form-input-title">
-                  <span>Стоимость, руб/кв.м.</span>
+                  <span>Стоимость за м2</span>
                 </div>
                 <div class="form-input-field">
                   <FormItem prop="minCostSquare">
                     <Input
-                      v-model="formNum.minCostSquare"
+                      v-model="form.minCostSquare"
                       placeholder="От"
                       :maxlength="10"
-                      element-id="minCostSquare"
-                      @on-change="changeInputNumberField"
                       @keypress.native="onlyNumber"
+                      @input="changeForm"
                     />
                   </FormItem>
                   <FormItem prop="maxCostSquare">
                     <Input
-                      v-model="formNum.maxCostSquare"
+                      v-model="form.maxCostSquare"
                       placeholder="До"
                       :maxlength="10"
-                      element-id="maxCostSquare"
-                      @on-change="changeInputNumberField"
                       @keypress.native="onlyNumber"
+                      @input="changeForm"
                     />
                   </FormItem>
                 </div>
@@ -396,12 +415,10 @@
               <div class="form-input-wrap-extended-filter">
                 <FormItem prop="checkRent">
                   <Checkbox
-                    id="checkRent"
                     v-model="form.checkRent"
                     size="default"
-                    @change.native="changeCheckboxField"
-                  >
-                    Возможность арендовать
+                    @input="changeForm"
+                    >Возможность арендовать
                   </Checkbox>
                   <Tooltip placement="top" content="Описание что это такое.">
                     <Icon
@@ -417,7 +434,7 @@
             <i-col :xs="24" :sm="8" :md="6" :lg="8">
               <div class="form-input-wrap-extended-filter">
                 <div class="form-input-title">
-                  <span>Возможный доход,<br />руб/мес.</span>
+                  <span>Возможный доход в<br />месяц</span>
                   <Tooltip placement="top" content="Описание что это такое.">
                     <Icon
                       type="ios-information-circle-outline"
@@ -428,21 +445,17 @@
                 <div class="form-input-field">
                   <FormItem prop="minPossibleIncome">
                     <Input
-                      v-model="formNum.minPossibleIncome"
+                      v-model="form.minPossibleIncome"
                       placeholder="От"
                       :maxlength="10"
-                      element-id="minPossibleIncome"
-                      @on-change="changeInputNumberField"
                       @keypress.native="onlyNumber"
                     />
                   </FormItem>
                   <FormItem prop="maxPossibleIncome">
                     <Input
-                      v-model="formNum.maxPossibleIncome"
+                      v-model="form.maxPossibleIncome"
                       placeholder="До"
                       :maxlength="10"
-                      element-id="maxPossibleIncome"
-                      @on-change="changeInputNumberField"
                       @keypress.native="onlyNumber"
                     />
                   </FormItem>
@@ -453,7 +466,7 @@
             <i-col :xs="24" :sm="8" :md="6" :lg="8">
               <div class="form-input-wrap-extended-filter">
                 <div class="form-input-title">
-                  <span>Окупаемость, лет</span>
+                  <span>Окупаемость</span>
                   <Tooltip placement="top" content="Описание что это такое.">
                     <Icon
                       type="ios-information-circle-outline"
@@ -464,21 +477,17 @@
                 <div class="form-input-field">
                   <FormItem prop="minPayback">
                     <Input
-                      v-model="formNum.minPayback"
+                      v-model="form.minPayback"
                       placeholder="От"
-                      :maxlength="3"
-                      element-id="minPayback"
-                      @on-change="changeInputNumberField"
+                      :maxlength="10"
                       @keypress.native="onlyNumber"
                     />
                   </FormItem>
                   <FormItem prop="maxPayback">
                     <Input
-                      v-model="formNum.maxPayback"
+                      v-model="form.maxPayback"
                       placeholder="До"
-                      :maxlength="3"
-                      element-id="maxPayback"
-                      @on-change="changeInputNumberField"
+                      :maxlength="10"
                       @keypress.native="onlyNumber"
                     />
                   </FormItem>
@@ -489,7 +498,7 @@
             <i-col :xs="24" :sm="8" :md="6" :lg="8">
               <div class="form-input-wrap-extended-filter">
                 <div class="form-input-title">
-                  <span>Средняя арендная<br />ставка, руб/мес.</span>
+                  <span>Средняя арендная<br />ставка</span>
                   <Tooltip
                     placement="top"
                     content="При сдаче в аренду после покупки."
@@ -503,21 +512,17 @@
                 <div class="form-input-field">
                   <FormItem prop="minAverageRentalRate">
                     <Input
-                      v-model="formNum.minAverageRentalRate"
+                      v-model="form.minAverageRentalRate"
                       placeholder="От"
                       :maxlength="10"
-                      element-id="minAverageRentalRate"
-                      @on-change="changeInputNumberField"
                       @keypress.native="onlyNumber"
                     />
                   </FormItem>
                   <FormItem prop="maxAverageRentalRate">
                     <Input
-                      v-model="formNum.maxAverageRentalRate"
+                      v-model="form.maxAverageRentalRate"
                       placeholder="До"
                       :maxlength="10"
-                      element-id="maxAverageRentalRate"
-                      @on-change="changeInputNumberField"
                       @keypress.native="onlyNumber"
                     />
                   </FormItem>
@@ -536,22 +541,20 @@
                 <div class="form-input-field">
                   <FormItem prop="rent_price_sq_m">
                     <Input
-                      v-model="formNum.min_rent_price_sq_m"
+                      v-model="form.min_rent_price_sq_m"
                       placeholder="От"
                       :maxlength="10"
-                      element-id="min_rent_price_sq_m"
-                      @on-change="changeInputNumberField"
                       @keypress.native="onlyNumber"
+                      @input="changeForm"
                     />
                   </FormItem>
                   <FormItem prop="maxCostSquare">
                     <Input
-                      v-model="formNum.max_rent_price_sq_m"
+                      v-model="form.max_rent_price_sq_m"
                       placeholder="До"
                       :maxlength="10"
-                      element-id="max_rent_price_sq_m"
-                      @on-change="changeInputNumberField"
                       @keypress.native="onlyNumber"
+                      @input="changeForm"
                     />
                   </FormItem>
                 </div>
@@ -562,10 +565,9 @@
               <div class="form-input-wrap-extended-filter">
                 <FormItem prop="checkSale">
                   <Checkbox
-                    id="checkSale"
                     v-model="form.checkSale"
                     size="default"
-                    @change.native="changeCheckboxField"
+                    @input="changeForm"
                     >Возможность продажи
                   </Checkbox>
                   <Tooltip placement="top" content="Описание что это такое.">
@@ -584,12 +586,7 @@
           <i-col :xs="24" :sm="8" :md="6" :lg="8">
             <div class="form-input-wrap-extended-filter">
               <FormItem prop="severalFloors">
-                <Checkbox
-                  id="severalFloors"
-                  v-model="form.severalFloors"
-                  size="default"
-                  @change.native="changeCheckboxField"
-                >
+                <Checkbox v-model="form.severalFloors" size="default">
                   <!--                <span>Помещение с несколькими этажами</span>-->
                   <span>Помещение имеет несколько этажей</span>
                   <!--                Несколько этажей-->
@@ -601,11 +598,7 @@
           <i-col :xs="24" :sm="8" :md="6" :lg="3">
             <div class="form-input-wrap-extended-filter">
               <FormItem prop="groundFloor">
-                <Checkbox
-                  id="groundFloor"
-                  v-model="form.groundFloor"
-                  size="default"
-                  @change.native="changeCheckboxField"
+                <Checkbox v-model="form.groundFloor" size="default"
                   >Цоколь</Checkbox
                 >
               </FormItem>
@@ -615,11 +608,7 @@
           <i-col :xs="24" :sm="8" :md="6" :lg="3">
             <div class="form-input-wrap-extended-filter">
               <FormItem prop="basement">
-                <Checkbox
-                  id="basement"
-                  v-model="form.basement"
-                  size="default"
-                  @change.native="changeCheckboxField"
+                <Checkbox v-model="form.basement" size="default"
                   >Подвал</Checkbox
                 >
               </FormItem>
@@ -635,21 +624,17 @@
               <div class="form-input-field">
                 <FormItem prop="minFloor">
                   <Input
-                    v-model="formNum.minFloor"
+                    v-model="form.minFloor"
                     placeholder="От"
                     :maxlength="3"
-                    element-id="minFloor"
-                    @on-change="changeInputNumberField"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
                 <FormItem prop="maxFloor">
                   <Input
-                    v-model="formNum.maxFloor"
+                    v-model="form.maxFloor"
                     placeholder="До"
                     :maxlength="3"
-                    element-id="maxFloor"
-                    @on-change="changeInputNumberField"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
@@ -671,21 +656,17 @@
               <div class="form-input-field">
                 <FormItem prop="minNumberStoreys">
                   <Input
-                    v-model="formNum.minNumberStoreys"
+                    v-model="form.minNumberStoreys"
                     placeholder="От"
                     :maxlength="3"
-                    element-id="minNumberStoreys"
-                    @on-change="changeInputNumberField"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
                 <FormItem prop="maxNumberStoreys">
                   <Input
-                    v-model="formNum.maxNumberStoreys"
+                    v-model="form.maxNumberStoreys"
                     placeholder="До"
                     :maxlength="3"
-                    element-id="maxNumberStoreys"
-                    @on-change="changeInputNumberField"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
@@ -714,13 +695,11 @@
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
                   >
                     <Option
                       v-for="item in valueFilters.relative_location"
                       :key="item.id"
                       :value="item.name"
-                      label="relativeLocation"
                       >{{ item.name }}</Option
                     >
                   </Select>
@@ -741,13 +720,11 @@
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
                   >
                     <Option
                       v-for="item in valueFilters.metro_stations"
                       :key="item.id"
                       :value="item.name"
-                      label="metroStations"
                       >{{ item.name }}</Option
                     >
                   </Select>
@@ -769,21 +746,17 @@
               <div class="form-input-field">
                 <FormItem prop="minDistanceToMetro">
                   <Input
-                    v-model="formNum.minDistanceToMetro"
+                    v-model="form.minDistanceToMetro"
                     placeholder="От"
-                    :maxlength="6"
-                    element-id="minDistanceToMetro"
-                    @on-change="changeInputNumberField"
+                    :maxlength="4"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
                 <FormItem prop="maxDistanceToMetro">
                   <Input
-                    v-model="formNum.maxDistanceToMetro"
+                    v-model="form.maxDistanceToMetro"
                     placeholder="До"
-                    :maxlength="6"
-                    element-id="maxDistanceToMetro"
-                    @on-change="changeInputNumberField"
+                    :maxlength="4"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
@@ -805,13 +778,11 @@
                     filterable
                     :max-tag-count="maxTagCount"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
                   >
                     <Option
                       v-for="item in valueFilters.business_center"
                       :key="item.id"
                       :value="item.name"
-                      label="businessCenter"
                       >{{ item.name }}</Option
                     >
                   </Select>
@@ -833,13 +804,11 @@
                     filterable
                     :max-tag-count="maxTagCount"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
                   >
                     <Option
                       v-for="item in valueFilters.residential_complex"
                       :key="item.id"
                       :value="item.name"
-                      label="changeResComplex"
                       >{{ item.name }}</Option
                     >
                   </Select>
@@ -860,13 +829,11 @@
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
                   >
                     <Option
                       v-for="item in valueFilters.class_of_housing"
                       :key="item.id"
                       :value="item.name"
-                      label="classOfHousing"
                       >{{ item.name }}</Option
                     >
                   </Select>
@@ -880,11 +847,7 @@
           <i-col :xs="24" :sm="8" :md="6" :lg="5">
             <div class="form-input-wrap-extended-filter">
               <FormItem prop="buildingCommercialEstate">
-                <Checkbox
-                  id="buildingCommercialEstate"
-                  v-model="form.buildingCommercialEstate"
-                  size="default"
-                  @change.native="changeCheckboxField"
+                <Checkbox v-model="form.buildingCommercialEstate" size="default"
                   >В процессе строительства
                 </Checkbox>
                 <Tooltip placement="top" content="Описание что это такое.">
@@ -899,11 +862,7 @@
           <i-col :xs="24" :sm="8" :md="6" :lg="3">
             <div class="form-input-wrap-extended-filter">
               <FormItem prop="finishedCommercialEstate">
-                <Checkbox
-                  id="finishedCommercialEstate"
-                  v-model="form.finishedCommercialEstate"
-                  size="default"
-                  @change.native="changeCheckboxField"
+                <Checkbox v-model="form.finishedCommercialEstate" size="default"
                   >Готовое
                 </Checkbox>
                 <Tooltip placement="top" content="Описание что это такое.">
@@ -923,21 +882,17 @@
               <div class="form-input-field">
                 <FormItem prop="minYearConstruction">
                   <Input
-                    v-model="formNum.minYearConstruction"
+                    v-model="form.minYearConstruction"
                     placeholder="От"
                     :maxlength="4"
-                    element-id="minYearConstruction"
-                    @on-change="changeInputNumberField"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
                 <FormItem prop="maxYearConstruction">
                   <Input
-                    v-model="formNum.maxYearConstruction"
+                    v-model="form.maxYearConstruction"
                     placeholder="До"
                     :maxlength="4"
-                    element-id="maxYearConstruction"
-                    @on-change="changeInputNumberField"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
@@ -960,13 +915,11 @@
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
                   >
                     <Option
                       v-for="item in valueFilters.finishing_property"
                       :key="item.id"
                       :value="item.name"
-                      label="finishingProperty"
                       >{{ item.name }}</Option
                     >
                   </Select>
@@ -987,13 +940,11 @@
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
                   >
                     <Option
                       v-for="item in valueFilters.communication_systems"
                       :key="item.id"
                       :value="item.name"
-                      label="communicationSystems"
                       >{{ item.name }}</Option
                     >
                   </Select>
@@ -1014,13 +965,11 @@
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
                   >
                     <Option
                       v-for="item in valueFilters.cooker_hood"
                       :key="item.id"
                       :value="item.name"
-                      label="cookerHood"
                       >{{ item.name }}</Option
                     >
                   </Select>
@@ -1038,21 +987,17 @@
               <div class="form-input-field">
                 <FormItem prop="minKw">
                   <Input
-                    v-model="formNum.minKw"
+                    v-model="form.minKw"
                     placeholder="От"
                     :maxlength="5"
-                    element-id="minKw"
-                    @on-change="changeInputNumberField"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
                 <FormItem prop="maxKw">
                   <Input
-                    v-model="formNum.maxKw"
+                    v-model="form.maxKw"
                     placeholder="До"
                     :maxlength="5"
-                    element-id="maxKw"
-                    @on-change="changeInputNumberField"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
@@ -1067,22 +1012,18 @@
               <div class="form-input-field">
                 <FormItem prop="minCeilingHeight">
                   <Input
-                    v-model="formNum.minCeilingHeight"
+                    v-model="form.minCeilingHeight"
                     placeholder="От"
-                    :maxlength="4"
-                    element-id="minCeilingHeight"
-                    @on-change="changeInputNumberField"
-                    @keypress.native="onlyNumberAndDot"
+                    :maxlength="10"
+                    @keypress.native="onlyNumber"
                   />
                 </FormItem>
                 <FormItem prop="maxCeilingHeight">
                   <Input
-                    v-model="formNum.maxCeilingHeight"
+                    v-model="form.maxCeilingHeight"
                     placeholder="До"
-                    :maxlength="4"
-                    element-id="maxCeilingHeight"
-                    @on-change="changeInputNumberField"
-                    @keypress.native="onlyNumberAndDot"
+                    :maxlength="10"
+                    @keypress.native="onlyNumber"
                   />
                 </FormItem>
               </div>
@@ -1101,13 +1042,11 @@
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
                   >
                     <Option
                       v-for="item in valueFilters.type_entrance"
                       :key="item.id"
                       :value="item.name"
-                      label="typeEntrance"
                       >{{ item.name }}</Option
                     >
                   </Select>
@@ -1119,48 +1058,23 @@
         <Row>
           <i-col :xs="24" :sm="8" :md="6" :lg="8">
             <div class="form-input-wrap-extended-filter">
-              <FormItem prop="parking">
-                <Checkbox
-                  id="parking"
-                  v-model="form.parking"
-                  size="default"
-                  @change.native="changeCheckboxField"
-                >
-                  Наличие парковки
-                </Checkbox>
-                <Tooltip placement="top" content="Описание что это такое.">
-                  <Icon
-                    type="ios-information-circle-outline"
-                    class="icon-class"
-                  />
-                </Tooltip>
-              </FormItem>
-            </div>
-          </i-col>
-
-          <i-col :xs="24" :sm="8" :md="6" :lg="8">
-            <div class="form-input-wrap-extended-filter">
               <div class="form-input-title">
                 <span>Количество парковок</span>
               </div>
               <div class="form-input-field">
                 <FormItem prop="minParking">
                   <Input
-                    v-model="formNum.minParking"
+                    v-model="form.minParking"
                     placeholder="От"
                     :maxlength="5"
-                    element-id="minParking"
-                    @on-change="changeInputNumberField"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
                 <FormItem prop="maxParking">
                   <Input
-                    v-model="formNum.maxParking"
+                    v-model="form.maxParking"
                     placeholder="До"
                     :maxlength="5"
-                    element-id="maxParking"
-                    @on-change="changeInputNumberField"
                     @keypress.native="onlyNumber"
                   />
                 </FormItem>
@@ -1188,13 +1102,13 @@ export default {
       anyFilters: 'ios-arrow-down',
 
       typeDeal: 'sale',
-      formNum: {},
       form: {
         is_sale: true,
         is_switchForm: 'sale'
       },
-      tagLine: [],
-      typingTimer: {}
+      formOld: {},
+      tagLine: {},
+      r: 0.5541384640877445
     }
   },
 
@@ -1209,21 +1123,132 @@ export default {
       return this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS']
     }
   },
+  watch: {
+    // typeDeal(newValue) {
+    //   // eslint-disable-next-line no-console
+    //   // console.log(newValue)
+    //   if (newValue === 'rent') {
+    //     delete this.form.is_sale
+    //     this.form.is_rent = true
+    //   } else if (newValue === 'sale') {
+    //     delete this.form.is_rent
+    //     this.form.is_sale = true
+    //   }
+    //   // eslint-disable-next-line no-console
+    //   // console.log('this.form =>', this.form)
+    // },
+    // form: {
+    //   handler(newForm, oldForm) {
+    //     //     // eslint-disable-next-line no-console
+    //     //     // console.log('BEGIN this.formOld =>', this.formOld)
+    //     // eslint-disable-next-line no-console
+    //     console.log('watch form =>', newForm, oldForm)
+    //     //     // eslint-disable-next-line no-console
+    //     //     // console.log('watch form')
+    //     //
+    //     //     // if (newForm !== oldForm) {
+    //     //     if (JSON.stringify(newForm) !== JSON.stringify(this.formOld)) {
+    //     //       this.fetchCommerceObj(newForm)
+    //     //     }
+    //     //
+    //     //     this.watchChangeForm(newForm)
+    //     //
+    //     //     // this.formOld = { ...newForm }
+    //     //     // this.formOld = JSON.parse(JSON.stringify(newForm))
+    //     //     this.formOld = this.copyObj(newForm)
+    //     //     // this.formOld = _.cloneDeep(newForm)
+    //     //     // eslint-disable-next-line no-console
+    //     //     // console.log('END this.formOld =>', this.formOld)
+    //   }
+    //
+    //   // deep: true
+    //   // immediate: true
+    // }
+    // 'form.minSquare': {
+    //   handler(newValue) {
+    //     this.form.minSquare = this.thousandSeparator(newValue)
+    //   }
+    // },
+    // 'form.maxSquare': {
+    //   handler(newValue) {
+    //     this.form.maxSquare = this.thousandSeparator(newValue)
+    //   }
+    // }
+  },
   async mounted() {
+    if (Object.keys(this.$route.query).length !== 0) {
+      // если query-параметры есть, то выбираес их в панели фильтров
+      const qp = {}
+      const query = this.$route.query
+      for (const item in query) {
+        // преобразуем строку со значением 'true' в Boolean
+        if (query[item] === 'true') {
+          query[item] = true
+          // if (query === 'is_sale') {
+          //   this.typeDeal = 'sale'
+          // } else if (query === 'is_rent') {
+          //   this.typeDeal = 'rent'
+          // }
+        } else if (query[item] === 'false') {
+          continue
+        } else if (query[item] === '') {
+          continue
+        }
+        qp[item] = query[item]
+      }
+      if (query.is_rent) {
+        this.typeDeal = 'rent'
+        qp.is_rent = true
+        qp.is_switchForm = 'rent'
+        this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', this.typeDeal)
+      } else {
+        this.typeDeal = 'sale'
+        qp.is_sale = true
+        qp.is_switchForm = 'sale'
+        this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', this.typeDeal)
+      }
+      this.$router.push({ query: qp })
+
+      // if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
+      //   if (
+      //     Object.keys(this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS'])
+      //       .length === 0
+      //   ) {
+      //     this.fetchCommerceObj(qp)
+      //   } else {
+      //     this.fetchCommerceObj(this.paramsFilter)
+      //   }
+      // }
+
+      // eslint-disable-next-line no-console
+      console.log(qp)
+      this.form = { ...qp }
+
+      this.applyWatchForm()
+    } else if (Object.keys(this.$route.query).length === 0) {
+      // если query-параметры пусты, то получаем из api объекты
+      if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
+        await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
+          is_sale: true,
+          is_switchForm: 'sale'
+        })
+        // eslint-disable-next-line no-console
+        console.log('mounted, length === 0')
+      }
+    }
     if (
       Object.keys(this.$store.getters['commerce/GET_VALUE_FILTERS']).length ===
       0
     ) {
       await this.$store.dispatch('commerce/FETCH_VALUE_FILTERS')
     }
-    if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
-      await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
-        is_sale: true,
-        is_switchForm: 'sale'
-      })
-      // eslint-disable-next-line no-console
-      // console.log('mounted, length === 0')
-    }
+    // if (this.$store.getters['commerce/GET_COMMERCE_OBJ'] === null) {
+    //   await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
+    //     is_sale: true
+    //   })
+    //   // eslint-disable-next-line no-console
+    //   // console.log('mounted, GET_COMMERCE_OBJ === null')
+    // }
   },
   methods: {
     thousandSeparator(newValue) {
@@ -1236,82 +1261,117 @@ export default {
       }
       return newValue
     },
+    handleReset(name) {
+      // this.$refs[name].resetFields()
+      // this.form = {}
+
+      // очищаем поля формы кроме если is_sale=true или is_rent=true
+      const keys = Object.keys(this.form)
+      keys.forEach((key) => {
+        if (key === 'is_sale' && this.form.is_sale) {
+          this.form = { is_sale: true, is_switchForm: 'sale' }
+          this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+        } else if (key === 'is_rent' && this.form.is_rent) {
+          this.form = { is_rent: true, is_switchForm: 'rent' }
+          this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+        }
+      })
+
+      // eslint-disable-next-line no-console
+      // console.log(this.form)
+      // eslint-disable-next-line no-console
+      // console.log(this.paramsFilter)
+
+      if (this.$route.path === '/commerce') {
+        this.$router.push({ query: this.paramsFilter })
+      }
+
+      // eslint-disable-next-line no-console
+      // console.log(this.$refs.minCost)
+
+      // this.changeForm()
+    },
+
     showExtendedFilter() {
       this.isExtendedFilter = !this.isExtendedFilter
     },
     onlyNumber($event) {
       // console.log($event.keyCode); //keyCodes value
       const keyCode = $event.keyCode ? $event.keyCode : $event.which
-      if (keyCode < 48 || (keyCode > 57 && keyCode !== 46)) {
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        // 46 is dot
         $event.preventDefault()
       }
-    },
-    onlyNumberAndDot($event) {
-      // console.log($event.keyCode); //keyCodes value
-      const keyCode = $event.keyCode ? $event.keyCode : $event.which
-      if (
-        (keyCode < 48 || keyCode > 57) &&
-        keyCode !== 46 &&
-        keyCode !== 190 &&
-        keyCode !== 55
-      ) {
-        $event.preventDefault()
-      }
+
+      // eslint-disable-next-line no-console
+      // console.log($event.target.value)
     },
     more(num) {
       return 'Выбрано: ' + num
     },
     handleSubmit(name) {
-      // eslint-disable-next-line no-console
-      console.log('this.tagLine =>', this.tagLine)
+      if (this.$route.path !== '/commerce') {
+        if (
+          Object.keys(this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS'])
+            .length === 0
+        ) {
+          this.$router.push({ path: '/commerce', query: this.form })
+          this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+        } else {
+          this.$router.push({ path: '/commerce', query: this.paramsFilter })
+        }
+      }
+
       // eslint-disable-next-line no-console
       console.log('this.form =>', this.form)
       // eslint-disable-next-line no-console
-      console.log('this.formNum =>', this.formNum)
+      console.log('this.paramsFilter =>', this.paramsFilter)
     },
-    handleReset(name) {
-      // очищаем поля формы кроме если is_sale=true или is_rent=true
-      const keys = Object.keys(this.form)
-      keys.forEach((key) => {
-        if (key === 'is_sale' && this.form.is_sale) {
-          this.form = { is_sale: true, is_switchForm: 'sale' }
-          // this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
-        } else if (key === 'is_rent' && this.form.is_rent) {
-          this.form = { is_rent: true, is_switchForm: 'rent' }
-          // this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
-        }
-      })
-      this.tagLine = []
-      this.formNum = {}
+    watchChangeForm(newForm) {
+      this.formatInputNumber()
+      // отправляем данные из формы в store
+      this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', newForm)
+
+      // при изменении в панели фильтров делаем запрос к api
+      // this.fetchCommerceObj(this.paramsFilter)
+
+      if (this.$route.path === '/commerce') {
+        this.$router.push({ query: this.form })
+        // eslint-disable-next-line no-console
+        // console.log(this.$router)
+      }
     },
-    changeForm($event) {
-      // eslint-disable-next-line no-console
-      console.log($event)
+    changeForm(e) {
+      // // eslint-disable-next-line no-console
+      // // console.log(e)
+      // this.switchForm(e)
+      //
+      // this.formatInputNumber()
+      //
+      // // отправляем данные из формы в store
+      // this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+      //
+      // // при изменении в панели фильтров делаем запрос к api
+      // this.fetchCommerceObj(this.paramsFilter)
+      //
+      // if (this.$route.path === '/commerce') {
+      //   this.$router.push({ query: this.form })
+      //   // eslint-disable-next-line no-console
+      //   // console.log(this.$router)
+      // }
+      //
+      // // eslint-disable-next-line no-console
+      // // console.log(this.form)
     },
-    switchSaleRent(e) {
+    changeForm11() {
+      this.form.random = Math.random()
+    },
+    changeForm22() {
+      this.form.random = 0.5541384640877445
+    },
+    switchForm(e) {
       // eslint-disable-next-line no-console
       // console.log(e)
-
-      const arrSale = [
-        'minCost',
-        'maxCost',
-        'minCostSquare',
-        'maxCostSquare',
-        'checkRent',
-        'minPossibleIncome',
-        'maxPossibleIncome',
-        'minPayback',
-        'maxPayback',
-        'minAverageRentalRate',
-        'maxAverageRentalRate'
-      ]
-      const arrRent = [
-        'minRent',
-        'maxRent',
-        'min_rent_price_sq_m',
-        'max_rent_price_sq_m',
-        'checkSale'
-      ]
 
       if (e === 'rent') {
         delete this.form.is_sale
@@ -1320,16 +1380,17 @@ export default {
         // this.form.is_switchForm = 'rent'
         this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', e)
 
-        for (const item in arrSale) {
-          delete this.form[arrSale[item]]
-          delete this.formNum[arrSale[item]]
-
-          for (const i in this.tagLine) {
-            if (this.tagLine[i].label === arrSale[item]) {
-              this.tagLine.splice(i, 1)
-            }
-          }
-        }
+        delete this.form.minCost
+        delete this.form.maxCost
+        delete this.form.minCostSquare
+        delete this.form.maxCostSquare
+        delete this.form.checkRent
+        delete this.form.minPossibleIncome
+        delete this.form.maxPossibleIncome
+        delete this.form.minPayback
+        delete this.form.maxPayback
+        delete this.form.minAverageRentalRate
+        delete this.form.maxAverageRentalRate
       } else if (e === 'sale') {
         delete this.form.is_rent
         this.form = { ...this.form, is_sale: true, is_switchForm: 'sale' }
@@ -1337,19 +1398,50 @@ export default {
         // this.form.is_switchForm = 'sale'
         this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', e)
 
-        for (const item in arrRent) {
-          delete this.form[arrRent[item]]
-          delete this.formNum[arrRent[item]]
+        delete this.form.minRent
+        delete this.form.maxRent
+        delete this.form.min_rent_price_sq_m
+        delete this.form.max_rent_price_sq_m
+        delete this.form.checkSale
+      }
 
-          for (const i in this.tagLine) {
-            if (this.tagLine[i].label === arrRent[item]) {
-              this.tagLine.splice(i, 1)
-            }
-          }
+      // eslint-disable-next-line no-console
+      // console.log('this.form =>', this.form)
+    },
+    formatInputNumber() {
+      // if (this.form.minCost && this.form.minCost !== '') {
+      //   this.form.minCost = new Intl.NumberFormat().format(
+      //     this.form.minCost.replace(/\s+/g, '')
+      //   )
+      // }
+      // if (this.form.maxCost && this.form.maxCost !== '') {
+      //   this.form.maxCost = new Intl.NumberFormat().format(
+      //     this.form.maxCost.replace(/\s+/g, '')
+      //   )
+      // }
+      // if (this.form.minRent && this.form.minRent !== '') {
+      //   this.form.minRent = new Intl.NumberFormat().format(
+      //     this.form.minRent.replace(/\s+/g, '')
+      //   )
+      // }
+      // if (this.form.maxRent && this.form.maxRent !== '') {
+      //   this.form.maxRent = new Intl.NumberFormat().format(
+      //     this.form.maxRent.replace(/\s+/g, '')
+      //   )
+      // }
+
+      const inputName = ['minCost', 'maxCost', 'minRent', 'maxRent']
+
+      for (const item in inputName) {
+        if (this.form[inputName[item]] && this.form[inputName[item]] !== '') {
+          this.form[inputName[item]] = new Intl.NumberFormat().format(
+            this.form[inputName[item]].replace(/\s+/g, '')
+          )
         }
+        // eslint-disable-next-line no-console
+        // console.log(item)
       }
     },
-
     async fetchCommerceObj(params) {
       const searchParams = new URLSearchParams()
       for (const item in params) {
@@ -1361,7 +1453,15 @@ export default {
       }
       await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', searchParams)
     },
-
+    handleClose2(key, value) {
+      // закрываем tag
+      // eslint-disable-next-line no-console
+      console.log(key)
+      // const index = this.tagLine.indexOf(name)
+      // eslint-disable-next-line no-console
+      console.log(value)
+      // this.tagLine.splice(index, 1)
+    },
     copyObj(mainObj) {
       const objCopy = {} // objCopy будет хранить копию mainObj
 
@@ -1372,276 +1472,32 @@ export default {
       }
       return objCopy
     },
-    changeInputNumberField(e) {
-      this.formatInputNumber()
-
-      clearTimeout(this.typingTimer[e.target.id])
-      if (e.target.value || e.target.value === '') {
-        this.typingTimer[e.target.id] = setTimeout(() => {
+    weeerQw() {
+      // eslint-disable-next-line no-console
+      console.log('eeeee')
+    },
+    applyWatchForm() {
+      this.$watch(
+        'form',
+        function(newForm, oldForm) {
           // eslint-disable-next-line no-console
-          // console.log('gggggggg')
+          console.log('this.form changed')
 
-          this.form[e.target.id] = this.formNum[e.target.id]
-
-          this.handlerInputNumberField(e)
-        }, 1000)
-      }
-      // eslint-disable-next-line no-console
-      // console.log(this.typingTimer)
-    },
-    handlerInputNumberField(e) {
-      this.formatInputNumber()
-
-      // eslint-disable-next-line no-console
-      // console.log(e)
-      // console.log(e.target.id, e.target.value)
-
-      const query = { label: e.target.id }
-      let targetValue
-      if (
-        e.target.id !== 'minPayback' &&
-        e.target.id !== 'maxPayback' &&
-        e.target.id !== 'minFloor' &&
-        e.target.id !== 'maxFloor' &&
-        e.target.id !== 'minNumberStoreys' &&
-        e.target.id !== 'maxNumberStoreys' &&
-        e.target.id !== 'minYearConstruction' &&
-        e.target.id !== 'maxYearConstruction'
-      ) {
-        targetValue = new Intl.NumberFormat().format(
-          e.target.value.replace(/\s+/g, '')
-        )
-      } else {
-        targetValue = e.target.value
-      }
-
-      const item = {
-        label: e.target.id,
-        value: this.determineLabelForValue(e.target.id, targetValue),
-        tag: 'number'
-      }
-      const n = this.searchObjInArray(this.tagLine, query)
-      // eslint-disable-next-line no-console
-      // console.log(n.length)
-
-      if (n.length === 0) {
-        this.tagLine = [...this.tagLine, item]
-      } else if (n.length > 0) {
-        this.tagLine.forEach((value, index) => {
-          if (value.label === item.label) {
-            this.tagLine.splice(index, 1, item)
-            // eslint-disable-next-line no-console
-            // console.log(value, index)
+          if (JSON.stringify(newForm) !== JSON.stringify(this.formOld)) {
+            this.fetchCommerceObj(newForm)
           }
-        })
-      }
-
-      if (e.target.value === '') {
-        this.tagLine.forEach((value, index) => {
-          if (value.label === item.label) {
-            this.tagLine.splice(index, 1)
-          }
-        })
-      }
-    },
-    changeCheckboxField(e) {
-      // eslint-disable-next-line no-console
-      // console.log(
-      //   e.target.labels[0].id,
-      //   e.target.checked,
-      //   e.target.labels[0].textContent.trim()
-      // )
-
-      const query = { label: e.target.labels[0].id }
-
-      const item = {
-        label: e.target.labels[0].id,
-        value: e.target.labels[0].textContent.trim(),
-        tag: 'boolean'
-      }
-
-      const n = this.searchObjInArray(this.tagLine, query)
-      if (e.target.checked) {
-        if (n.length === 0) {
-          this.tagLine = [...this.tagLine, item]
-        }
-      } else {
-        this.tagLine.forEach((value, key) => {
-          if (value.label === item.label) this.tagLine.splice(key, 1)
-        })
-      }
-    },
-    selectInputToTagsLine(e) {
-      // eslint-disable-next-line no-console
-      // console.log(this.tagLine, e)
-
-      const n = this.searchObjInArray(this.tagLine, e)
-      // eslint-disable-next-line no-console
-      // console.log(n.length)
-      if (n.length === 0) {
-        this.tagLine = [...this.tagLine, e]
-      } else if (n.length > 0) {
-        this.tagLine.forEach((value, key) => {
-          if (value.label === e.label && value.value === e.value)
-            // delete this.tagLine[key]
-            this.tagLine.splice(key, 1)
-          // eslint-disable-next-line no-console
-          // console.log(value, key)
-        })
-      }
-    },
-    searchObjInArray(list, query) {
-      // https://ru.stackoverflow.com/questions/810346/js-%D0%A1%D1%80%D0%B0%D0%B2%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%B9-%D0%B8-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B4%D0%B2%D1%83%D1%85-%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2
-      return list.filter((item) =>
-        Object.keys(query).every((key) => item[key] === query[key])
+          //     //
+          this.watchChangeForm(newForm)
+          //     //
+          //     //     // this.formOld = { ...newForm }
+          //     //     // this.formOld = JSON.parse(JSON.stringify(newForm))
+          this.formOld = this.copyObj(newForm)
+          //     //     // this.formOld = _.cloneDeep(newForm)
+          //     //     // eslint-disable-next-line no-console
+          //     //     // console.log('END this.formOld =>', this.formOld)
+        },
+        { deep: true }
       )
-    },
-    formatInputNumber() {
-      const inputName = [
-        'minCost',
-        'maxCost',
-        'minRent',
-        'maxRent',
-        'minSquare',
-        'maxSquare',
-        'minCostSquare',
-        'maxCostSquare',
-        'min_rent_price_sq_m',
-        'max_rent_price_sq_m',
-        'minPossibleIncome',
-        'maxPossibleIncome',
-        'minPayback',
-        'maxPayback',
-        'minAverageRentalRate',
-        'maxAverageRentalRate',
-        'minDistanceToMetro',
-        'maxDistanceToMetro',
-        'minKw',
-        'maxKw',
-        'minParking',
-        'maxParking'
-      ]
-      for (const item in inputName) {
-        if (
-          this.formNum[inputName[item]] &&
-          this.formNum[inputName[item]] !== ''
-        ) {
-          this.formNum[inputName[item]] = new Intl.NumberFormat().format(
-            this.formNum[inputName[item]].replace(/\s+/g, '')
-          )
-        }
-        // eslint-disable-next-line no-console
-        // console.log(item)
-      }
-      for (const item in inputName) {
-        if (this.form[inputName[item]] && this.form[inputName[item]] !== '') {
-          this.form[inputName[item]] = new Intl.NumberFormat().format(
-            this.form[inputName[item]].replace(/\s+/g, '')
-          )
-        }
-      }
-    },
-    determineLabelForValue(label, value) {
-      if (label === 'minCost') {
-        return 'от ' + value + ' руб.'
-      } else if (label === 'maxCost') {
-        return 'до ' + value + ' руб.'
-      } else if (label === 'minRent') {
-        return 'Аренда от ' + value + ' руб/мес.'
-      } else if (label === 'maxRent') {
-        return 'Аренда до ' + value + ' руб/мес.'
-      } else if (label === 'minSquare') {
-        return 'от ' + value + ' кв.м.'
-      } else if (label === 'maxSquare') {
-        return 'до ' + value + ' кв.м.'
-      } else if (label === 'minCostSquare') {
-        return 'от ' + value + ' руб/кв.м.'
-      } else if (label === 'maxCostSquare') {
-        return 'до ' + value + ' руб/кв.м.'
-      } else if (label === 'min_rent_price_sq_m') {
-        return 'Аренда от ' + value + ' руб/кв.м.'
-      } else if (label === 'max_rent_price_sq_m') {
-        return 'Аренда до ' + value + ' руб/кв.м.'
-      } else if (label === 'minPossibleIncome') {
-        return 'Доход от ' + value + ' руб/мес.'
-      } else if (label === 'maxPossibleIncome') {
-        return 'Доход до ' + value + ' руб/мес.'
-      } else if (label === 'minPayback') {
-        return 'Окупаемость от ' + this.ageToStr(value)
-      } else if (label === 'maxPayback') {
-        return 'Окупаемость от ' + this.ageToStr(value)
-      } else if (label === 'minAverageRentalRate') {
-        return 'Средняя арендная ставка от ' + value + ' руб/мес.'
-      } else if (label === 'maxAverageRentalRate') {
-        return 'Средняя арендная ставка до ' + value + ' руб/мес.'
-      } else if (label === 'minFloor') {
-        return 'Этаж от ' + value
-      } else if (label === 'maxFloor') {
-        return 'Этаж до ' + value
-      } else if (label === 'minNumberStoreys') {
-        return 'Этажность от ' + value
-      } else if (label === 'maxNumberStoreys') {
-        return 'Этажность до ' + value
-      } else if (label === 'minDistanceToMetro') {
-        return 'Метро от ' + value + ' м.'
-      } else if (label === 'maxDistanceToMetro') {
-        return 'Метро до ' + value + ' м.'
-      } else if (label === 'minYearConstruction') {
-        return 'Год постройки от ' + value
-      } else if (label === 'maxYearConstruction') {
-        return 'Год постройки до ' + value
-      } else if (label === 'minKw') {
-        return 'Мощность от ' + value + ' кВт'
-      } else if (label === 'maxKw') {
-        return 'Мощность до ' + value + ' кВт'
-      } else if (label === 'minCeilingHeight') {
-        return 'Высота потолков от ' + value + ' м.'
-      } else if (label === 'maxCeilingHeight') {
-        return 'Высота потолков до ' + value + ' м.'
-      } else if (label === 'minParking') {
-        return 'Парковок от ' + value
-      } else if (label === 'maxParking') {
-        return 'Парковок до ' + value
-      } else {
-        return value
-      }
-    },
-    ageToStr(age) {
-      let txt
-      if (age % 100 === 1) {
-        txt = 'года'
-      } else if (age % 10 === 1 && age !== '11') {
-        txt = 'года'
-      } else {
-        txt = 'лет'
-      }
-
-      return age + ' ' + txt
-    },
-    handleCloseTag(key, value, tag) {
-      // закрываем tag
-
-      // eslint-disable-next-line no-console
-      // console.log(key, value, tag)
-
-      if (tag === 'number' || tag === 'boolean') {
-        delete this.form[key]
-        delete this.formNum[key]
-        this.tagLine.forEach((item, index) => {
-          if (item.label === key) {
-            this.tagLine.splice(index, 1)
-          }
-        })
-      } else {
-        this.form[key] = this.form[key].filter((n) => {
-          return n !== value
-        })
-        this.tagLine.forEach((item, index) => {
-          if (item.label === key && item.value === value) {
-            this.tagLine.splice(index, 1)
-          }
-        })
-      }
     }
   }
 }
@@ -1652,10 +1508,7 @@ export default {
   font-size: 12px;
 }
 .filter-tag-line {
-  /*display: flex;*/
-  .filter-tag {
-    float: left;
-  }
+  display: flex;
 }
 .form-input-wrap {
   margin-bottom: 24px;

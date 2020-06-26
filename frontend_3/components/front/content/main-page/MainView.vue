@@ -124,8 +124,8 @@ export default {
   }
 }
 .search-panel {
-  height: 254px;
-  max-height: 254px;
+  /*height: 254px;*/
+  /*max-height: 254px;*/
   background: #fff;
   padding: 15px;
   margin: 20px auto 0;

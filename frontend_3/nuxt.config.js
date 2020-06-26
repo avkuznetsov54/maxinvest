@@ -41,7 +41,7 @@ export default {
    */
   plugins: [
     '@/plugins/globals',
-    '@/plugins/vue-gallery.client.js',
+    // '@/plugins/vue-gallery.client.js',
     '@/plugins/api-main',
     '@/plugins/api-commerce'
   ],
