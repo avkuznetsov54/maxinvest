@@ -329,8 +329,15 @@
         <Row v-if="tagLine.length !== 0">
           <i-col :xs="24" :sm="8" :md="6" :lg="21">
             <div class="filter-tag-line">
-              <div v-for="item in tagLine" :key="item.label + item.value">
-                <Tag class="filter-tag">
+              <div v-for="(item, i) in tagLine" :key="item.label + item.value">
+                <Tag v-if="i < 6" class="filter-tag">
+                  {{ item.value }}
+                  <Icon
+                    type="ios-close"
+                    @click="handleCloseTag(item.label, item.value, item.tag)"
+                  />
+                </Tag>
+                <Tag v-if="i >= 6 && swichTagVisible" class="filter-tag">
                   {{ item.value }}
                   <Icon
                     type="ios-close"
@@ -338,6 +345,22 @@
                   />
                 </Tag>
               </div>
+              <Tag
+                v-if="tagLine.length > 6"
+                color="#838c91"
+                class="close-tag-line"
+                @click.native="changeSwichTagVisible"
+              >
+                {{
+                  swichTagVisible
+                    ? 'Скрыть'
+                    : 'Ещё + ' + String(tagLine.length - 6)
+                }}
+
+                <Icon
+                  :type="swichTagVisible ? 'ios-arrow-up' : 'ios-arrow-down'"
+                />
+              </Tag>
             </div>
           </i-col>
           <!--          <i-col :xs="24" :sm="8" :md="6" :lg="{ span: 3, offset: 21 }">-->
@@ -1194,6 +1217,7 @@ export default {
         is_switchForm: 'sale'
       },
       tagLine: [],
+      swichTagVisible: false,
       typingTimer: {}
     }
   },
@@ -1226,6 +1250,9 @@ export default {
     }
   },
   methods: {
+    changeSwichTagVisible() {
+      this.swichTagVisible = !this.swichTagVisible
+    },
     thousandSeparator(newValue) {
       if (newValue !== undefined) {
         const value = newValue
@@ -1656,6 +1683,9 @@ export default {
   .filter-tag {
     float: left;
   }
+}
+.close-tag-line {
+  cursor: pointer;
 }
 .form-input-wrap {
   margin-bottom: 24px;
