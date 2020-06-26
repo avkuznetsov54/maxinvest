@@ -345,22 +345,24 @@
                   />
                 </Tag>
               </div>
-              <Tag
-                v-if="tagLine.length > 6"
-                color="#838c91"
-                class="close-tag-line"
-                @click.native="changeSwichTagVisible"
-              >
-                {{
-                  swichTagVisible
-                    ? 'Скрыть'
-                    : 'Ещё + ' + String(tagLine.length - 6)
-                }}
+              <div>
+                <Tag
+                  v-if="tagLine.length > 6"
+                  color="#838c91"
+                  class="close-tag-line"
+                  @click.native="changeSwichTagVisible"
+                >
+                  {{
+                    swichTagVisible
+                      ? 'Скрыть'
+                      : 'Ещё + ' + String(tagLine.length - 6)
+                  }}
 
-                <Icon
-                  :type="swichTagVisible ? 'ios-arrow-up' : 'ios-arrow-down'"
-                />
-              </Tag>
+                  <Icon
+                    :type="swichTagVisible ? 'ios-arrow-up' : 'ios-arrow-down'"
+                  />
+                </Tag>
+              </div>
             </div>
           </i-col>
           <!--          <i-col :xs="24" :sm="8" :md="6" :lg="{ span: 3, offset: 21 }">-->
@@ -1686,6 +1688,7 @@ export default {
 }
 .close-tag-line {
   cursor: pointer;
+  margin-right: 150px;
 }
 .form-input-wrap {
   margin-bottom: 24px;
