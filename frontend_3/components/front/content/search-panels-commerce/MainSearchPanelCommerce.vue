@@ -23,11 +23,11 @@
               </div>
               <FormItem prop="typeComEstate">
                 <Select
-                  v-model="form.typeComEstate"
+                  v-model="formNum.typeComEstate"
                   multiple
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
-                  @on-select="selectInputToTagsLine"
+                  @on-select="changeSelectField"
                 >
                   <Option
                     v-for="item in valueFilters.type_commercial_estate"
@@ -47,11 +47,11 @@
               </div>
               <FormItem prop="purchaseMethod">
                 <Select
-                  v-model="form.purchaseMethod"
+                  v-model="formNum.purchaseMethod"
                   multiple
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
-                  @on-select="selectInputToTagsLine"
+                  @on-select="changeSelectField"
                 >
                   <Option
                     v-for="item in valueFilters.purchase_method"
@@ -172,11 +172,11 @@
               </div>
               <FormItem prop="businessCategory">
                 <Select
-                  v-model="form.businessCategory"
+                  v-model="formNum.businessCategory"
                   multiple
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
-                  @on-select="selectInputToTagsLine"
+                  @on-select="changeSelectField"
                 >
                   <Option
                     v-for="item in valueFilters.business_category"
@@ -195,13 +195,13 @@
             <div class="form-input-wrap">
               <FormItem prop="changeCities">
                 <Select
-                  v-model="form.changeCities"
+                  v-model="formNum.changeCities"
                   multiple
                   :max-tag-count="maxTagCount"
                   class="min-text"
                   :max-tag-placeholder="more"
                   placeholder="Город"
-                  @on-select="selectInputToTagsLine"
+                  @on-select="changeSelectField"
                 >
                   <Option
                     v-for="item in valueFilters.city"
@@ -219,13 +219,13 @@
               <!--              <client-only>-->
               <FormItem prop="changeDistrict">
                 <Select
-                  v-model="form.changeDistrict"
+                  v-model="formNum.changeDistrict"
                   multiple
                   filterable
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
                   placeholder="Район"
-                  @on-select="selectInputToTagsLine"
+                  @on-select="changeSelectField"
                 >
                   <OptionGroup
                     v-for="item in valueFilters.city"
@@ -283,18 +283,17 @@
               <!--              </client-only>-->
             </div>
           </i-col>
-
           <i-col :xs="24" :sm="8" :md="6" :lg="5">
             <div class="form-input-wrap">
               <FormItem prop="changeStreet">
                 <Select
-                  v-model="form.changeStreet"
+                  v-model="formNum.changeStreet"
                   multiple
                   filterable
                   :max-tag-count="maxTagCount"
                   :max-tag-placeholder="more"
                   placeholder="Улица"
-                  @on-select="selectInputToTagsLine"
+                  @on-select="changeSelectField"
                 >
                   <Option
                     v-for="item in valueFilters.street"
@@ -734,12 +733,12 @@
               <div class="form-input-field">
                 <FormItem prop="relativeLocation">
                   <Select
-                    v-model="form.relativeLocation"
+                    v-model="formNum.relativeLocation"
                     multiple
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
+                    @on-select="changeSelectField"
                   >
                     <Option
                       v-for="item in valueFilters.relative_location"
@@ -761,12 +760,12 @@
               <div class="form-input-field">
                 <FormItem prop="metroStations">
                   <Select
-                    v-model="form.metroStations"
+                    v-model="formNum.metroStations"
                     multiple
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
+                    @on-select="changeSelectField"
                   >
                     <Option
                       v-for="item in valueFilters.metro_stations"
@@ -825,12 +824,12 @@
               <div class="form-input-field">
                 <FormItem prop="businessCenter">
                   <Select
-                    v-model="form.businessCenter"
+                    v-model="formNum.businessCenter"
                     multiple
                     filterable
                     :max-tag-count="maxTagCount"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
+                    @on-select="changeSelectField"
                   >
                     <Option
                       v-for="item in valueFilters.business_center"
@@ -853,12 +852,12 @@
               <div class="form-input-field">
                 <FormItem prop="changeResComplex">
                   <Select
-                    v-model="form.changeResComplex"
+                    v-model="formNum.changeResComplex"
                     multiple
                     filterable
                     :max-tag-count="maxTagCount"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
+                    @on-select="changeSelectField"
                   >
                     <Option
                       v-for="item in valueFilters.residential_complex"
@@ -880,12 +879,12 @@
               <div class="form-input-field">
                 <FormItem prop="classOfHousing">
                   <Select
-                    v-model="form.classOfHousing"
+                    v-model="formNum.classOfHousing"
                     multiple
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
+                    @on-select="changeSelectField"
                   >
                     <Option
                       v-for="item in valueFilters.class_of_housing"
@@ -980,12 +979,12 @@
               <div class="form-input-field">
                 <FormItem prop="finishingProperty">
                   <Select
-                    v-model="form.finishingProperty"
+                    v-model="formNum.finishingProperty"
                     multiple
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
+                    @on-select="changeSelectField"
                   >
                     <Option
                       v-for="item in valueFilters.finishing_property"
@@ -1007,12 +1006,12 @@
               <div class="form-input-field">
                 <FormItem prop="communicationSystems">
                   <Select
-                    v-model="form.communicationSystems"
+                    v-model="formNum.communicationSystems"
                     multiple
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
+                    @on-select="changeSelectField"
                   >
                     <Option
                       v-for="item in valueFilters.communication_systems"
@@ -1034,12 +1033,12 @@
               <div class="form-input-field">
                 <FormItem prop="cookerHood">
                   <Select
-                    v-model="form.cookerHood"
+                    v-model="formNum.cookerHood"
                     multiple
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
+                    @on-select="changeSelectField"
                   >
                     <Option
                       v-for="item in valueFilters.cooker_hood"
@@ -1121,12 +1120,12 @@
               <div class="form-input-field">
                 <FormItem prop="typeEntrance">
                   <Select
-                    v-model="form.typeEntrance"
+                    v-model="formNum.typeEntrance"
                     multiple
                     :max-tag-count="maxTagCount"
                     class="min-text"
                     :max-tag-placeholder="more"
-                    @on-select="selectInputToTagsLine"
+                    @on-select="changeSelectField"
                   >
                     <Option
                       v-for="item in valueFilters.type_entrance"
@@ -1220,7 +1219,10 @@ export default {
       },
       tagLine: [],
       swichTagVisible: false,
-      typingTimer: {}
+
+      typingTimerInputField: {},
+      typingTimerCheckBoxField: {},
+      typingTimerSelectField: {}
     }
   },
 
@@ -1233,22 +1235,37 @@ export default {
     },
     paramsFilter() {
       return this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS']
+    },
+    getTagLine() {
+      return this.$store.getters['commerce/GET_TAG_LINE']
     }
   },
   async mounted() {
+    this.typeDeal = this.$store.getters['commerce/GET_SWITCH_SALE_RENT']
     if (
       Object.keys(this.$store.getters['commerce/GET_VALUE_FILTERS']).length ===
       0
     ) {
       await this.$store.dispatch('commerce/FETCH_VALUE_FILTERS')
     }
-    if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
+    if (
+      Object.keys(this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS'])
+        .length !== 0
+    ) {
+      this.form = { ...this.paramsFilter }
+      // this.formNum = this.paramsFilter
+      this.formNum = { ...this.paramsFilter }
+    }
+    // // eslint-disable-next-line no-console
+    // console.log(this.paramsFilter)
+    if (this.$store.getters['commerce/GET_TAG_LINE'].length !== 0) {
+      this.tagLine = [...this.getTagLine]
+    }
+    if (this.$store.getters['commerce/GET_COMMERCE_OBJ'] == null) {
       await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
         is_sale: true,
         is_switchForm: 'sale'
       })
-      // eslint-disable-next-line no-console
-      // console.log('mounted, length === 0')
     }
   },
   methods: {
@@ -1291,12 +1308,10 @@ export default {
       return 'Выбрано: ' + num
     },
     handleSubmit(name) {
-      // eslint-disable-next-line no-console
-      console.log('this.tagLine =>', this.tagLine)
-      // eslint-disable-next-line no-console
-      console.log('this.form =>', this.form)
-      // eslint-disable-next-line no-console
-      console.log('this.formNum =>', this.formNum)
+      if (this.$route.path !== '/commerce') {
+        this.$store.dispatch('commerce/FETCH_TAG_LINE', this.tagLine)
+        this.$router.push({ path: '/commerce' })
+      }
     },
     handleReset(name) {
       // очищаем поля формы кроме если is_sale=true или is_rent=true
@@ -1312,10 +1327,12 @@ export default {
       })
       this.tagLine = []
       this.formNum = {}
+      this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+      this.fetchCommerceObj(this.paramsFilter)
     },
-    changeForm($event) {
-      // eslint-disable-next-line no-console
-      console.log($event)
+    changeForm() {
+      this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+      this.fetchCommerceObj(this.form)
     },
     switchSaleRent(e) {
       // eslint-disable-next-line no-console
@@ -1377,6 +1394,8 @@ export default {
           }
         }
       }
+      this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+      this.fetchCommerceObj(this.paramsFilter)
     },
 
     async fetchCommerceObj(params) {
@@ -1404,19 +1423,21 @@ export default {
     changeInputNumberField(e) {
       this.formatInputNumber()
 
-      clearTimeout(this.typingTimer[e.target.id])
+      clearTimeout(this.typingTimerInputField[e.target.id])
       if (e.target.value || e.target.value === '') {
-        this.typingTimer[e.target.id] = setTimeout(() => {
+        this.typingTimerInputField[e.target.id] = setTimeout(() => {
           // eslint-disable-next-line no-console
           // console.log('gggggggg')
 
           this.form[e.target.id] = this.formNum[e.target.id]
+          this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+          this.fetchCommerceObj(this.paramsFilter)
 
           this.handlerInputNumberField(e)
         }, 1000)
       }
       // eslint-disable-next-line no-console
-      // console.log(this.typingTimer)
+      // console.log(this.typingTimerInputField)
     },
     handlerInputNumberField(e) {
       this.formatInputNumber()
@@ -1481,14 +1502,20 @@ export default {
       //   e.target.labels[0].textContent.trim()
       // )
 
+      clearTimeout(this.typingTimerCheckBoxField[e.target.labels[0].id])
+      this.typingTimerCheckBoxField[e.target.labels[0].id] = setTimeout(() => {
+        this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+        this.fetchCommerceObj(this.paramsFilter)
+        this.handlerCheckboxField(e)
+      }, 1000)
+    },
+    handlerCheckboxField(e) {
       const query = { label: e.target.labels[0].id }
-
       const item = {
         label: e.target.labels[0].id,
         value: e.target.labels[0].textContent.trim(),
         tag: 'boolean'
       }
-
       const n = this.searchObjInArray(this.tagLine, query)
       if (e.target.checked) {
         if (n.length === 0) {
@@ -1500,9 +1527,17 @@ export default {
         })
       }
     },
-    selectInputToTagsLine(e) {
+    // changeSelect() {
+    // this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+    // this.fetchCommerceObj(this.paramsFilter)
+    // this.form = { ...this.form, ...this.formNum }
+    // eslint-disable-next-line no-console
+    // console.log(this.form, this.formNum)
+    // },
+    changeSelectField(e) {
+      // e = { label: "typeComEstate", tag: undefined, value: "Производство" }
       // eslint-disable-next-line no-console
-      // console.log(this.tagLine, e)
+      // console.log('e =>', e)
 
       const n = this.searchObjInArray(this.tagLine, e)
       // eslint-disable-next-line no-console
@@ -1518,6 +1553,23 @@ export default {
           // console.log(value, key)
         })
       }
+
+      // добавляем значения в this.form с событии @on-select
+      if (typeof this.formNum[e.label] !== 'undefined') {
+        // ключ есть
+        const index = this.formNum[e.label].indexOf(e.value)
+        if (index !== -1) {
+          this.formNum[e.label].splice(index, 1)
+        } else {
+          this.formNum[e.label].push(e.value)
+        }
+      } else {
+        // ключа нет
+        this.formNum[e.label] = [e.value]
+      }
+      this.form[e.label] = this.formNum[e.label]
+      this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+      this.fetchCommerceObj(this.paramsFilter)
     },
     searchObjInArray(list, query) {
       // https://ru.stackoverflow.com/questions/810346/js-%D0%A1%D1%80%D0%B0%D0%B2%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%B9-%D0%B8-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B4%D0%B2%D1%83%D1%85-%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2
@@ -1665,12 +1717,26 @@ export default {
         this.form[key] = this.form[key].filter((n) => {
           return n !== value
         })
+        this.formNum[key] = this.formNum[key].filter((n) => {
+          return n !== value
+        })
         this.tagLine.forEach((item, index) => {
           if (item.label === key && item.value === value) {
             this.tagLine.splice(index, 1)
           }
         })
       }
+      this.changeForm()
+    },
+    getConsolLog() {
+      // eslint-disable-next-line no-console
+      console.log('this.tagLine =>', this.tagLine)
+      // eslint-disable-next-line no-console
+      console.log('this.formNum =>', this.formNum)
+      // eslint-disable-next-line no-console
+      console.log('this.form =>', this.form)
+      // eslint-disable-next-line no-console
+      console.log('this.paramsFilter =>', this.paramsFilter)
     }
   }
 }

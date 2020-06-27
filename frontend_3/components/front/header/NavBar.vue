@@ -46,9 +46,10 @@
         <!--            </div>-->
         <!--          </DropdownMenu>-->
         <!--        </Dropdown>-->
-        <nuxt-link to="/commerce" :style="{ color: 'white' }"
-          >Коммерческая</nuxt-link
-        >
+        <!--        <nuxt-link to="/commerce" :style="{ color: 'white' }"-->
+        <!--          >Коммерческая</nuxt-link-->
+        <!--        >-->
+        <a href="/commerce" :style="{ color: 'white' }">Коммерческая</a>
       </MenuItem>
       <MenuItem name="3">
         <!--        <Icon type="ios-paper" />-->

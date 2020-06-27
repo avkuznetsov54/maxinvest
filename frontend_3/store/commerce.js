@@ -5,7 +5,8 @@ export const state = () => ({
   DATA_COUNT_OBJ: null,
   DATA_COMMERCE_OBJ: null,
   DATA_SWITCH_SALE_RENT: 'sale',
-  DATA_PARAMS_FOR_FILTERS: {}
+  DATA_PARAMS_FOR_FILTERS: {},
+  DATA_TAG_LINE: []
 })
 
 export const getters = {
@@ -13,7 +14,8 @@ export const getters = {
   GET_COUNT_OBJ: (state) => state.DATA_COUNT_OBJ,
   GET_COMMERCE_OBJ: (state) => state.DATA_COMMERCE_OBJ,
   GET_SWITCH_SALE_RENT: (state) => state.DATA_SWITCH_SALE_RENT,
-  GET_PARAMS_FOR_FILTERS: (state) => state.DATA_PARAMS_FOR_FILTERS
+  GET_PARAMS_FOR_FILTERS: (state) => state.DATA_PARAMS_FOR_FILTERS,
+  GET_TAG_LINE: (state) => state.DATA_TAG_LINE
 }
 
 export const mutations = {
@@ -31,6 +33,9 @@ export const mutations = {
   },
   SET_PARAMS_FOR_FILTERS(state, data) {
     state.DATA_PARAMS_FOR_FILTERS = { ...data }
+  },
+  SET_TAG_LINE(state, data) {
+    state.DATA_TAG_LINE = data
   }
 }
 
@@ -100,6 +105,16 @@ export const actions = {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log('catch FETCH_PARAMS_FOR_FILTERS => ' + e)
+    }
+  },
+  FETCH_TAG_LINE({ commit }, payload) {
+    try {
+      commit('SET_TAG_LINE', payload)
+      // eslint-disable-next-line no-console
+      // console.log(payload)
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('catch FETCH_TAG_LINE => ' + e)
     }
   }
 }

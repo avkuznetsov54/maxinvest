@@ -106,6 +106,12 @@ class CommercialEstateListView(generics.ListAPIView):
             if k == 'is_rent':
                 if v == 'true':
                     params.append(Q(is_rent=True))
+            if k == 'checkSale':
+                if v == 'true':
+                    params.append(Q(is_sale=True))
+            if k == 'checkRent':
+                if v == 'true':
+                    params.append(Q(is_rent=True))
             if k == 'typeComEstate':
                 v = v.split(',')
                 params.append(Q(type_commercial_estate__name__in=v))
