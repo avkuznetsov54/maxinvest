@@ -37,12 +37,12 @@ export default {
 .search-panel-wrap {
   background: #fff;
   padding: 20px 0;
-  height: 300px;
+  /*height: 300px;*/
   border-bottom: 1px solid #d1d5d8;
 }
 .search-panel-page {
-  height: 254px;
-  max-height: 254px;
+  /*height: 254px;*/
+  /*max-height: 254px;*/
   background: #fff;
   padding: 15px;
   /*margin: 20px auto 0;*/

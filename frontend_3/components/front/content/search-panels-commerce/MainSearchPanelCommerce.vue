@@ -843,7 +843,6 @@
               </div>
             </div>
           </i-col>
-
           <i-col :xs="24" :sm="8" :md="6" :lg="8">
             <div class="form-input-wrap-extended-filter">
               <div class="form-input-title">
@@ -1213,16 +1212,71 @@ export default {
 
       typeDeal: 'sale',
       formNum: {},
+      formNum2: {},
       form: {
         is_sale: true,
         is_switchForm: 'sale'
       },
+      formItemForCheck: [
+        { label: 'typeComEstate', tag: undefined },
+        { label: 'purchaseMethod', tag: undefined },
+        { label: 'minCost', tag: 'number' },
+        { label: 'maxCost', tag: 'number' },
+        { label: 'minRent', tag: 'number' },
+        { label: 'maxRent', tag: 'number' },
+        { label: 'minSquare', tag: 'number' },
+        { label: 'maxSquare', tag: 'number' },
+        { label: 'businessCategory', tag: undefined },
+        { label: 'changeCities', tag: undefined },
+        { label: 'changeDistrict', tag: undefined },
+        { label: 'changeStreet', tag: undefined },
+        { label: 'minCostSquare', tag: 'number' },
+        { label: 'maxCostSquare', tag: 'number' },
+        { label: 'checkRent', tag: 'boolean' },
+        { label: 'minPossibleIncome', tag: 'number' },
+        { label: 'maxPossibleIncome', tag: 'number' },
+        { label: 'minPayback', tag: 'number' },
+        { label: 'maxPayback', tag: 'number' },
+        { label: 'minAverageRentalRate', tag: 'number' },
+        { label: 'maxAverageRentalRate', tag: 'number' },
+        { label: 'min_rent_price_sq_m', tag: 'number' },
+        { label: 'max_rent_price_sq_m', tag: 'number' },
+        { label: 'checkSale', tag: 'boolean' },
+        { label: 'severalFloors', tag: 'boolean' },
+        { label: 'groundFloor', tag: 'boolean' },
+        { label: 'basement', tag: 'boolean' },
+        { label: 'minFloor', tag: 'number' },
+        { label: 'maxFloor', tag: 'number' },
+        { label: 'minNumberStoreys', tag: 'number' },
+        { label: 'maxNumberStoreys', tag: 'number' },
+        { label: 'relativeLocation', tag: undefined },
+        { label: 'metroStations', tag: undefined },
+        { label: 'minDistanceToMetro', tag: 'number' },
+        { label: 'maxDistanceToMetro', tag: 'number' },
+        { label: 'businessCenter', tag: undefined },
+        { label: 'changeResComplex', tag: undefined },
+        { label: 'classOfHousing', tag: undefined },
+        { label: 'buildingCommercialEstate', tag: 'boolean' },
+        { label: 'finishedCommercialEstate', tag: 'boolean' },
+        { label: 'minYearConstruction', tag: 'number' },
+        { label: 'maxYearConstruction', tag: 'number' },
+        { label: 'finishingProperty', tag: undefined },
+        { label: 'communicationSystems', tag: undefined },
+        { label: 'cookerHood', tag: undefined },
+        { label: 'minKw', tag: 'number' },
+        { label: 'maxKw', tag: 'number' },
+        { label: 'minCeilingHeight', tag: 'number' },
+        { label: 'maxCeilingHeight', tag: 'number' },
+        { label: 'typeEntrance', tag: undefined },
+        { label: 'parking', tag: 'boolean' },
+        { label: 'minParking', tag: 'number' },
+        { label: 'maxParking', tag: 'number' }
+      ],
       tagLine: [],
       swichTagVisible: false,
 
       typingTimerInputField: {},
-      typingTimerCheckBoxField: {},
-      typingTimerSelectField: {}
+      typingTimerCheckBoxField: {}
     }
   },
 
@@ -1242,12 +1296,14 @@ export default {
   },
   async mounted() {
     this.typeDeal = this.$store.getters['commerce/GET_SWITCH_SALE_RENT']
+
     if (
       Object.keys(this.$store.getters['commerce/GET_VALUE_FILTERS']).length ===
       0
     ) {
       await this.$store.dispatch('commerce/FETCH_VALUE_FILTERS')
     }
+
     if (
       Object.keys(this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS'])
         .length !== 0
@@ -1258,14 +1314,86 @@ export default {
     }
     // // eslint-disable-next-line no-console
     // console.log(this.paramsFilter)
+
     if (this.$store.getters['commerce/GET_TAG_LINE'].length !== 0) {
       this.tagLine = [...this.getTagLine]
     }
-    if (this.$store.getters['commerce/GET_COMMERCE_OBJ'] == null) {
-      await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
-        is_sale: true,
-        is_switchForm: 'sale'
-      })
+
+    // if (this.$store.getters['commerce/GET_COMMERCE_OBJ'] == null) {
+    //   await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
+    //     is_sale: true,
+    //     is_switchForm: 'sale'
+    //   })
+    // }
+    // //////////////////////
+    if (Object.keys(this.$route.query).length === 0) {
+      // если query-параметры пусты, то получаем из api объекты
+      // eslint-disable-next-line no-console
+      console.log('mounted, query.length === 0')
+      if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
+        await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
+          is_sale: true,
+          is_switchForm: 'sale'
+        })
+      }
+    } else {
+      // если query-параметры есть
+      // eslint-disable-next-line no-console
+      console.log('mounted, query.length > 0')
+
+      const qp = {}
+      const query = this.$route.query
+      for (const item in query) {
+        // преобразуем строку со значением 'true' в Boolean
+        if (query[item] === 'true') {
+          query[item] = true
+          // if (query === 'is_sale') {
+          //   this.typeDeal = 'sale'
+          // } else if (query === 'is_rent') {
+          //   this.typeDeal = 'rent'
+          // }
+        } else if (query[item] === 'false') {
+          continue
+        } else if (query[item] === '') {
+          continue
+        }
+        qp[item] = query[item]
+      }
+      if (query.is_rent) {
+        this.typeDeal = 'rent'
+        qp.is_rent = true
+        qp.is_switchForm = 'rent'
+        this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', this.typeDeal)
+      } else {
+        this.typeDeal = 'sale'
+        qp.is_sale = true
+        qp.is_switchForm = 'sale'
+        this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', this.typeDeal)
+      }
+      this.$router.push({ query: qp })
+
+      if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
+        // if (
+        //   Object.keys(this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS'])
+        //     .length === 0
+        // ) {
+        this.fetchCommerceObj(qp)
+        // } else {
+        //   this.fetchCommerceObj(this.paramsFilter)
+        // }
+        this.formNum = { ...qp }
+        // this.formNum2 = { ...qp }
+        this.form = { ...qp }
+
+        if (this.$store.getters['commerce/GET_TAG_LINE'].length === 0) {
+          this.handlerQueryParamsToTagLine(qp)
+        }
+
+        // eslint-disable-next-line no-console
+        // console.log(qp)
+
+        this.getConsolLog()
+      }
     }
   },
   methods: {
@@ -1307,10 +1435,11 @@ export default {
     more(num) {
       return 'Выбрано: ' + num
     },
+
     handleSubmit(name) {
       if (this.$route.path !== '/commerce') {
         this.$store.dispatch('commerce/FETCH_TAG_LINE', this.tagLine)
-        this.$router.push({ path: '/commerce' })
+        this.$router.push({ path: '/commerce', query: this.form })
       }
     },
     handleReset(name) {
@@ -1329,11 +1458,12 @@ export default {
       this.formNum = {}
       this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
       this.fetchCommerceObj(this.paramsFilter)
+
+      if (this.$route.path === '/commerce') {
+        this.$router.push({ query: this.paramsFilter })
+      }
     },
-    changeForm() {
-      this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
-      this.fetchCommerceObj(this.form)
-    },
+
     switchSaleRent(e) {
       // eslint-disable-next-line no-console
       // console.log(e)
@@ -1396,6 +1526,12 @@ export default {
       }
       this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
       this.fetchCommerceObj(this.paramsFilter)
+
+      if (this.$route.path === '/commerce') {
+        this.$router.push({ query: this.paramsFilter })
+        // eslint-disable-next-line no-console
+        // console.log(this.$router)
+      }
     },
 
     async fetchCommerceObj(params) {
@@ -1420,6 +1556,7 @@ export default {
       }
       return objCopy
     },
+
     changeInputNumberField(e) {
       this.formatInputNumber()
 
@@ -1434,6 +1571,12 @@ export default {
           this.fetchCommerceObj(this.paramsFilter)
 
           this.handlerInputNumberField(e)
+
+          if (this.$route.path === '/commerce') {
+            this.$router.push({ query: this.paramsFilter })
+            // eslint-disable-next-line no-console
+            // console.log(this.$router)
+          }
         }, 1000)
       }
       // eslint-disable-next-line no-console
@@ -1494,6 +1637,7 @@ export default {
         })
       }
     },
+
     changeCheckboxField(e) {
       // eslint-disable-next-line no-console
       // console.log(
@@ -1507,13 +1651,20 @@ export default {
         this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
         this.fetchCommerceObj(this.paramsFilter)
         this.handlerCheckboxField(e)
+
+        if (this.$route.path === '/commerce') {
+          this.$router.push({ query: this.paramsFilter })
+          // eslint-disable-next-line no-console
+          // console.log(this.$router)
+        }
       }, 1000)
     },
     handlerCheckboxField(e) {
       const query = { label: e.target.labels[0].id }
       const item = {
         label: e.target.labels[0].id,
-        value: e.target.labels[0].textContent.trim(),
+        // value: e.target.labels[0].textContent.trim(),
+        value: this.determineLabelForValue(e.target.labels[0].id, 0),
         tag: 'boolean'
       }
       const n = this.searchObjInArray(this.tagLine, query)
@@ -1527,21 +1678,18 @@ export default {
         })
       }
     },
-    // changeSelect() {
-    // this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
-    // this.fetchCommerceObj(this.paramsFilter)
-    // this.form = { ...this.form, ...this.formNum }
-    // eslint-disable-next-line no-console
-    // console.log(this.form, this.formNum)
-    // },
+
     changeSelectField(e) {
       // e = { label: "typeComEstate", tag: undefined, value: "Производство" }
       // eslint-disable-next-line no-console
-      // console.log('e =>', e)
+      console.log('e =>', e)
+
+      // eslint-disable-next-line no-console
+      console.log(this.tagLine)
 
       const n = this.searchObjInArray(this.tagLine, e)
       // eslint-disable-next-line no-console
-      // console.log(n.length)
+      console.log(n.length)
       if (n.length === 0) {
         this.tagLine = [...this.tagLine, e]
       } else if (n.length > 0) {
@@ -1553,8 +1701,10 @@ export default {
           // console.log(value, key)
         })
       }
+      // eslint-disable-next-line no-console
+      console.log(this.tagLine)
 
-      // добавляем значения в this.form с событии @on-select
+      // добавляем значения в this.formNum с событии @on-select
       if (typeof this.formNum[e.label] !== 'undefined') {
         // ключ есть
         const index = this.formNum[e.label].indexOf(e.value)
@@ -1570,7 +1720,14 @@ export default {
       this.form[e.label] = this.formNum[e.label]
       this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
       this.fetchCommerceObj(this.paramsFilter)
+
+      if (this.$route.path === '/commerce') {
+        this.$router.push({ query: this.paramsFilter })
+        // eslint-disable-next-line no-console
+        // console.log(this.$router)
+      }
     },
+
     searchObjInArray(list, query) {
       // https://ru.stackoverflow.com/questions/810346/js-%D0%A1%D1%80%D0%B0%D0%B2%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%B9-%D0%B8-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B4%D0%B2%D1%83%D1%85-%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2
       return list.filter((item) =>
@@ -1683,6 +1840,22 @@ export default {
         return 'Парковок от ' + value
       } else if (label === 'maxParking') {
         return 'Парковок до ' + value
+      } else if (label === 'checkSale') {
+        return 'Возможность продажи'
+      } else if (label === 'checkRent') {
+        return 'Возможность аренды'
+      } else if (label === 'severalFloors') {
+        return 'Помещение имеет несколько этажей'
+      } else if (label === 'groundFloor') {
+        return 'Цоколь'
+      } else if (label === 'basement') {
+        return 'Подвал'
+      } else if (label === 'buildingCommercialEstate') {
+        return 'В процессе строительства'
+      } else if (label === 'finishedCommercialEstate') {
+        return 'Готовое'
+      } else if (label === 'parking') {
+        return 'Наличие парковки'
       } else {
         return value
       }
@@ -1714,20 +1887,97 @@ export default {
           }
         })
       } else {
-        this.form[key] = this.form[key].filter((n) => {
-          return n !== value
-        })
-        this.formNum[key] = this.formNum[key].filter((n) => {
-          return n !== value
-        })
+        // tag === undefined
+        if (typeof this.form[key] === 'object') {
+          this.form[key] = this.form[key].filter((n) => {
+            return n !== value
+          })
+          this.formNum[key] = this.formNum[key].filter((n) => {
+            return n !== value
+          })
+        } else if (typeof this.form[key] === 'string') {
+          // eslint-disable-next-line no-console
+          // console.log('string')
+          delete this.form[key]
+          delete this.formNum[key]
+        }
+
         this.tagLine.forEach((item, index) => {
           if (item.label === key && item.value === value) {
             this.tagLine.splice(index, 1)
           }
         })
       }
-      this.changeForm()
+      this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
+      this.fetchCommerceObj(this.paramsFilter)
+
+      if (this.$route.path === '/commerce') {
+        this.$router.push({ query: this.paramsFilter })
+        // eslint-disable-next-line no-console
+        // console.log(this.$router)
+      }
     },
+    handlerQueryParamsToTagLine(qp) {
+      for (const indexCheck in this.formItemForCheck) {
+        // eslint-disable-next-line no-console
+        // console.log(this.formItemForCheck[indexCheck])
+        if (
+          typeof qp[this.formItemForCheck[indexCheck].label] !== 'undefined'
+        ) {
+          // ключ есть
+          const newLabel = this.formItemForCheck[indexCheck].label
+          const newTag = this.formItemForCheck[indexCheck].tag
+          const newValue = qp[this.formItemForCheck[indexCheck].label]
+
+          // eslint-disable-next-line no-console
+          console.log('ключ есть', newLabel, newValue, newTag)
+
+          if (newTag === 'number') {
+            this.tagLine.push({
+              label: newLabel,
+              tag: newTag,
+              value: this.determineLabelForValue(newLabel, newValue)
+            })
+          } else if (newTag === 'boolean') {
+            this.tagLine.push({
+              label: newLabel,
+              tag: newTag,
+              value: this.determineLabelForValue(newLabel, newValue)
+            })
+          } else if (newTag === undefined) {
+            if (typeof newValue === 'string') {
+              this.tagLine.push({
+                label: newLabel,
+                tag: newTag,
+                value: newValue
+              })
+              // eslint-disable-next-line no-console
+              // console.log(this.tagLine)
+            } else if (typeof newValue === 'object') {
+              // eslint-disable-next-line no-console
+              // console.log(typeof newValue)
+
+              for (const item in newValue) {
+                // eslint-disable-next-line no-console
+                // console.log(newValue[item])
+                this.tagLine.push({
+                  label: newLabel,
+                  tag: newTag,
+                  value: newValue[item]
+                })
+              }
+            }
+          }
+        }
+        // else {
+        //   // ключа нет
+        //   // eslint-disable-next-line no-console
+        //   console.log('ключа нет')
+        // }
+      }
+      // this.getConsolLog()
+    },
+
     getConsolLog() {
       // eslint-disable-next-line no-console
       console.log('this.tagLine =>', this.tagLine)
@@ -1738,6 +1988,7 @@ export default {
       // eslint-disable-next-line no-console
       console.log('this.paramsFilter =>', this.paramsFilter)
     }
+    // ////
   }
 }
 </script>

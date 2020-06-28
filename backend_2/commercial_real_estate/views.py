@@ -130,6 +130,17 @@ class CommercialEstateListView(generics.ListAPIView):
                     continue
                 params.append(Q(cost_of_sale__lte=v))
 
+            if k == 'minRent':
+                v = re.sub("\D", "", v)
+                if v == '':
+                    continue
+                params.append(Q(rent_price_month__gte=v))
+            if k == 'maxRent':
+                v = re.sub("\D", "", v)
+                if v == '':
+                    continue
+                params.append(Q(rent_price_month__lte=v))
+
             if k == 'businessCategory':
                 v = v.split(',')
                 params.append(Q(business_category__name__in=v))
