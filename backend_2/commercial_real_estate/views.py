@@ -114,10 +114,11 @@ class CommercialEstateListView(generics.ListAPIView):
                     params.append(Q(is_rent=True))
             if k == 'typeComEstate':
                 v = v.split(',')
-                params.append(Q(type_commercial_estate__name__in=v))
+                # params.append(Q(type_commercial_estate__name__in=v))
+                params.append(Q(type_commercial_estate__in=v))
             if k == 'purchaseMethod':
                 v = v.split(',')
-                params.append(Q(purchase_method__name__in=v))
+                params.append(Q(purchase_method__in=v))
 
             if k == 'minCost':
                 v = re.sub("\D", "", v)
@@ -143,7 +144,7 @@ class CommercialEstateListView(generics.ListAPIView):
 
             if k == 'businessCategory':
                 v = v.split(',')
-                params.append(Q(business_category__name__in=v))
+                params.append(Q(business_category__in=v))
 
         queryset = queryset.filter(*params)
 

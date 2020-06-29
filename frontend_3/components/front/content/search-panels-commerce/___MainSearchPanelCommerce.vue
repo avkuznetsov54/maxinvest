@@ -421,7 +421,7 @@
                 <FormItem prop="checkRent">
                   <Checkbox
                     id="checkRent"
-                    v-model="formNum.checkRent"
+                    v-model="form.checkRent"
                     size="default"
                     @change.native="changeCheckboxField"
                   >
@@ -587,7 +587,7 @@
                 <FormItem prop="checkSale">
                   <Checkbox
                     id="checkSale"
-                    v-model="formNum.checkSale"
+                    v-model="form.checkSale"
                     size="default"
                     @change.native="changeCheckboxField"
                     >Возможность продажи
@@ -610,7 +610,7 @@
               <FormItem prop="severalFloors">
                 <Checkbox
                   id="severalFloors"
-                  v-model="formNum.severalFloors"
+                  v-model="form.severalFloors"
                   size="default"
                   @change.native="changeCheckboxField"
                 >
@@ -627,7 +627,7 @@
               <FormItem prop="groundFloor">
                 <Checkbox
                   id="groundFloor"
-                  v-model="formNum.groundFloor"
+                  v-model="form.groundFloor"
                   size="default"
                   @change.native="changeCheckboxField"
                   >Цоколь</Checkbox
@@ -641,7 +641,7 @@
               <FormItem prop="basement">
                 <Checkbox
                   id="basement"
-                  v-model="formNum.basement"
+                  v-model="form.basement"
                   size="default"
                   @change.native="changeCheckboxField"
                   >Подвал</Checkbox
@@ -664,7 +664,7 @@
                     :maxlength="3"
                     element-id="minFloor"
                     @on-change="changeInputNumberField"
-                    @keypress.native="onlyNumberAndMinus"
+                    @keypress.native="onlyNumber"
                   />
                 </FormItem>
                 <FormItem prop="maxFloor">
@@ -905,7 +905,7 @@
               <FormItem prop="buildingCommercialEstate">
                 <Checkbox
                   id="buildingCommercialEstate"
-                  v-model="formNum.buildingCommercialEstate"
+                  v-model="form.buildingCommercialEstate"
                   size="default"
                   @change.native="changeCheckboxField"
                   >В процессе строительства
@@ -924,7 +924,7 @@
               <FormItem prop="finishedCommercialEstate">
                 <Checkbox
                   id="finishedCommercialEstate"
-                  v-model="formNum.finishedCommercialEstate"
+                  v-model="form.finishedCommercialEstate"
                   size="default"
                   @change.native="changeCheckboxField"
                   >Готовое
@@ -1145,7 +1145,7 @@
               <FormItem prop="parking">
                 <Checkbox
                   id="parking"
-                  v-model="formNum.parking"
+                  v-model="form.parking"
                   size="default"
                   @change.native="changeCheckboxField"
                 >
@@ -1212,36 +1212,24 @@ export default {
 
       typeDeal: 'sale',
       formNum: {},
-      objForCopy: {},
+      formNum2: {},
       form: {
         is_sale: true,
         is_switchForm: 'sale'
       },
       formItemForCheck: [
-        {
-          label: 'typeComEstate',
-          tag: undefined,
-          serv: 'type_commercial_estate'
-        },
-        {
-          label: 'purchaseMethod',
-          tag: undefined,
-          serv: 'purchase_method'
-        },
+        { label: 'typeComEstate', tag: undefined },
+        { label: 'purchaseMethod', tag: undefined },
         { label: 'minCost', tag: 'number' },
         { label: 'maxCost', tag: 'number' },
         { label: 'minRent', tag: 'number' },
         { label: 'maxRent', tag: 'number' },
         { label: 'minSquare', tag: 'number' },
         { label: 'maxSquare', tag: 'number' },
-        {
-          label: 'businessCategory',
-          tag: undefined,
-          serv: 'business_category'
-        },
-        { label: 'changeCities', tag: undefined, serv: 'city' },
-        { label: 'changeDistrict', tag: undefined, serv: 'district' },
-        { label: 'changeStreet', tag: undefined, serv: 'street' },
+        { label: 'businessCategory', tag: undefined },
+        { label: 'changeCities', tag: undefined },
+        { label: 'changeDistrict', tag: undefined },
+        { label: 'changeStreet', tag: undefined },
         { label: 'minCostSquare', tag: 'number' },
         { label: 'maxCostSquare', tag: 'number' },
         { label: 'checkRent', tag: 'boolean' },
@@ -1261,57 +1249,25 @@ export default {
         { label: 'maxFloor', tag: 'number' },
         { label: 'minNumberStoreys', tag: 'number' },
         { label: 'maxNumberStoreys', tag: 'number' },
-        {
-          label: 'relativeLocation',
-          tag: undefined,
-          serv: 'relative_location'
-        },
-        {
-          label: 'metroStations',
-          tag: undefined,
-          serv: 'metro_stations'
-        },
+        { label: 'relativeLocation', tag: undefined },
+        { label: 'metroStations', tag: undefined },
         { label: 'minDistanceToMetro', tag: 'number' },
         { label: 'maxDistanceToMetro', tag: 'number' },
-        {
-          label: 'businessCenter',
-          tag: undefined,
-          serv: 'business_center'
-        },
-        {
-          label: 'changeResComplex',
-          tag: undefined,
-          serv: 'residential_complex'
-        },
-        {
-          label: 'classOfHousing',
-          tag: undefined,
-          serv: 'class_of_housing'
-        },
+        { label: 'businessCenter', tag: undefined },
+        { label: 'changeResComplex', tag: undefined },
+        { label: 'classOfHousing', tag: undefined },
         { label: 'buildingCommercialEstate', tag: 'boolean' },
         { label: 'finishedCommercialEstate', tag: 'boolean' },
         { label: 'minYearConstruction', tag: 'number' },
         { label: 'maxYearConstruction', tag: 'number' },
-        {
-          label: 'finishingProperty',
-          tag: undefined,
-          serv: 'finishing_property'
-        },
-        {
-          label: 'communicationSystems',
-          tag: undefined,
-          serv: 'communication_systems'
-        },
-        { label: 'cookerHood', tag: undefined, serv: 'cooker_hood' },
+        { label: 'finishingProperty', tag: undefined },
+        { label: 'communicationSystems', tag: undefined },
+        { label: 'cookerHood', tag: undefined },
         { label: 'minKw', tag: 'number' },
         { label: 'maxKw', tag: 'number' },
         { label: 'minCeilingHeight', tag: 'number' },
         { label: 'maxCeilingHeight', tag: 'number' },
-        {
-          label: 'typeEntrance',
-          tag: undefined,
-          serv: 'type_entrance'
-        },
+        { label: 'typeEntrance', tag: undefined },
         { label: 'parking', tag: 'boolean' },
         { label: 'minParking', tag: 'number' },
         { label: 'maxParking', tag: 'number' }
@@ -1416,9 +1372,6 @@ export default {
       }
       this.$router.push({ query: qp })
 
-      // eslint-disable-next-line no-console
-      // console.log('qp =>', qp)
-
       if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
         // if (
         //   Object.keys(this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS'])
@@ -1428,14 +1381,16 @@ export default {
         // } else {
         //   this.fetchCommerceObj(this.paramsFilter)
         // }
-        // this.formNum = { ...qp }
+        this.formNum = { ...qp }
+        // this.formNum2 = { ...qp }
         this.form = { ...qp }
 
-        this.formNum = this.getObjWitchAllIdsSwichValue(qp)
-
         if (this.$store.getters['commerce/GET_TAG_LINE'].length === 0) {
-          this.handlerQueryParamsToTagLine(this.getObjWitchAllIdsSwichValue(qp))
+          this.handlerQueryParamsToTagLine(qp)
         }
+
+        // eslint-disable-next-line no-console
+        // console.log(qp)
 
         // this.getConsolLog()
       }
@@ -1462,18 +1417,6 @@ export default {
       // console.log($event.keyCode); //keyCodes value
       const keyCode = $event.keyCode ? $event.keyCode : $event.which
       if (keyCode < 48 || (keyCode > 57 && keyCode !== 46)) {
-        $event.preventDefault()
-      }
-    },
-    onlyNumberAndMinus($event) {
-      // eslint-disable-next-line no-console
-      // console.log($event.key, $event.keyCode) // keyCodes value
-      const keyCode = $event.keyCode ? $event.keyCode : $event.which
-      if (
-        // keyCode < 48 || (keyCode > 57 && keyCode !== 46)
-        keyCode !== 45 &&
-        (keyCode < 48 || keyCode > 57)
-      ) {
         $event.preventDefault()
       }
     },
@@ -1705,7 +1648,6 @@ export default {
 
       clearTimeout(this.typingTimerCheckBoxField[e.target.labels[0].id])
       this.typingTimerCheckBoxField[e.target.labels[0].id] = setTimeout(() => {
-        this.form[e.target.labels[0].id] = this.formNum[e.target.labels[0].id]
         this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
         this.fetchCommerceObj(this.paramsFilter)
         this.handlerCheckboxField(e)
@@ -1775,11 +1717,7 @@ export default {
         // ключа нет
         this.formNum[e.label] = [e.value]
       }
-
-      this.form[e.label] = this.getArrIdsFromValueFilters(
-        e.label,
-        this.formNum[e.label]
-      )
+      this.form[e.label] = this.formNum[e.label]
       this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
       this.fetchCommerceObj(this.paramsFilter)
 
@@ -1788,95 +1726,6 @@ export default {
         // eslint-disable-next-line no-console
         // console.log(this.paramsFilter)
       }
-      // this.getConsolLog()
-    },
-
-    getArrIdsFromValueFilters(key, arr) {
-      // меняем velue на id
-      const filterKeys = this.formItemForCheck.filter(
-        (item) => item.label === key
-      )
-      const servKey = filterKeys[0].serv
-      const servArr = this.valueFilters[servKey]
-      let arrIds
-      if (typeof arr === 'object') {
-        arrIds = arr.map((item) => {
-          for (const idx in servArr) {
-            if (servArr[idx].name === item) {
-              return servArr[idx].id
-            }
-          }
-        })
-      } else if (typeof arr === 'string') {
-        for (const idx in servArr) {
-          if (servArr[idx].name === arr) {
-            return [servArr[idx].id]
-          }
-        }
-      }
-
-      return arrIds
-    },
-    getArrValuesFromValueFilters(key, arr) {
-      const filterKeys = this.formItemForCheck.filter(
-        (item) => item.label === key
-      )
-      const servKey = filterKeys[0].serv
-      const servArr = this.valueFilters[servKey]
-      let arrValues
-      if (typeof arr === 'object') {
-        arrValues = arr.map((item) => {
-          for (const idx in servArr) {
-            if (servArr[idx].id === Number(item)) {
-              return servArr[idx].name
-            }
-          }
-        })
-      } else if (typeof arr === 'string') {
-        for (const idx in servArr) {
-          if (servArr[idx].id === Number(arr)) {
-            arrValues = [servArr[idx].name]
-          }
-        }
-      }
-
-      // eslint-disable-next-line no-console
-      // console.log('arrValues =>', arrValues)
-      return arrValues
-    },
-    getObjWitchAllIdsSwichValue(obj) {
-      // меняем все id на velue в query params url
-      // eslint-disable-next-line no-console
-      // console.log('obj =>', obj)
-
-      const vvv = this.formItemForCheck.filter((item) => item.tag === undefined)
-      // eslint-disable-next-line no-unused-vars
-      const arrKeysForCheck = vvv.map((item) => {
-        return item.label
-      })
-
-      // eslint-disable-next-line no-console
-      // console.log('arrKeysForCheck =>', arrKeysForCheck)
-
-      for (const idx in obj) {
-        // eslint-disable-next-line no-console
-        // console.log('obj[idx] =>', idx, obj[idx])
-        if (arrKeysForCheck.includes(idx)) {
-          // eslint-disable-next-line no-console
-          // console.log('есть', obj[idx])
-          this.objForCopy[idx] = this.getArrValuesFromValueFilters(
-            idx,
-            obj[idx]
-          )
-        } else {
-          // eslint-disable-next-line no-console
-          // console.log('нет')
-          this.objForCopy[idx] = obj[idx]
-        }
-      }
-      // eslint-disable-next-line no-console
-      // console.log('this.objForCopy =>', this.objForCopy)
-      return this.objForCopy
     },
 
     searchObjInArray(list, query) {
@@ -2039,12 +1888,9 @@ export default {
         })
       } else {
         // tag === undefined
-        const id = this.getArrIdsFromValueFilters(key, value)
-        // eslint-disable-next-line no-console
-        console.log(id)
         if (typeof this.form[key] === 'object') {
           this.form[key] = this.form[key].filter((n) => {
-            return n !== String(id[0])
+            return n !== value
           })
           this.formNum[key] = this.formNum[key].filter((n) => {
             return n !== value
@@ -2070,7 +1916,6 @@ export default {
         // eslint-disable-next-line no-console
         // console.log(this.$router)
       }
-      // this.getConsolLog()
     },
     handlerQueryParamsToTagLine(qp) {
       for (const indexCheck in this.formItemForCheck) {
@@ -2132,7 +1977,6 @@ export default {
       }
       // this.getConsolLog()
     },
-
     getConsolLog() {
       // eslint-disable-next-line no-console
       console.log('this.tagLine =>', this.tagLine)
