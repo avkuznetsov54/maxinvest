@@ -2371,7 +2371,7 @@ export default {
         // console.log(id)
         if (typeof this.form[key] === 'object') {
           this.form[key] = this.form[key].filter((n) => {
-            return n !== String(id[0])
+            return n !== Number(id[0])
           })
           this.formNum[key] = this.formNum[key].filter((n) => {
             return n !== value

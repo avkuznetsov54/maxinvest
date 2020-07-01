@@ -158,7 +158,7 @@ class CommercialEstateListView(generics.ListAPIView):
         queryset = queryset.filter(*params)
 
         # return queryset.order_by('min_cost_of_sale', 'cost_of_sale').distinct()
-        return queryset.extra(select={"sort_order":"COALESCE(cost_of_sale,min_cost_of_sale)"}, order_by=["sort_order"])\
+        return queryset.extra(select={'sort_order': 'COALESCE(cost_of_sale,min_cost_of_sale)'}, order_by=['-sort_order'])\
             .distinct()
 
 
