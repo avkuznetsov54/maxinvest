@@ -1597,68 +1597,78 @@ export default {
     //   })
     // }
     // //////////////////////
-    if (Object.keys(this.$route.query).length === 0) {
-      // если query-параметры пусты, то получаем из api объекты
-      // eslint-disable-next-line no-console
-      // console.log('mounted, query.length === 0')
+
+    if (this.$route.path !== '/commerce') {
       if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
         await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
           is_sale: true,
           is_switchForm: 'sale'
         })
       }
-    } else {
-      // если query-параметры есть
-      // eslint-disable-next-line no-console
-      // console.log('mounted, query.length > 0')
-
-      const qp = {}
-      const query = this.$route.query
-
-      for (const item in query) {
-        if (query[item] === 'true') {
-          // преобразуем строку со значением 'true' в Boolean
-          query[item] = true
-        } else if (query[item] === 'false') {
-          // пропускаем такие параметры
-          continue
-        } else if (query[item] === '') {
-          // пропускаем такие параметры
-          continue
+    } else if (this.$route.path === '/commerce') {
+      if (Object.keys(this.$route.query).length === 0) {
+        // если query-параметры пусты, то получаем из api объекты
+        // eslint-disable-next-line no-console
+        // console.log('mounted, query.length === 0')
+        if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
+          await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
+            is_sale: true,
+            is_switchForm: 'sale'
+          })
         }
-        qp[item] = query[item]
-      }
-      if (query.is_rent) {
-        this.typeDeal = 'rent'
-        qp.is_rent = true
-        qp.is_switchForm = 'rent'
-        this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', this.typeDeal)
       } else {
-        this.typeDeal = 'sale'
-        qp.is_sale = true
-        qp.is_switchForm = 'sale'
-        this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', this.typeDeal)
-      }
+        // если query-параметры есть
+        // eslint-disable-next-line no-console
+        // console.log('mounted, query.length > 0')
 
-      // eslint-disable-next-line no-unused-vars
-      const clearQP = this.mainHandlerUrlQueryParams(qp)
+        const qp = {}
+        const query = this.$route.query
 
-      this.$router.push({ query: clearQP })
-
-      if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
-        this.fetchCommerceObj(clearQP) // на api запрос
-
-        this.form = { ...clearQP }
-
-        this.formNum = this.processingValuesForDisplay(clearQP)
-
-        if (this.$store.getters['commerce/GET_TAG_LINE'].length === 0) {
-          this.handlerQueryParamsToTagLine(
-            this.processingValuesForDisplay(clearQP)
-          )
+        for (const item in query) {
+          if (query[item] === 'true') {
+            // преобразуем строку со значением 'true' в Boolean
+            query[item] = true
+          } else if (query[item] === 'false') {
+            // пропускаем такие параметры
+            continue
+          } else if (query[item] === '') {
+            // пропускаем такие параметры
+            continue
+          }
+          qp[item] = query[item]
+        }
+        if (query.is_rent) {
+          this.typeDeal = 'rent'
+          qp.is_rent = true
+          qp.is_switchForm = 'rent'
+          this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', this.typeDeal)
+        } else {
+          this.typeDeal = 'sale'
+          qp.is_sale = true
+          qp.is_switchForm = 'sale'
+          this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', this.typeDeal)
         }
 
-        // this.getConsolLog()
+        // eslint-disable-next-line no-unused-vars
+        const clearQP = this.mainHandlerUrlQueryParams(qp)
+
+        this.$router.push({ query: clearQP })
+
+        if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
+          this.fetchCommerceObj(clearQP) // на api запрос
+
+          this.form = { ...clearQP }
+
+          this.formNum = this.processingValuesForDisplay(clearQP)
+
+          if (this.$store.getters['commerce/GET_TAG_LINE'].length === 0) {
+            this.handlerQueryParamsToTagLine(
+              this.processingValuesForDisplay(clearQP)
+            )
+          }
+
+          // this.getConsolLog()
+        }
       }
     }
   },
@@ -1838,8 +1848,9 @@ export default {
 
     changeInputNumberField(e) {
       // eslint-disable-next-line no-console
-      console.log(e.target.value)
+      // console.log(e.target.value)
       this.formatInputNumber()
+      this.handlerInputNumberField(e)
 
       clearTimeout(this.typingTimerInputField[e.target.id])
       if (e.target.value || e.target.value === '') {
@@ -1847,11 +1858,9 @@ export default {
           // eslint-disable-next-line no-console
           // console.log('gggggggg')
 
-          // this.form[e.target.id] = this.formNum[e.target.id].replace(/\s+/g, '')
+          this.form[e.target.id] = this.formNum[e.target.id].replace(/\s+/g, '')
           this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
           this.fetchCommerceObj(this.paramsFilter)
-
-          this.handlerInputNumberField(e)
 
           if (this.$route.path === '/commerce') {
             this.$router.push({ query: this.paramsFilter })
@@ -1860,6 +1869,7 @@ export default {
           }
         }, 600)
       }
+
       // eslint-disable-next-line no-console
       // console.log(this.typingTimerInputField)
     },
@@ -1926,6 +1936,8 @@ export default {
       //   e.target.labels[0].textContent.trim()
       // )
 
+      this.handlerCheckboxField(e)
+
       clearTimeout(this.typingTimerCheckBoxField[e.target.labels[0].id])
       this.typingTimerCheckBoxField[e.target.labels[0].id] = setTimeout(() => {
         if (e.target.checked) {
@@ -1936,7 +1948,6 @@ export default {
 
         this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
         this.fetchCommerceObj(this.paramsFilter)
-        this.handlerCheckboxField(e)
 
         if (this.$route.path === '/commerce') {
           this.$router.push({ query: this.paramsFilter })
