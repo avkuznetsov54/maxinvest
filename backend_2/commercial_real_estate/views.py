@@ -9,6 +9,7 @@ from rest_framework.pagination import PageNumberPagination
 from .models import CommercialEstate
 from .serializers import CommercialEstateListSerializer, CommercialEstateDetailSerializer
 
+from .custom_checks import is_list_int, is_int
 
 # class CommercialEstateListView(APIView):
 #
@@ -41,7 +42,7 @@ class CommercialEstateListView(generics.ListAPIView):
     pagination_class = CommerceListPagination
 
     def filter_queryset(self, queryset):
-        print(self.request.query_params)
+        print('вход queryset =>', self.request.query_params)
         # for k, v in self.request.query_params.items():
         #     params = {}
         #     # if k == "cursor":
@@ -100,31 +101,38 @@ class CommercialEstateListView(generics.ListAPIView):
             # если 'v' равно пустой строке то прекращаем итерацию что не занести её в queryset, а то 500 error
             if v == '':
                 continue
+
             if k == 'is_sale':
                 if v == 'true':
                     params.append(Q(is_sale=True))
+
             if k == 'is_rent':
                 if v == 'true':
                     params.append(Q(is_rent=True))
+
             if k == 'checkSale':
                 if v == 'true':
                     params.append(Q(is_sale=True))
+
             if k == 'checkRent':
                 if v == 'true':
                     params.append(Q(is_rent=True))
+
             if k == 'typeComEstate':
                 v = v.split(',')
-                # params.append(Q(type_commercial_estate__name__in=v))
-                params.append(Q(type_commercial_estate__in=v))
+                n = is_list_int(v)
+                if len(n) != 0:
+                    params.append(Q(type_commercial_estate__in=n))
+
             if k == 'purchaseMethod':
                 v = v.split(',')
                 params.append(Q(purchase_method__in=v))
 
             if k == 'minCost':
-                v = re.sub("\D", "", v)
-                if v == '':
-                    continue
-                params.append(Q(cost_of_sale__gte=v))
+                v = is_int(v)
+                if v:
+                    params.append(Q(cost_of_sale__gte=v))
+
             if k == 'maxCost':
                 v = re.sub("\D", "", v)
                 if v == '':
@@ -146,6 +154,7 @@ class CommercialEstateListView(generics.ListAPIView):
                 v = v.split(',')
                 params.append(Q(business_category__in=v))
 
+        print('params =>', params)
         queryset = queryset.filter(*params)
 
         return queryset.distinct()

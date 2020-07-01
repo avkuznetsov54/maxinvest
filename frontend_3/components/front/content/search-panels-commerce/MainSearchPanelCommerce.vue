@@ -1217,104 +1217,328 @@ export default {
         is_sale: true,
         is_switchForm: 'sale'
       },
+      mainFormItemForCheck: [
+        { label: 'is_sale', checkType: 'boolean' },
+        { label: 'is_rent', checkType: 'boolean' },
+        { label: 'is_switchForm', checkType: 'string' }
+      ],
       formItemForCheck: [
         {
           label: 'typeComEstate',
           tag: undefined,
-          serv: 'type_commercial_estate'
+          serv: 'type_commercial_estate',
+          checkType: 'object'
         },
         {
           label: 'purchaseMethod',
           tag: undefined,
-          serv: 'purchase_method'
+          serv: 'purchase_method',
+          checkType: 'object'
         },
-        { label: 'minCost', tag: 'number' },
-        { label: 'maxCost', tag: 'number' },
-        { label: 'minRent', tag: 'number' },
-        { label: 'maxRent', tag: 'number' },
-        { label: 'minSquare', tag: 'number' },
-        { label: 'maxSquare', tag: 'number' },
+        {
+          label: 'minCost',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'maxCost',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'minRent',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'maxRent',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'minSquare',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'maxSquare',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
         {
           label: 'businessCategory',
           tag: undefined,
-          serv: 'business_category'
+          serv: 'business_category',
+          checkType: 'object'
         },
-        { label: 'changeCities', tag: undefined, serv: 'city' },
-        { label: 'changeDistrict', tag: undefined, serv: 'district' },
-        { label: 'changeStreet', tag: undefined, serv: 'street' },
-        { label: 'minCostSquare', tag: 'number' },
-        { label: 'maxCostSquare', tag: 'number' },
-        { label: 'checkRent', tag: 'boolean' },
-        { label: 'minPossibleIncome', tag: 'number' },
-        { label: 'maxPossibleIncome', tag: 'number' },
-        { label: 'minPayback', tag: 'number' },
-        { label: 'maxPayback', tag: 'number' },
-        { label: 'minAverageRentalRate', tag: 'number' },
-        { label: 'maxAverageRentalRate', tag: 'number' },
-        { label: 'min_rent_price_sq_m', tag: 'number' },
-        { label: 'max_rent_price_sq_m', tag: 'number' },
-        { label: 'checkSale', tag: 'boolean' },
-        { label: 'severalFloors', tag: 'boolean' },
-        { label: 'groundFloor', tag: 'boolean' },
-        { label: 'basement', tag: 'boolean' },
-        { label: 'minFloor', tag: 'number' },
-        { label: 'maxFloor', tag: 'number' },
-        { label: 'minNumberStoreys', tag: 'number' },
-        { label: 'maxNumberStoreys', tag: 'number' },
+        {
+          label: 'changeCities',
+          tag: undefined,
+          serv: 'city',
+          checkType: 'object'
+        },
+        {
+          label: 'changeDistrict',
+          tag: undefined,
+          serv: 'district',
+          checkType: 'object'
+        },
+        {
+          label: 'changeStreet',
+          tag: undefined,
+          serv: 'street',
+          checkType: 'object'
+        },
+        {
+          label: 'minCostSquare',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'maxCostSquare',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        { label: 'checkRent', tag: 'boolean', checkType: 'boolean' },
+        {
+          label: 'minPossibleIncome',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'maxPossibleIncome',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'minPayback',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'none'
+        },
+        {
+          label: 'maxPayback',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'none'
+        },
+        {
+          label: 'minAverageRentalRate',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'maxAverageRentalRate',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'min_rent_price_sq_m',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'max_rent_price_sq_m',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        { label: 'checkSale', tag: 'boolean', checkType: 'boolean' },
+        { label: 'severalFloors', tag: 'boolean', checkType: 'boolean' },
+        { label: 'groundFloor', tag: 'boolean', checkType: 'boolean' },
+        { label: 'basement', tag: 'boolean', checkType: 'boolean' },
+        {
+          label: 'minFloor',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: true,
+          isSeparator: 'none'
+        },
+        {
+          label: 'maxFloor',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'none'
+        },
+        {
+          label: 'minNumberStoreys',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'none'
+        },
+        {
+          label: 'maxNumberStoreys',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'none'
+        },
         {
           label: 'relativeLocation',
           tag: undefined,
-          serv: 'relative_location'
+          serv: 'relative_location',
+          checkType: 'object'
         },
         {
           label: 'metroStations',
           tag: undefined,
-          serv: 'metro_stations'
+          serv: 'metro_stations',
+          checkType: 'object'
         },
-        { label: 'minDistanceToMetro', tag: 'number' },
-        { label: 'maxDistanceToMetro', tag: 'number' },
+        {
+          label: 'minDistanceToMetro',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'maxDistanceToMetro',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
         {
           label: 'businessCenter',
           tag: undefined,
-          serv: 'business_center'
+          serv: 'business_center',
+          checkType: 'object'
         },
         {
           label: 'changeResComplex',
           tag: undefined,
-          serv: 'residential_complex'
+          serv: 'residential_complex',
+          checkType: 'object'
         },
         {
           label: 'classOfHousing',
           tag: undefined,
-          serv: 'class_of_housing'
+          serv: 'class_of_housing',
+          checkType: 'object'
         },
-        { label: 'buildingCommercialEstate', tag: 'boolean' },
-        { label: 'finishedCommercialEstate', tag: 'boolean' },
-        { label: 'minYearConstruction', tag: 'number' },
-        { label: 'maxYearConstruction', tag: 'number' },
+        {
+          label: 'buildingCommercialEstate',
+          tag: 'boolean',
+          checkType: 'boolean'
+        },
+        {
+          label: 'finishedCommercialEstate',
+          tag: 'boolean',
+          checkType: 'boolean'
+        },
+        {
+          label: 'minYearConstruction',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'none'
+        },
+        {
+          label: 'maxYearConstruction',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'none'
+        },
         {
           label: 'finishingProperty',
           tag: undefined,
-          serv: 'finishing_property'
+          serv: 'finishing_property',
+          checkType: 'object'
         },
         {
           label: 'communicationSystems',
           tag: undefined,
-          serv: 'communication_systems'
+          serv: 'communication_systems',
+          checkType: 'object'
         },
-        { label: 'cookerHood', tag: undefined, serv: 'cooker_hood' },
-        { label: 'minKw', tag: 'number' },
-        { label: 'maxKw', tag: 'number' },
-        { label: 'minCeilingHeight', tag: 'number' },
-        { label: 'maxCeilingHeight', tag: 'number' },
+        {
+          label: 'cookerHood',
+          tag: undefined,
+          serv: 'cooker_hood',
+          checkType: 'object'
+        },
+        {
+          label: 'minKw',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'maxKw',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'minCeilingHeight',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'none'
+        },
+        {
+          label: 'maxCeilingHeight',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'none'
+        },
         {
           label: 'typeEntrance',
           tag: undefined,
-          serv: 'type_entrance'
+          serv: 'type_entrance',
+          checkType: 'object'
         },
-        { label: 'parking', tag: 'boolean' },
-        { label: 'minParking', tag: 'number' },
-        { label: 'maxParking', tag: 'number' }
+        { label: 'parking', tag: 'boolean', checkType: 'boolean' },
+        {
+          label: 'minParking',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        },
+        {
+          label: 'maxParking',
+          tag: 'number',
+          checkType: 'number',
+          maybeNegative: false,
+          isSeparator: 'space'
+        }
       ],
       tagLine: [],
       swichTagVisible: false,
@@ -1325,6 +1549,9 @@ export default {
   },
 
   computed: {
+    allFormItem() {
+      return [...this.mainFormItemForCheck, ...this.formItemForCheck]
+    },
     valueFilters() {
       return this.$store.getters['commerce/GET_VALUE_FILTERS']
     },
@@ -1373,7 +1600,7 @@ export default {
     if (Object.keys(this.$route.query).length === 0) {
       // если query-параметры пусты, то получаем из api объекты
       // eslint-disable-next-line no-console
-      console.log('mounted, query.length === 0')
+      // console.log('mounted, query.length === 0')
       if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
         await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
           is_sale: true,
@@ -1387,18 +1614,16 @@ export default {
 
       const qp = {}
       const query = this.$route.query
+
       for (const item in query) {
-        // преобразуем строку со значением 'true' в Boolean
         if (query[item] === 'true') {
+          // преобразуем строку со значением 'true' в Boolean
           query[item] = true
-          // if (query === 'is_sale') {
-          //   this.typeDeal = 'sale'
-          // } else if (query === 'is_rent') {
-          //   this.typeDeal = 'rent'
-          // }
         } else if (query[item] === 'false') {
+          // пропускаем такие параметры
           continue
         } else if (query[item] === '') {
+          // пропускаем такие параметры
           continue
         }
         qp[item] = query[item]
@@ -1414,27 +1639,23 @@ export default {
         qp.is_switchForm = 'sale'
         this.$store.dispatch('commerce/FETCH_SWITCH_SALE_RENT', this.typeDeal)
       }
-      this.$router.push({ query: qp })
 
-      // eslint-disable-next-line no-console
-      // console.log('qp =>', qp)
+      // eslint-disable-next-line no-unused-vars
+      const clearQP = this.mainHandlerUrlQueryParams(qp)
+
+      this.$router.push({ query: clearQP })
 
       if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
-        // if (
-        //   Object.keys(this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS'])
-        //     .length === 0
-        // ) {
-        this.fetchCommerceObj(qp)
-        // } else {
-        //   this.fetchCommerceObj(this.paramsFilter)
-        // }
-        // this.formNum = { ...qp }
-        this.form = { ...qp }
+        this.fetchCommerceObj(clearQP) // на api запрос
 
-        this.formNum = this.getObjWitchAllIdsSwichValue(qp)
+        this.form = { ...clearQP }
+
+        this.formNum = this.processingValuesForDisplay(clearQP)
 
         if (this.$store.getters['commerce/GET_TAG_LINE'].length === 0) {
-          this.handlerQueryParamsToTagLine(this.getObjWitchAllIdsSwichValue(qp))
+          this.handlerQueryParamsToTagLine(
+            this.processingValuesForDisplay(clearQP)
+          )
         }
 
         // this.getConsolLog()
@@ -1498,6 +1719,7 @@ export default {
         this.$store.dispatch('commerce/FETCH_TAG_LINE', this.tagLine)
         this.$router.push({ path: '/commerce', query: this.form })
       }
+      this.getConsolLog()
     },
     handleReset(name) {
       // очищаем поля формы кроме если is_sale=true или is_rent=true
@@ -1615,6 +1837,8 @@ export default {
     },
 
     changeInputNumberField(e) {
+      // eslint-disable-next-line no-console
+      console.log(e.target.value)
       this.formatInputNumber()
 
       clearTimeout(this.typingTimerInputField[e.target.id])
@@ -1623,7 +1847,7 @@ export default {
           // eslint-disable-next-line no-console
           // console.log('gggggggg')
 
-          this.form[e.target.id] = this.formNum[e.target.id]
+          // this.form[e.target.id] = this.formNum[e.target.id].replace(/\s+/g, '')
           this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
           this.fetchCommerceObj(this.paramsFilter)
 
@@ -1634,14 +1858,12 @@ export default {
             // eslint-disable-next-line no-console
             // console.log(this.$router)
           }
-        }, 1000)
+        }, 600)
       }
       // eslint-disable-next-line no-console
       // console.log(this.typingTimerInputField)
     },
     handlerInputNumberField(e) {
-      this.formatInputNumber()
-
       // eslint-disable-next-line no-console
       // console.log(e)
       // console.log(e.target.id, e.target.value)
@@ -1693,6 +1915,7 @@ export default {
           }
         })
       }
+      this.formatInputNumber()
     },
 
     changeCheckboxField(e) {
@@ -1705,7 +1928,12 @@ export default {
 
       clearTimeout(this.typingTimerCheckBoxField[e.target.labels[0].id])
       this.typingTimerCheckBoxField[e.target.labels[0].id] = setTimeout(() => {
-        this.form[e.target.labels[0].id] = this.formNum[e.target.labels[0].id]
+        if (e.target.checked) {
+          this.form[e.target.labels[0].id] = this.formNum[e.target.labels[0].id]
+        } else {
+          delete this.form[e.target.labels[0].id]
+        }
+
         this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
         this.fetchCommerceObj(this.paramsFilter)
         this.handlerCheckboxField(e)
@@ -1715,7 +1943,7 @@ export default {
           // eslint-disable-next-line no-console
           // console.log(this.$router)
         }
-      }, 1000)
+      }, 600)
     },
     handlerCheckboxField(e) {
       const query = { label: e.target.labels[0].id }
@@ -1818,6 +2046,8 @@ export default {
       return arrIds
     },
     getArrValuesFromValueFilters(key, arr) {
+      // eslint-disable-next-line no-console
+      // console.log(key, arr)
       const filterKeys = this.formItemForCheck.filter(
         (item) => item.label === key
       )
@@ -1825,48 +2055,63 @@ export default {
       const servArr = this.valueFilters[servKey]
       let arrValues
       if (typeof arr === 'object') {
-        arrValues = arr.map((item) => {
+        // оставляем в массиве id которые существуют
+        const arrExistIds = arr.filter((item) => {
+          for (const idx in servArr) {
+            if (servArr[idx].id === Number(item)) return true
+          }
+        })
+
+        // создаем массив со значениями, которые соответствуют id
+        arrValues = arrExistIds.map((item) => {
           for (const idx in servArr) {
             if (servArr[idx].id === Number(item)) {
               return servArr[idx].name
             }
           }
         })
+
+        return arrValues
       } else if (typeof arr === 'string') {
+        // eslint-disable-next-line no-console
+        // console.log('arr =>', arr)
         for (const idx in servArr) {
           if (servArr[idx].id === Number(arr)) {
             arrValues = [servArr[idx].name]
+            return arrValues
           }
         }
       }
 
       // eslint-disable-next-line no-console
       // console.log('arrValues =>', arrValues)
-      return arrValues
+      // return arrValues
     },
-    getObjWitchAllIdsSwichValue(obj) {
+    processingValuesForDisplay(obj) {
       // меняем все id на velue в query params url
-      // eslint-disable-next-line no-console
-      // console.log('obj =>', obj)
-
-      const vvv = this.formItemForCheck.filter((item) => item.tag === undefined)
-      // eslint-disable-next-line no-unused-vars
-      const arrKeysForCheck = vvv.map((item) => {
+      const arrItemWithTagUndefined = this.formItemForCheck.filter(
+        (item) => item.tag === undefined
+      )
+      const arrKeysWithTagUndefined = arrItemWithTagUndefined.map((item) => {
         return item.label
       })
 
-      // eslint-disable-next-line no-console
-      // console.log('arrKeysForCheck =>', arrKeysForCheck)
+      const arrItemWithTagSpace = this.formItemForCheck.filter(
+        (item) => item.isSeparator === 'space'
+      )
+      const arrKeysWithTagSpace = arrItemWithTagSpace.map((item) => {
+        return item.label
+      })
 
       for (const idx in obj) {
-        // eslint-disable-next-line no-console
-        // console.log('obj[idx] =>', idx, obj[idx])
-        if (arrKeysForCheck.includes(idx)) {
-          // eslint-disable-next-line no-console
-          // console.log('есть', obj[idx])
-          this.objForCopy[idx] = this.getArrValuesFromValueFilters(
-            idx,
-            obj[idx]
+        if (arrKeysWithTagUndefined.includes(idx)) {
+          const n = this.getArrValuesFromValueFilters(idx, obj[idx])
+          if (typeof n !== 'undefined') {
+            this.objForCopy[idx] = n
+          }
+        } else if (arrKeysWithTagSpace.includes(idx)) {
+          this.objForCopy[idx] = new Intl.NumberFormat().format(
+            obj[idx].replace(/\s+/g, '')
           )
         } else {
           // eslint-disable-next-line no-console
@@ -1874,9 +2119,72 @@ export default {
           this.objForCopy[idx] = obj[idx]
         }
       }
+
       // eslint-disable-next-line no-console
       // console.log('this.objForCopy =>', this.objForCopy)
       return this.objForCopy
+    },
+    mainHandlerUrlQueryParams(qp) {
+      const clearObj = {}
+
+      for (const keyQP in qp) {
+        const isCheck = this.allFormItem.filter((item) => item.label === keyQP) // сравниваем ключи
+
+        if (isCheck.length !== 0) {
+          // если key есть в проверочном массиве
+
+          const { checkType, maybeNegative = true } = isCheck[0] // тип по которому сравнивать
+
+          if (checkType === 'object') {
+            if (typeof qp[keyQP] === 'object') {
+              const arr = []
+              for (const idx in qp[keyQP]) {
+                if (
+                  !isNaN(Number(qp[keyQP][idx])) &&
+                  Number(qp[keyQP][idx]) >= 0
+                ) {
+                  arr.push(Number(qp[keyQP][idx]))
+                }
+              }
+              clearObj[keyQP] = arr
+            } else if (typeof qp[keyQP] === 'string') {
+              if (!isNaN(Number(qp[keyQP])) && Number(qp[keyQP]) >= 0) {
+                clearObj[keyQP] = [Number(qp[keyQP])]
+              }
+            }
+          } else if (checkType === 'number') {
+            // eslint-disable-next-line valid-typeof,no-lonely-if
+            if (typeof qp[keyQP] === 'string') {
+              if (!maybeNegative) {
+                if (!isNaN(Number(qp[keyQP])) && Number(qp[keyQP]) >= 0) {
+                  clearObj[keyQP] = qp[keyQP]
+                }
+              } else if (maybeNegative) {
+                if (!isNaN(Number(qp[keyQP]))) {
+                  clearObj[keyQP] = qp[keyQP]
+                }
+              }
+            }
+          } else if (checkType === 'boolean') {
+            if (typeof qp[keyQP] === 'boolean') {
+              // eslint-disable-next-line no-console
+              // console.log('boolean =>', qp[keyQP])
+              if (qp[keyQP]) {
+                clearObj[keyQP] = qp[keyQP]
+              }
+            }
+          } else if (checkType === 'string') {
+            if (typeof qp[keyQP] === 'string') {
+              if (qp[keyQP] === qp[keyQP].replace(/[\s\W]+/g, '')) {
+                clearObj[keyQP] = qp[keyQP]
+              }
+            }
+          }
+        } else {
+          clearObj[keyQP] = qp[keyQP]
+        }
+      }
+      return clearObj
     },
 
     searchObjInArray(list, query) {
@@ -1886,49 +2194,57 @@ export default {
       )
     },
     formatInputNumber() {
-      const inputName = [
-        'minCost',
-        'maxCost',
-        'minRent',
-        'maxRent',
-        'minSquare',
-        'maxSquare',
-        'minCostSquare',
-        'maxCostSquare',
-        'min_rent_price_sq_m',
-        'max_rent_price_sq_m',
-        'minPossibleIncome',
-        'maxPossibleIncome',
-        'minPayback',
-        'maxPayback',
-        'minAverageRentalRate',
-        'maxAverageRentalRate',
-        'minDistanceToMetro',
-        'maxDistanceToMetro',
-        'minKw',
-        'maxKw',
-        'minParking',
-        'maxParking'
-      ]
-      for (const item in inputName) {
-        if (
-          this.formNum[inputName[item]] &&
-          this.formNum[inputName[item]] !== ''
-        ) {
-          this.formNum[inputName[item]] = new Intl.NumberFormat().format(
-            this.formNum[inputName[item]].replace(/\s+/g, '')
+      // const inputName = [
+      //   'minCost',
+      //   'maxCost',
+      //   'minRent',
+      //   'maxRent',
+      //   'minSquare',
+      //   'maxSquare',
+      //   'minCostSquare',
+      //   'maxCostSquare',
+      //   'min_rent_price_sq_m',
+      //   'max_rent_price_sq_m',
+      //   'minPossibleIncome',
+      //   'maxPossibleIncome',
+      //   'minAverageRentalRate',
+      //   'maxAverageRentalRate',
+      //   'minDistanceToMetro',
+      //   'maxDistanceToMetro',
+      //   'minKw',
+      //   'maxKw',
+      //   'minParking',
+      //   'maxParking'
+      // ]
+      // eslint-disable-next-line no-console
+      // console.log('formatInputNumber')
+
+      const arrItemWithTagSpace = this.formItemForCheck.filter(
+        (item) => item.isSeparator === 'space'
+      )
+      const arrKeys = arrItemWithTagSpace.map((item) => {
+        return item.label
+      })
+
+      for (const item in arrKeys) {
+        if (this.formNum[arrKeys[item]] && this.formNum[arrKeys[item]] !== '') {
+          this.formNum[arrKeys[item]] = new Intl.NumberFormat().format(
+            this.formNum[arrKeys[item]].replace(/\s+/g, '')
           )
+          // this.formNum[arrKeys[item]] = this.thousandSeparator(
+          //   this.formNum[arrKeys[item]].replace(/\s+/g, '')
+          // )
         }
         // eslint-disable-next-line no-console
         // console.log(item)
       }
-      for (const item in inputName) {
-        if (this.form[inputName[item]] && this.form[inputName[item]] !== '') {
-          this.form[inputName[item]] = new Intl.NumberFormat().format(
-            this.form[inputName[item]].replace(/\s+/g, '')
-          )
-        }
-      }
+      // for (const item in inputName) {
+      //   if (this.form[inputName[item]] && this.form[inputName[item]] !== '') {
+      //     this.form[inputName[item]] = new Intl.NumberFormat().format(
+      //       this.form[inputName[item]].replace(/\s+/g, '')
+      //     )
+      //   }
+      // }
     },
     determineLabelForValue(label, value) {
       if (label === 'minCost') {
@@ -2041,7 +2357,7 @@ export default {
         // tag === undefined
         const id = this.getArrIdsFromValueFilters(key, value)
         // eslint-disable-next-line no-console
-        console.log(id)
+        // console.log(id)
         if (typeof this.form[key] === 'object') {
           this.form[key] = this.form[key].filter((n) => {
             return n !== String(id[0])
@@ -2072,17 +2388,17 @@ export default {
       }
       // this.getConsolLog()
     },
-    handlerQueryParamsToTagLine(qp) {
+    handlerQueryParamsToTagLine(arr) {
       for (const indexCheck in this.formItemForCheck) {
         // eslint-disable-next-line no-console
         // console.log(this.formItemForCheck[indexCheck])
         if (
-          typeof qp[this.formItemForCheck[indexCheck].label] !== 'undefined'
+          typeof arr[this.formItemForCheck[indexCheck].label] !== 'undefined'
         ) {
           // ключ есть
           const newLabel = this.formItemForCheck[indexCheck].label
           const newTag = this.formItemForCheck[indexCheck].tag
-          const newValue = qp[this.formItemForCheck[indexCheck].label]
+          const newValue = arr[this.formItemForCheck[indexCheck].label]
 
           // eslint-disable-next-line no-console
           // console.log('ключ есть', newLabel, newValue, newTag)
