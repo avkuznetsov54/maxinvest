@@ -1,17 +1,10 @@
 <template>
   <div class="container my-20">
     <Row>
-      <i-col span="6">
-        <Select v-model="model1" prefix="md-funnel" placeholder="Сортировать">
-          <Option
-            v-for="item in cityList"
-            :key="item.value"
-            :value="item.value"
-            >{{ item.label }}</Option
-          >
-        </Select>
+      <i-col span="8">
+        <app-ordering-commerce-page />
       </i-col>
-      <i-col span="3" offset="15" class="text-right">
+      <i-col span="3" offset="13" class="text-right">
         <Icon type="md-list" class="icon-view-obj" />
         <Icon type="ios-apps" class="icon-view-obj" />
       </i-col>
@@ -32,15 +25,25 @@
         />
       </i-col>
     </Row>
+
+    <Row class="mt-3">
+      <i-col span="24">
+        <app-pagination />
+      </i-col>
+    </Row>
   </div>
 </template>
 
 <script>
+import AppOrderingCommercePage from '@/components/front/content/commerce-page/OrderingCommercePage'
 import AppCommerceCard from '@/components/front/content/commerce-page/CommerceCard'
+import AppPagination from '@/components/front/content/commerce-page/Pagination'
 export default {
   name: 'CommerceListCard',
   components: {
-    AppCommerceCard
+    AppOrderingCommercePage,
+    AppCommerceCard,
+    AppPagination
   },
   data() {
     return {
@@ -82,7 +85,7 @@ export default {
           label: 'По дате добавления, сначала новые'
         }
       ],
-      model1: ''
+      model1: '1'
     }
   },
   computed: {
@@ -93,33 +96,8 @@ export default {
       return this.$store.getters['commerce/GET_SWITCH_SALE_RENT']
     }
   },
-  watch: {
-    // switchSaleRent(newValue) {
-    //   // eslint-disable-next-line no-console
-    //   // console.log(newValue)
-    //   this.fetchFilterObjs(newValue)
-    // }
-  },
-  // async mounted() {
-  //   if (this.$store.getters['commerce/GET_COMMERCE_OBJ'].length === 0) {
-  //     await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ')
-  //   }
-  // },
-  methods: {
-    // async fetchFilterObjs(newValue) {
-    //   const params = new URLSearchParams()
-    //   if (newValue === 'Продажа') {
-    //     // const params = { is_sale: true }
-    //     // await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', params)
-    //     params.append('is_sale', true)
-    //   } else if (newValue === 'Аренда') {
-    //     // const params = { is_rent: true }
-    //     // await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', params)
-    //     params.append('is_rent', true)
-    //   }
-    //   await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', params)
-    // }
-  }
+
+  methods: {}
 }
 </script>
 

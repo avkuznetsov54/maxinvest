@@ -1,16 +1,12 @@
 <template>
-  <Row>
-    <i-col span="24">
-      <div v-if="isVisiblePage" class="text-center">
-        <Page
-          :total="lenPag"
-          :current="currentPage"
-          :page-size="3"
-          @on-change="changePage"
-        />
-      </div>
-    </i-col>
-  </Row>
+  <div v-if="isVisiblePage" class="text-center">
+    <Page
+      :total="lenPag"
+      :current="currentPage"
+      :page-size="4"
+      @on-change="changePage"
+    />
+  </div>
 </template>
 
 <script>
@@ -18,7 +14,8 @@ export default {
   name: 'Pagination',
   data() {
     return {
-      isVisiblePage: false
+      isVisiblePage: false,
+      newParamsForm: {}
     }
   },
   computed: {
@@ -57,13 +54,30 @@ export default {
       // console.log(e)
 
       if (this.$route.path === '/commerce') {
-        const newParams = { ...this.paramsFilter, page: String(e) }
+        this.newParamsForm = { ...this.paramsFilter }
+        this.newParamsForm.page = String(e)
         // eslint-disable-next-line no-console
-        // console.log(newArr)
-        this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', newParams)
-        this.$router.push({ query: this.paramsFilter })
-        this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', this.paramsFilter)
+        console.log('this.newParamsForm =>', this.newParamsForm)
+        this.$store.dispatch(
+          'commerce/FETCH_PARAMS_FOR_FILTERS',
+          this.newParamsForm
+        )
+        // eslint-disable-next-line no-console
+        // console.log('this.paramsFilter =>', this.paramsFilter)
+        this.$router.push({ query: this.newParamsForm })
+        this.fetchCommerceObj(this.newParamsForm)
       }
+    },
+    async fetchCommerceObj(params) {
+      const searchParams = new URLSearchParams()
+      for (const item in params) {
+        if (params[item] !== '' && params[item] !== null) {
+          searchParams.append(item, params[item])
+        }
+        // eslint-disable-next-line no-console
+        // console.log(this.form[item])
+      }
+      await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', searchParams)
     }
   }
 }
