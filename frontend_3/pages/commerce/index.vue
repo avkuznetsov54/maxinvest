@@ -10,6 +10,7 @@
     <div>
       <div class="container">
         <app-commerce-list-card />
+        <app-pagination />
       </div>
     </div>
   </div>
@@ -18,11 +19,13 @@
 <script>
 import AppMainSearchPanelCommerce from '@/components/front/content/search-panels-commerce/MainSearchPanelCommerce'
 import AppCommerceListCard from '@/components/front/content/commerce-page/CommerceListCard'
+import AppPagination from '@/components/front/content/commerce-page/Pagination'
 
 export default {
   components: {
     AppMainSearchPanelCommerce,
-    AppCommerceListCard
+    AppCommerceListCard,
+    AppPagination
   },
   mounted() {
     // eslint-disable-next-line no-console

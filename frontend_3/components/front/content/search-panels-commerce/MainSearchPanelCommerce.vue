@@ -1220,7 +1220,8 @@ export default {
       mainFormItemForCheck: [
         { label: 'is_sale', checkType: 'boolean' },
         { label: 'is_rent', checkType: 'boolean' },
-        { label: 'is_switchForm', checkType: 'string' }
+        { label: 'is_switchForm', checkType: 'string' },
+        { label: 'page', checkType: 'number', maybeNegative: false }
       ],
       formItemForCheck: [
         {
@@ -1565,6 +1566,7 @@ export default {
       return this.$store.getters['commerce/GET_TAG_LINE']
     }
   },
+
   async mounted() {
     this.typeDeal = this.$store.getters['commerce/GET_SWITCH_SALE_RENT']
 
@@ -1590,14 +1592,6 @@ export default {
       this.tagLine = [...this.getTagLine]
     }
 
-    // if (this.$store.getters['commerce/GET_COMMERCE_OBJ'] == null) {
-    //   await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
-    //     is_sale: true,
-    //     is_switchForm: 'sale'
-    //   })
-    // }
-    // //////////////////////
-
     if (this.$route.path !== '/commerce') {
       if (this.$store.getters['commerce/FETCH_COMMERCE_OBJ'] == null) {
         await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', {
@@ -1605,6 +1599,11 @@ export default {
           is_switchForm: 'sale'
         })
       }
+      this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', {
+        is_sale: true,
+        is_switchForm: 'sale'
+      })
+      // this.getConsolLog()
     } else if (this.$route.path === '/commerce') {
       if (Object.keys(this.$route.query).length === 0) {
         // если query-параметры пусты, то получаем из api объекты
@@ -1616,6 +1615,10 @@ export default {
             is_switchForm: 'sale'
           })
         }
+        this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', {
+          is_sale: true,
+          is_switchForm: 'sale'
+        })
       } else {
         // если query-параметры есть
         // eslint-disable-next-line no-console
@@ -1658,6 +1661,7 @@ export default {
           this.fetchCommerceObj(clearQP) // на api запрос
 
           this.form = { ...clearQP }
+          this.$store.dispatch('commerce/FETCH_PARAMS_FOR_FILTERS', this.form)
 
           this.formNum = this.processingValuesForDisplay(clearQP)
 
@@ -1672,6 +1676,7 @@ export default {
       }
     }
   },
+
   methods: {
     changeSwichTagVisible() {
       this.swichTagVisible = !this.swichTagVisible

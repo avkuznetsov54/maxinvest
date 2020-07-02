@@ -27,7 +27,7 @@ from .custom_checks import is_list_int, is_int
 
 
 class CommerceListPagination(PageNumberPagination):
-    page_size = 20
+    page_size = 3
 
 
 class CommercialEstateListView(generics.ListAPIView):
