@@ -1221,6 +1221,7 @@ export default {
         { label: 'is_sale', checkType: 'boolean' },
         { label: 'is_rent', checkType: 'boolean' },
         { label: 'is_switchForm', checkType: 'string' },
+        { label: 'orderId', checkType: 'string' },
         { label: 'page', checkType: 'number', maybeNegative: false }
       ],
       formItemForCheck: [

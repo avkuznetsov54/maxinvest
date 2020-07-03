@@ -2,7 +2,9 @@
   <div class="container my-20">
     <Row>
       <i-col span="8">
-        <app-ordering-commerce-page />
+        <client-only>
+          <app-ordering-commerce-page />
+        </client-only>
       </i-col>
       <i-col span="3" offset="13" class="text-right">
         <Icon type="md-list" class="icon-view-obj" />

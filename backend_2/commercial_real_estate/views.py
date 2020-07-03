@@ -27,7 +27,7 @@ from .custom_checks import is_list_int, is_int
 
 
 class CommerceListPagination(PageNumberPagination):
-    page_size = 3
+    page_size = 4
 
 
 class CommercialEstateListView(generics.ListAPIView):
@@ -93,6 +93,8 @@ class CommercialEstateListView(generics.ListAPIView):
         #     print(params)
         #     queryset = queryset.filter(**params)
 
+        select = {}
+        order_by = []
         params = []
         for k, v in self.request.query_params.items():
             # if k == "cursor":
@@ -154,12 +156,21 @@ class CommercialEstateListView(generics.ListAPIView):
                 v = v.split(',')
                 params.append(Q(business_category__in=v))
 
+            if k == 'orderId':
+                if v == 'priceasc':
+                    select = {'sort_order': 'COALESCE(cost_of_sale,min_cost_of_sale)'}
+                    order_by = ['sort_order']
+                if v == 'pricedesc':
+                    select = {'sort_order': 'COALESCE(cost_of_sale,max_cost_of_sale)'}
+                    order_by = ['-sort_order']
+
         print('params =>', params)
-        queryset = queryset.filter(*params)
+        queryset = queryset\
+            .filter(*params)\
+            .extra(select=select, order_by=order_by)
 
         # return queryset.order_by('min_cost_of_sale', 'cost_of_sale').distinct()
-        return queryset.extra(select={'sort_order': 'COALESCE(cost_of_sale,min_cost_of_sale)'}, order_by=['-sort_order'])\
-            .distinct()
+        return queryset.distinct()
 
 
 class CommercialEstateDetailView(APIView):

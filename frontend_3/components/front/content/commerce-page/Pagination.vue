@@ -57,7 +57,7 @@ export default {
         this.newParamsForm = { ...this.paramsFilter }
         this.newParamsForm.page = String(e)
         // eslint-disable-next-line no-console
-        console.log('this.newParamsForm =>', this.newParamsForm)
+        // console.log('this.newParamsForm =>', this.newParamsForm)
         this.$store.dispatch(
           'commerce/FETCH_PARAMS_FOR_FILTERS',
           this.newParamsForm
