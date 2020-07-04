@@ -13,6 +13,7 @@ export const getters = {
   GET_VALUE_FILTERS: (state) => state.DATA_VALUE_FILTERS,
   GET_COUNT_OBJ: (state) => state.DATA_COUNT_OBJ,
   GET_COMMERCE_OBJ: (state) => state.DATA_COMMERCE_OBJ,
+  GET_CHECK_NEW_QUERY: (state) => state.DATA_COMMERCE_OBJ + Math.random(),
   GET_SWITCH_SALE_RENT: (state) => state.DATA_SWITCH_SALE_RENT,
   GET_PARAMS_FOR_FILTERS: (state) => state.DATA_PARAMS_FOR_FILTERS,
   GET_TAG_LINE: (state) => state.DATA_TAG_LINE

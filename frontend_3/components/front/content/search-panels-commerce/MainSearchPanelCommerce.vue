@@ -320,9 +320,16 @@
             </div>
           </i-col>
           <i-col :xs="24" :sm="8" :md="6" :lg="5">
-            <Button long type="success" @click="handleSubmit('form')"
-              ><b>Показать {{ countObj }}</b></Button
+            <Button
+              long
+              :loading="loadingButton"
+              type="success"
+              @click="handleSubmit('form')"
             >
+              <span v-if="!loadingButton">
+                <b>Показать {{ countObj }}</b>
+              </span>
+            </Button>
           </i-col>
         </Row>
         <Row v-if="tagLine.length !== 0">
@@ -1191,6 +1198,27 @@
             </div>
           </i-col>
         </Row>
+
+        <Row class="mb-25" type="flex" justify="end">
+          <i-col :xs="24" :sm="8" :md="6" :lg="4">
+            <Button :style="{ float: 'right' }" @click="handleReset('form')">
+              <Icon type="md-trash" />
+              Очистить всё
+            </Button>
+          </i-col>
+          <i-col :xs="24" :sm="8" :md="6" :lg="5">
+            <Button
+              long
+              :loading="loadingButton"
+              type="success"
+              @click="handleSubmit('form')"
+            >
+              <span v-if="!loadingButton">
+                <b>Показать {{ countObj }}</b>
+              </span>
+            </Button>
+          </i-col>
+        </Row>
       </div>
     </Form>
   </div>
@@ -1209,6 +1237,8 @@ export default {
 
       isExtendedFilter: true,
       anyFilters: 'ios-arrow-down',
+
+      loadingButton: false,
 
       typeDeal: 'sale',
       formNum: {},
@@ -1560,11 +1590,20 @@ export default {
     countObj() {
       return this.$store.getters['commerce/GET_COUNT_OBJ']
     },
+    chechNewQuery() {
+      return this.$store.getters['commerce/GET_CHECK_NEW_QUERY']
+    },
     paramsFilter() {
       return this.$store.getters['commerce/GET_PARAMS_FOR_FILTERS']
     },
     getTagLine() {
       return this.$store.getters['commerce/GET_TAG_LINE']
+    }
+  },
+
+  watch: {
+    chechNewQuery(newValue) {
+      this.loadingButton = false
     }
   },
 
@@ -1830,6 +1869,7 @@ export default {
     },
 
     async fetchCommerceObj(params) {
+      this.loadingButton = true
       const searchParams = new URLSearchParams()
       for (const item in params) {
         if (params[item] !== '' && params[item] !== null) {
