@@ -3,7 +3,7 @@
     <Page
       :total="lenPag"
       :current="currentPage"
-      :page-size="4"
+      :page-size="8"
       @on-change="changePage"
     />
   </div>
