@@ -28,6 +28,10 @@
       </i-col>
     </Row>
 
+    <!--    <Row v-else class="mt-3 spin-loading">-->
+    <!--      <Spin size="large"></Spin>-->
+    <!--    </Row>-->
+
     <Row class="mt-3">
       <i-col span="24">
         <app-pagination />
@@ -48,47 +52,7 @@ export default {
     AppPagination
   },
   data() {
-    return {
-      cityList: [
-        {
-          value: '1',
-          label: 'По умолчанию'
-        },
-        {
-          value: '2',
-          label: 'По цене, сначала дешевые'
-        },
-        {
-          value: '3',
-          label: 'По цене, сначала дорогие'
-        },
-        {
-          value: '4',
-          label: 'По цене за кв.м., сначала дешевые'
-        },
-        {
-          value: '5',
-          label: 'По цене за кв.м., сначала дорогие'
-        },
-        {
-          value: '6',
-          label: 'По площади, сначала малые'
-        },
-        {
-          value: '7',
-          label: 'По площади, сначала большие'
-        },
-        {
-          value: '8',
-          label: 'По дате добавления, сначала старые'
-        },
-        {
-          value: '9',
-          label: 'По дате добавления, сначала новые'
-        }
-      ],
-      model1: '1'
-    }
+    return {}
   },
   computed: {
     comObjs() {
@@ -106,5 +70,11 @@ export default {
 <style lang="scss" scoped>
 .icon-view-obj {
   font-size: 22px;
+}
+.spin-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
 }
 </style>

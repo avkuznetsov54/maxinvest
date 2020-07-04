@@ -23,12 +23,6 @@ export default {
   components: {
     AppMainSearchPanelCommerce,
     AppCommerceListCard
-  },
-  mounted() {
-    // eslint-disable-next-line no-console
-    // console.log(this.$route.query)
-    // eslint-disable-next-line no-console
-    // console.log(this.$route)
   }
 }
 </script>
