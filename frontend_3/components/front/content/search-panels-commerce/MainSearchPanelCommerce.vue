@@ -1875,8 +1875,6 @@ export default {
         if (params[item] !== '' && params[item] !== null) {
           searchParams.append(item, params[item])
         }
-        // eslint-disable-next-line no-console
-        // console.log(this.form[item])
       }
       await this.$store.dispatch('commerce/FETCH_COMMERCE_OBJ', searchParams)
     },

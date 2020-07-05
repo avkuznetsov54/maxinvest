@@ -17,7 +17,11 @@
           <img
             v-lazy-load
             class="card-image"
-            :data-src="comObj.main_image_thumb"
+            :data-src="
+              comObj.main_image_thumb !== null
+                ? comObj.main_image_thumb
+                : '/image-placeholder.png'
+            "
           />
         </div>
       </div>
@@ -61,7 +65,11 @@
               <img
                 v-lazy-load
                 class="card-image"
-                :data-src="comObj.main_image_thumb"
+                :data-src="
+                  comObj.main_image_thumb !== null
+                    ? comObj.main_image_thumb
+                    : '/image-placeholder.png'
+                "
               />
               <!--              <div class="swiper-lazy-preloader"></div>-->
             </div>

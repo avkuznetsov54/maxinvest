@@ -24,6 +24,18 @@ export default {
     AppMainSearchPanelCommerce,
     AppCommerceListCard
   }
+  // async fetch({ route, store }) {
+  //   // eslint-disable-next-line no-console
+  //   console.log(route.query)
+  //   const params = route.query
+  //   const searchParams = new URLSearchParams()
+  //   for (const item in params) {
+  //     if (params[item] !== '' && params[item] !== null) {
+  //       searchParams.append(item, params[item])
+  //     }
+  //   }
+  //   await store.dispatch('commerce/FETCH_COMMERCE_OBJ', searchParams)
+  // }
 }
 </script>
 

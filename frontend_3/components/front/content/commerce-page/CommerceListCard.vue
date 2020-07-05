@@ -12,7 +12,7 @@
       </i-col>
     </Row>
 
-    <Row class="mt-3">
+    <Row v-if="comObjs" class="mt-3">
       <i-col
         v-for="resObj in comObjs"
         :key="resObj.id"
@@ -28,9 +28,9 @@
       </i-col>
     </Row>
 
-    <!--    <Row v-else class="mt-3 spin-loading">-->
-    <!--      <Spin size="large"></Spin>-->
-    <!--    </Row>-->
+    <Row v-else class="mt-3 spin-loading">
+      <Spin size="large"></Spin>
+    </Row>
 
     <Row class="mt-3">
       <i-col span="24">
