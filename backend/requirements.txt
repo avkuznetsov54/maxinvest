@@ -17,7 +17,7 @@ MarkupSafe==1.1.1
 Pillow==7.1.2
 psycopg2-binary==2.8.5
 pycodestyle==2.5.0
-Pygments==2.6.1
+Pygments==2.7.4
 python-dateutil==2.8.1
 pytz==2020.1
 regex==2020.5.14
